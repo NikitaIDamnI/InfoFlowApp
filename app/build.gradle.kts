@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.kapt)
 }
 
 android {
@@ -51,6 +54,13 @@ android {
 
 dependencies {
 
+    
+
+    implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.profileinstaller)
+    kapt(libs.dagger.hilt.compiler)
+
+    //Initial dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
