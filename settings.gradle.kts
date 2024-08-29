@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "InfoFlow"
 include(":app")
 include(":opennews-api")
+include(":database")
