@@ -8,7 +8,7 @@ import com.example.news.opennews_api.models.ArticleDTO
 import com.example.news.opennews_api.models.SourceDTO
 
 internal fun List<ArticleDBO>.toArticle(): List<Article> = this.map { it.toArticle() }
-internal fun List<ArticleDTO>.toArticle(): List<Article> = this.map { it.toArticle() }
+//internal fun List<ArticleDTO>.toArticle(): List<Article> = this.map { it.toArticle() }
 internal fun List<ArticleDTO>.toArticleDbo(): List<ArticleDBO> = this.map { it.toArticleDbo() }
 
 

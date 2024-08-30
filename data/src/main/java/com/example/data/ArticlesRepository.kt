@@ -30,27 +30,6 @@ public class ArticlesRepository @Inject constructor(
 ) {
 
 
-     fun testLoadArticles(): Flow<List<Article>> = database.articlesDao.observeAll()
-        .filter { it.isEmpty() }
-        .map { it.toArticle() }
-
-     suspend fun loadArticlesFromApi(localData: List<ArticleDBO>) {
-        val articlesFromApi = api.everything()
-        when {
-            articlesFromApi.isSuccess -> {
-                val resultSuccess = articlesFromApi.getOrThrow().articles.toArticleDbo()
-                database.articlesDao.insert(resultSuccess)
-            }
-
-            articlesFromApi.isFailure -> {
-                error(articlesFromApi.exceptionOrNull() ?: "Unknown error try again later")
-            }
-
-            else -> error("Something went wrong")
-        }
-    }
-
-
     /**
      * Получение актуальных новостей с отслеживанием состояния запроса ("Обновляется", "Успшено", "Ошибка")
      */
