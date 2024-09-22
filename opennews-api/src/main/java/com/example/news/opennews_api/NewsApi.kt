@@ -6,7 +6,7 @@ import androidx.annotation.IntRange
 import com.example.news.opennews_api.models.ArticleDTO
 import com.example.news.opennews_api.models.Language
 import com.example.news.opennews_api.models.ResponseDTO
-import com.example.news.opennews_api.models.SortBy
+import com.example.news.opennews_api.models.SortByDto
 import com.example.news.opennews_api.utils.NewsApiKeyInterceptor
 import com.skydoves.retrofit.adapters.result.ResultCallAdapterFactory
 import kotlinx.serialization.json.Json
@@ -17,7 +17,7 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.create
 import retrofit2.http.GET
 import retrofit2.http.Query
-import java.util.Date
+import java.time.format.DateTimeFormatter
 
 /**
  * [API Documentation](https://newsapi.org/docs/get-started)
@@ -30,13 +30,25 @@ interface NewsApi {
     @Suppress("LongParameterList")
     suspend fun everything(
         @Query("q") query: String? = null,
-        @Query("from") from: Date? = null,
-        @Query("to") to: Date? = null,
+        @Query("from") from: String? = null,
+        @Query("to") to: String? = null,
         @Query("languages") languages: List<@JvmSuppressWildcards Language>? = null,
-        @Query("sortBy") sortBy: SortBy? = null,
+        @Query("sortBy") sortBy: SortByDto? = null,
         @Query("pageSize") @IntRange(from = 0, to = 100) pageSize: Int = 100,
         @Query("page") @IntRange(from = 1) page: Int = 1
     ): Result<ResponseDTO<ArticleDTO>>
+
+    @GET("top-headlines")
+    @Suppress("LongParameterList")
+    suspend fun topHeadlines(
+        @Query("q") query: String? = null,
+        @Query("country") country: String? = null,
+        @Query("category") category: String? = null,
+        @Query("sources") sources: String? = null,
+        @Query("pageSize") @IntRange(from = 0, to = 100) pageSize: Int = 100,
+        @Query("page") @IntRange(from = 1) page: Int = 1
+    ): Result<ResponseDTO<ArticleDTO>>
+
 }
 
 fun NewsApi(
@@ -68,3 +80,5 @@ private fun retrofit(
         .client(modifiedOkHttpClient)
         .build()
 }
+
+fun formatterApi() = DateTimeFormatter.ofPattern("yyyy-MM-dd")

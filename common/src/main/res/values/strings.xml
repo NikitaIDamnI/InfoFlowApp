@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="name_app">InfoFlow</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="world">World</string>
+</resources>

@@ -3,6 +3,7 @@ package com.example.database.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.database.models.ArticleDBO
 import kotlinx.coroutines.flow.Flow
@@ -12,10 +13,16 @@ interface ArticleDao {
     @Query("SELECT * FROM articles")
     suspend fun getAll(): List<ArticleDBO>
 
+    @Query("SELECT COUNT(*) FROM articles WHERE  sourceid = :sourceId")
+    suspend fun checkFavorite(sourceId: String): Int
+
     @Query("SELECT * FROM articles")
     fun observeAll(): Flow<List<ArticleDBO>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(articles: ArticleDBO)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(articles: List<ArticleDBO>)
 
     @Delete

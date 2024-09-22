@@ -8,6 +8,7 @@ import com.example.database.models.ArticleDBO
 import com.example.news.opennews_api.NewsApi
 import com.example.news.opennews_api.models.ArticleDTO
 import com.example.news.opennews_api.models.ResponseDTO
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asFlow
@@ -23,7 +24,7 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-public class ArticlesRepository @Inject constructor(
+class ArticlesRepository @Inject constructor(
     private val database: NewsDatabase,
     private val api: NewsApi,
     //private val logger: Logger
@@ -35,6 +36,7 @@ public class ArticlesRepository @Inject constructor(
      */
 
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     public fun getAll(
         query: String,
         mergeStrategy: MergeStrategy<RequestResult<List<Article>>> = RequestResponseMergeStrategy()
