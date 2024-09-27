@@ -10,7 +10,7 @@ sealed class Screen(
     data object Home : Screen(ROUTE_HOME)
     data object Favorite : Screen(ROUTE_FAVORITE)
     data object World : Screen(ROUTE_WORLD)
-    data object MainNews : Screen(ROUTE_MAIN_SCREEN_NEWS)
+    data object Main : Screen(ROUTE_MAIN)
     data object Search : Screen(ROUTE_SEARCH){
         private const val ROUTE_FOR_ARGS = "search"
         fun getRouteWithArgs(category: String): String {
@@ -33,7 +33,7 @@ sealed class Screen(
         const val KEY_SEARCH = "search"
 
         const val ROUTE_HOME = "home"
-        const val ROUTE_MAIN_SCREEN_NEWS = "main_screen_news"
+        const val ROUTE_MAIN = "main_screen"
         const val ROUTE_FAVORITE = "favorite"
         const val ROUTE_WORLD = "world"
         const val ROUTE_SEARCH = "search/{$KEY_SEARCH}"

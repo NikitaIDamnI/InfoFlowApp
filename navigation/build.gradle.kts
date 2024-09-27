@@ -62,9 +62,7 @@ dependencies {
 
 
     implementation(project(":common"))
-    implementation(project(":features:news_main"))
-    implementation(project(":features:search"))
-    implementation(project(":features:detailed_news"))
+
 
 
 }

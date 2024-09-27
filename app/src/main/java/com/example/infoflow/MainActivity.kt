@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.detail_news.DetailedNewsScreen
 import com.example.infoflow.ui.theme.InfoFlowTheme
 import com.example.navigation.navGraph.AppNavGraph
@@ -26,19 +25,16 @@ class MainActivity : ComponentActivity() {
                 val navigationState = rememberNavigationState()
                 AppNavGraph(
                     navController = navigationState.navHostController,
-                    newsMainScreenContent = {
+                    mainScreenContent = {
                         TestNewsMainScreen(
                             onClickNews = {
                                 navigationState.navigationToDetailedNews(it)
                             },
-                            onNavigation = { navigationState.navigationTo(it) },
                             onClickSetting = {},
-                            onClickSearch = { navigationState.navigationToSearch(it) },
+                            onClickSearch = { navigationState.navigationToSearch(it) }
                         )
                     },
-                    favoriteScreenContent = {
-                        Text("FAVORITE SCREEN CONTENT")
-                    },
+
                     searchScreenContent = {
                         TestSearchScreen(
                             categoryNews = it,
@@ -46,9 +42,7 @@ class MainActivity : ComponentActivity() {
                             onBackPressed = { navigationState.navHostController.popBackStack() }
                         )
                     },
-                    worldScreenContent = {
-                        Text("WORLD SCREEN CONTENT")
-                    },
+
                     detailedNewsScreenContent = {
                         DetailedNewsScreen(
                             articleUI = it,

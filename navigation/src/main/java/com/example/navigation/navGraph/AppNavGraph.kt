@@ -6,25 +6,56 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.common.ArticleUI
 import com.example.common.Screen
+import com.google.gson.Gson
 
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
-    newsMainScreenContent: @Composable () -> Unit,
-    favoriteScreenContent: @Composable () -> Unit,
+    mainScreenContent: @Composable () -> Unit,
     searchScreenContent: @Composable (String) -> Unit,
-    worldScreenContent: @Composable () -> Unit,
     detailedNewsScreenContent: @Composable (ArticleUI) -> Unit,
-){
+) {
+    NavHost(
+        navController = navController,
+        startDestination = Screen.Main.route
+    ) {
+        composable(Screen.Main.route) {
+            mainScreenContent()
+        }
+        composable(
+            route = Screen.Search.route,
+        ) {
+            val category = it.arguments?.getString(Screen.KEY_SEARCH) ?: ""
+            searchScreenContent(
+                category
+            )
+        }
+        composable(route = Screen.DetailedNews.route) {
+            val jsonFeedPost = it.arguments?.getString(Screen.KEY_ARTICLE) ?: ""
+            val articleUI = Gson().fromJson(jsonFeedPost, ArticleUI::class.java)
+            detailedNewsScreenContent(articleUI)
+        }
+
+
+    }
+
+}
+
+@Composable
+fun MainScreenNavGraph(
+    navController: NavHostController,
+    homeScreenContent: @Composable () -> Unit,
+    favoriteScreenContent: @Composable () -> Unit,
+    worldScreenContent: @Composable () -> Unit,
+) {
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route
     ) {
-       homeScreenNavGraph(
-           mainNewsScreenScreenContent = newsMainScreenContent,
-           searchScreenContent = searchScreenContent,
-           detailedNewsScreenContent = detailedNewsScreenContent
-       )
+        composable(
+            route = Screen.Home.route,
+        ) { homeScreenContent() }
+
         composable(
             route = Screen.Favorite.route,
         ) { favoriteScreenContent() }

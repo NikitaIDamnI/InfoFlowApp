@@ -1,9 +1,11 @@
 package com.example.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Recomposer
 import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.common.ArticleUI
 import com.example.common.Screen
@@ -27,6 +29,12 @@ class NavigationState(
     fun navigationToDetailedNews(article: ArticleUI){
         navHostController.navigate(Screen.DetailedNews.getRouteWithArgs(article))
     }
+
+    @Composable
+    fun getCurrentRoute(): String{
+       return navHostController.currentBackStackEntryAsState().value?.destination?.route ?: "Not Route"
+    }
+
 }
 
 @Composable

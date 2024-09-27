@@ -41,8 +41,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,6 +53,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.ImageLoader
 import coil.request.CachePolicy
 import com.example.common.ArticleUI
@@ -65,8 +64,10 @@ import com.example.common.GradientCard
 import com.example.common.IconTopBar
 import com.example.common.ImageNews
 import com.example.common.MainBlueColor
-import com.example.common.Screen
 import com.example.common.getTimeAgo
+import com.example.navigation.NavigationState
+import com.example.navigation.navGraph.MainScreenNavGraph
+import com.example.navigation.rememberNavigationState
 
 
 @Composable
@@ -74,17 +75,15 @@ fun TestNewsMainScreen(
     onClickNews: (ArticleUI) -> Unit,
     onClickSearch: (String) -> Unit,
     onClickSetting: () -> Unit,
-    onNavigation: (String) -> Unit
 
-) {
+    ) {
     TestNewsMainScreen(
         viewModel = hiltViewModel(),
         onClickNews = onClickNews,
         onClickSearch = onClickSearch,
         onClickSetting = onClickSetting,
-        onNavigation = onNavigation
 
-    )
+        )
 }
 
 @Composable
@@ -93,12 +92,9 @@ internal fun TestNewsMainScreen(
     onClickNews: (ArticleUI) -> Unit,
     onClickSearch: (String) -> Unit,
     onClickSetting: () -> Unit,
-    onNavigation: (String) -> Unit
 ) {
 
-    val navState = remember {
-        mutableStateOf<String>(Screen.Home.route)
-    }
+
     val state = viewModel.state.collectAsState()
 
     val imageLoader = ImageLoader.Builder(LocalContext.current)
@@ -109,18 +105,12 @@ internal fun TestNewsMainScreen(
         state.value.topHeadlines.isNotEmpty()
     ) {
         MainScreen(
-            state,
-            navState,
-            imageLoader,
+            state = state,
+            imageLoader = imageLoader,
             onClickNews = onClickNews,
-            onClickNavigation = { route ->
-                navState.value = route
-                onNavigation(route)
-            },
             onClickSearch = onClickSearch,
             onClickSetting = onClickSetting,
-
-            )
+        )
     } else {
         PreviewMainScreen()
     }
@@ -129,32 +119,64 @@ internal fun TestNewsMainScreen(
 @Composable
 private fun MainScreen(
     state: State<TestNewsMainScreenState>,
-    navState: State<String>,
     imageLoader: ImageLoader,
-    onClickNavigation: (String) -> Unit,
     onClickNews: (ArticleUI) -> Unit,
     onClickSearch: (String) -> Unit,
     onClickSetting: () -> Unit,
+) {
+    val navController = rememberNavigationState()
 
-    ) {
+    val currentRoute = navController.getCurrentRoute()
+
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             TopBar(
                 onClickSearch = onClickSearch,
                 onClickSetting = onClickSetting
             )
         },
-        bottomBar = { BottomBar(navState) { onClickNavigation(it) } },
+        bottomBar = {
+            BottomBar(currentRoute) {
+                navController.navigationTo(it)
+            }
+        },
         containerColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onBackground
     ) { paddingValues ->
-        HomeScreen(paddingValues, state, imageLoader, onClickNews)
-
-
+        MainScreenNavGraph(
+            navController = navController.navHostController,
+            homeScreenContent = {
+                HomeScreen(paddingValues, state, imageLoader, onClickNews)
+            },
+            favoriteScreenContent = {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Red)
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = currentRoute
+                    )
+                }
+            },
+            worldScreenContent = {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Green)
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = currentRoute
+                    )
+                }
+            }
+        )
     }
 }
+
 
 @Composable
 private fun HomeScreen(
@@ -187,7 +209,7 @@ private fun HomeScreen(
 
 @Composable
 fun BottomBar(
-    navState: State<String>,
+    navState: String?,
     onClick: (String) -> Unit
 ) {
 
@@ -199,17 +221,16 @@ fun BottomBar(
         )
 
 
-
     NavigationBar(
         containerColor = Color.Transparent,
     ) {
         items.forEach { navItem ->
 
             NavigationBarItem(
-                selected = navItem.screen.route == navState.value,
+                selected = navItem.screen.route == navState,
                 onClick = { onClick(navItem.screen.route) },
                 icon = {
-                    if (navItem.screen.route == navState.value) {
+                    if (navItem.screen.route == navState) {
                         IconNavBottom(navigationItem = navItem)
                     } else {
                         Icon(
