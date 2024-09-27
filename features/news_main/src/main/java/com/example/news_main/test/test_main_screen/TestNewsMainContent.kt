@@ -213,18 +213,10 @@ fun BottomBar(
     onClick: (String) -> Unit
 ) {
 
-    val items =
-        listOf(
-            NavigationItem.Home,
-            NavigationItem.World,
-            NavigationItem.Favorite,
-        )
-
-
     NavigationBar(
         containerColor = Color.Transparent,
     ) {
-        items.forEach { navItem ->
+        NavigationItem.getAll().forEach { navItem ->
 
             NavigationBarItem(
                 selected = navItem.screen.route == navState,
