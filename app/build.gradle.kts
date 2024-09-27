@@ -1,9 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -21,6 +21,14 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val key = property("apikey")?.toString() ?: error(
+            "You should add apikey " +
+                    "into gradle.properties file with name apikey! "
+        )
+        buildConfigField("String", "NEWS_API_KEY", "\"$key\"")
+        buildConfigField("String", "NEWS_API_BASE_URL", "\"https://newsapi.org/v2/\"")
+
     }
 
     buildTypes {
@@ -31,6 +39,8 @@ android {
                 "proguard-rules.pro"
             )
         }
+
+
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -40,6 +50,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -50,15 +61,19 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+
 }
 
 dependencies {
 
-    
+
 
     implementation(libs.dagger.hilt.android)
     implementation(libs.androidx.profileinstaller)
     kapt(libs.dagger.hilt.compiler)
+
+
 
     //Initial dependencies
     implementation(libs.androidx.core.ktx)
@@ -69,11 +84,21 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+
+
+    implementation(project(":data"))
+    implementation(project(":opennews-api"))
+    implementation(project(":features:news_main"))
+    implementation(project(":features:search"))
+    implementation(project(":features:detailed_news"))
+    implementation(project(":navigation"))
+
+
+
+    implementation(project(":database"))
+    implementation(project(":common"))
+
+
+
+
 }

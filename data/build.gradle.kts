@@ -37,8 +37,11 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.javax.inject)
+    implementation (libs.jsoup)
 
     implementation(project(":opennews-api"))
     implementation(project(":database"))
+    implementation(project(":common"))
+
 
 }
