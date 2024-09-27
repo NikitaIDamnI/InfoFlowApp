@@ -150,28 +150,38 @@ private fun MainScreen(
         containerColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onBackground
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues)) {
-            TopHeadlines(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp)
-                    .width(300.dp),
-                state = state,
-                imageLoader = imageLoader,
-                onClickNews = { onClickNews(it) },
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Recommendation(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
-                state = state,
-                imageLoader = imageLoader,
-                onClickNews = { onClickNews(it) }
-            )
-        }
+        HomeScreen(paddingValues, state, imageLoader, onClickNews)
 
 
+    }
+}
+
+@Composable
+private fun HomeScreen(
+    paddingValues: PaddingValues,
+    state: State<TestNewsMainScreenState>,
+    imageLoader: ImageLoader,
+    onClickNews: (ArticleUI) -> Unit
+) {
+    Column(modifier = Modifier.padding(paddingValues)) {
+        TopHeadlines(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp)
+                .width(300.dp),
+            state = state,
+            imageLoader = imageLoader,
+            onClickNews = { onClickNews(it) },
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        Recommendation(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            state = state,
+            imageLoader = imageLoader,
+            onClickNews = { onClickNews(it) }
+        )
     }
 }
 
