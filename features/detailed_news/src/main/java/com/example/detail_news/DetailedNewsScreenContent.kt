@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
@@ -30,29 +28,26 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavBackStackEntry
 import coil.ImageLoader
 import coil.request.CachePolicy
-import com.example.common.ArticleUI
 import com.example.common.IconTopBar
 import com.example.common.ImageNews
 
 @Composable
 fun DetailedNewsScreen(
-    articleUI: ArticleUI,
+    navBackStackEntry: NavBackStackEntry,
     onBackPressed: () -> Unit,
     onAddFavorite: () -> Unit,
     onSettingPost: () -> Unit
 ) {
     DetailedNewsScreen(
-        viewModel = hiltViewModel(),
-        articleUI = articleUI,
+        viewModel = hiltViewModel(navBackStackEntry),
         onBackPressed = onBackPressed,
         onAddFavorite = onAddFavorite,
         onSettingPost = onSettingPost
@@ -61,14 +56,15 @@ fun DetailedNewsScreen(
 
 @Composable
 internal fun DetailedNewsScreen(
-    viewModel: TestNewsMainViewModel,
-    articleUI: ArticleUI,
+    viewModel: DetailedNewsScreenViewModel,
     onBackPressed: () -> Unit,
     onAddFavorite: () -> Unit,
     onSettingPost: () -> Unit
 ) {
 
-    //val state = viewModel.state.collectAsState()
+    val state = viewModel.state.collectAsState()
+
+    val articleUI = state.value.article
 
     val imageLoader = ImageLoader.Builder(LocalContext.current)
         .memoryCachePolicy(CachePolicy.ENABLED)

@@ -64,7 +64,8 @@ public class NewsRepositoryImpl @Inject constructor(
         database.articlesDao.insert(articleDBO)
     }
 
-    private fun filterContent(it: ArticleDTO) = it.url != "https://removed.com"
+    private fun filterContent(it: ArticleDTO) =
+        it.url != "https://removed.com" && it.content != null && it.urlToImage != null
 
     override suspend fun loadGetEverythingNewsFromApi(
         query: String?,
@@ -72,7 +73,6 @@ public class NewsRepositoryImpl @Inject constructor(
         to: String?,
         sortBy: SortBy?,
     ): List<Article> {
-        database.articlesDao.clean()
 
         val articlesEverything = api.everything(
             query = query ?: "All world news",
@@ -85,6 +85,8 @@ public class NewsRepositoryImpl @Inject constructor(
                 val resultSuccess = articlesEverything.getOrThrow().articles
                     .filter { filterContent(it) }
                     .toArticleDbo()
+
+                database.articlesDao.insert(resultSuccess)
                 return resultSuccess.map { it.toArticle() }
             }
 

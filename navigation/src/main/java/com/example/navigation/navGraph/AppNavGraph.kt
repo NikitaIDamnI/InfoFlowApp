@@ -1,6 +1,7 @@
 package com.example.navigation.navGraph
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,7 +14,7 @@ fun AppNavGraph(
     navController: NavHostController,
     mainScreenContent: @Composable () -> Unit,
     searchScreenContent: @Composable (String) -> Unit,
-    detailedNewsScreenContent: @Composable (ArticleUI) -> Unit,
+    detailedNewsScreenContent: @Composable (NavBackStackEntry) -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -30,10 +31,8 @@ fun AppNavGraph(
                 category
             )
         }
-        composable(route = Screen.DetailedNews.route) {
-            val jsonFeedPost = it.arguments?.getString(Screen.KEY_ARTICLE) ?: ""
-            val articleUI = Gson().fromJson(jsonFeedPost, ArticleUI::class.java)
-            detailedNewsScreenContent(articleUI)
+        composable(route = Screen.DetailedNews.route) { backStackEntry ->
+            detailedNewsScreenContent(backStackEntry)
         }
 
 
