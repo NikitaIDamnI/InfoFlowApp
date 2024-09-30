@@ -12,7 +12,7 @@ sealed class Screen(
     data object World : Screen(ROUTE_WORLD)
     data object Main : Screen(ROUTE_MAIN)
     data object Search : Screen(ROUTE_SEARCH){
-        private const val ROUTE_FOR_ARGS = "search"
+        private const val ROUTE_FOR_ARGS = KEY_SEARCH
         fun getRouteWithArgs(category: String): String {
             return "$ROUTE_FOR_ARGS/${category}"
         }

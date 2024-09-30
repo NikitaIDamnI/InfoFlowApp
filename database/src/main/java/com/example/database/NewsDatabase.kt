@@ -15,7 +15,7 @@ class NewsDatabase internal constructor(private val database: NewsRoomDatabase) 
         get() = database.articlesDao()
 }
 
-@Database(entities = [ArticleDBO::class], version = 1)
+@Database(entities = [ArticleDBO::class], version = 2)
 @TypeConverters(Converters::class)
 internal abstract class NewsRoomDatabase : RoomDatabase() {
     abstract fun articlesDao(): ArticleDao
@@ -27,6 +27,8 @@ fun NewsDatabase(applicationContext: Context): NewsDatabase {
             checkNotNull(applicationContext.applicationContext),
             NewsRoomDatabase::class.java,
             "news"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     return NewsDatabase(newsRoomDatabase)
 }

@@ -7,16 +7,22 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import coil.ImageLoader
 import com.example.detail_news.DetailedNewsScreen
 import com.example.infoflow.ui.theme.InfoFlowTheme
 import com.example.navigation.navGraph.AppNavGraph
 import com.example.navigation.rememberNavigationState
 import com.example.news_main.test.test_main_screen.TestNewsMainScreen
 import com.example.search.search_content_feature.TestSearchScreen
+import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,9 +51,7 @@ class MainActivity : ComponentActivity() {
 
                     detailedNewsScreenContent = {
                         DetailedNewsScreen(
-                            articleUI = it,
                             onBackPressed = { navigationState.navHostController.popBackStack() },
-                            onAddFavorite = {},
                             onSettingPost = {},
                         )
 
@@ -57,7 +61,10 @@ class MainActivity : ComponentActivity() {
 
         }
     }
+
 }
+
+
 
 @Preview
 @Composable

@@ -1,6 +1,9 @@
 package com.example.infoflow
 
 import android.content.Context
+import androidx.compose.ui.platform.LocalContext
+import coil.ImageLoader
+import coil.request.CachePolicy
 import com.example.common.AppDispatchers
 import com.example.data.test.NewsRepository
 import com.example.data.test.NewsRepositoryImpl
@@ -44,6 +47,16 @@ interface AppModule {
         @Provides
         @Singleton
         fun provideAppCoroutineDispatchers(): AppDispatchers = AppDispatchers()
+
+        @Provides
+        @Singleton
+        fun provideImageLoader(
+            @ApplicationContext context: Context
+        ): ImageLoader {
+            return ImageLoader.Builder(context)
+                .memoryCachePolicy(CachePolicy.ENABLED)
+                .build()
+        }
 
     }
 
