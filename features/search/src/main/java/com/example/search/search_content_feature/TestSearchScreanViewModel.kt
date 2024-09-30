@@ -3,6 +3,7 @@ package com.example.search.search_content_feature
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil.ImageLoader
 import com.example.common.CategoryNews
 import com.example.data.test.NewsRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +17,9 @@ import javax.inject.Inject
 class SearchScreenViewModel @Inject constructor(
     private val repository: NewsRepositoryImpl,
 //    private val content: List<ArticleUI> = listOf(),
-//    private val category: CategoryNews
+//    private val category: CategoryNews,
+    val imageLoader: ImageLoader
+
 ) : ViewModel() {
 
 

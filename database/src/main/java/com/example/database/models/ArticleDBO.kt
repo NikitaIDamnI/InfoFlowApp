@@ -3,10 +3,14 @@ package com.example.database.models
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity(tableName = "articles")
+@Entity(
+    tableName = "articles",
+    indices = [Index(value = ["url"], unique = true)]
+)
 data class ArticleDBO(
     @Embedded(prefix = "source") val source: Source?,
     @ColumnInfo("author") val author: String?,

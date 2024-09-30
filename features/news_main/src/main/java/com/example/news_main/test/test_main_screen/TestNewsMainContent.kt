@@ -41,6 +41,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -97,16 +98,14 @@ internal fun TestNewsMainScreen(
 
     val state = viewModel.state.collectAsState()
 
-    val imageLoader = ImageLoader.Builder(LocalContext.current)
-        .memoryCachePolicy(CachePolicy.ENABLED)
-        .build()
+
 
     if (state.value.stateLoaded !is TestNewsMainScreenState.TestStateLoaded.Initial &&
         state.value.topHeadlines.isNotEmpty()
     ) {
         MainScreen(
             state = state,
-            imageLoader = imageLoader,
+            imageLoader = viewModel.imageLoader,
             onClickNews = onClickNews,
             onClickSearch = onClickSearch,
             onClickSetting = onClickSetting,
@@ -489,8 +488,9 @@ private fun Recommendation(
     imageLoader: ImageLoader,
     onClickNews: (ArticleUI) -> Unit,
 ) {
-    val recommendationsPreviewItems = state.value.recommendations.take(3)
-
+val recommendation = remember {
+    state.value.recommendations.take(3)
+}
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.Start,
@@ -522,7 +522,7 @@ private fun Recommendation(
                 .weight(1f),
         ) {
             items(
-                items = recommendationsPreviewItems,
+                items = recommendation ,
                 key = { it.url },
             ) {
                 ContentListItem(

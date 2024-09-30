@@ -1,5 +1,6 @@
 package com.example.data.test
 
+import android.util.Log
 import com.example.common.ArticleUI
 import com.example.common.CategoryNews
 import com.example.data.model.Article
@@ -63,6 +64,9 @@ public class NewsRepositoryImpl @Inject constructor(
         val articleDBO = articleUI.toArticleDbo()
         database.articlesDao.insert(articleDBO)
     }
+    suspend fun deleteToFavorites(articleUI: ArticleUI) {
+        database.articlesDao.remove(articleUI.url)
+    }
 
     private fun filterContent(it: ArticleDTO) =
         it.url != "https://removed.com" && it.content != null && it.urlToImage != null
@@ -73,7 +77,6 @@ public class NewsRepositoryImpl @Inject constructor(
         to: String?,
         sortBy: SortBy?,
     ): List<Article> {
-
         val articlesEverything = api.everything(
             query = query ?: "All world news",
             sortBy = sortBy?.toDto() ?: SortByDto.POPULARITY,
@@ -86,7 +89,6 @@ public class NewsRepositoryImpl @Inject constructor(
                     .filter { filterContent(it) }
                     .toArticleDbo()
 
-                database.articlesDao.insert(resultSuccess)
                 return resultSuccess.map { it.toArticle() }
             }
 
@@ -99,40 +101,10 @@ public class NewsRepositoryImpl @Inject constructor(
     }
 
     suspend fun checkFavorite(article: ArticleUI): Boolean {
-        val isFavorite = database.articlesDao.checkFavorite(article.id)
-        return isFavorite > 0
+        val isFavorite = database.articlesDao.checkFavorite(article.url)
+        Log.d("RepositoryArticles", "isFavorite: $isFavorite")
+        return isFavorite == 1
     }
-
-
-//    suspend fun fetchFullContent(url: String, startContent: String, remainingChars: Int): String {
-//        return withContext(Dispatchers.IO) {
-//            // Получаем полный HTML-документ
-//            val document = Jsoup.connect(url).get()
-//
-//            // Извлекаем текст из HTML-документа
-//            val fullContent = document.body().text()
-//
-//            // Находим начало указанного контента
-//            val startIndex = fullContent.indexOf(startContent)
-//            if (startIndex == -1) {
-//                throw IllegalArgumentException("Start content not found in the full text")
-//            }
-//
-//            // Количество символов до начала указанного контента
-//            val beforeContentLength = startContent.length
-//
-//            // Количество символов в контенте после указанного контента
-//            val afterContentLength = remainingChars
-//
-//            // Рассчитываем конечный индекс
-//            val endIndex = (startIndex  + afterContentLength).coerceAtMost(fullContent.length)
-//
-//            // Извлекаем нужную часть текста
-//            val result = fullContent.substring(startIndex, endIndex)
-//            Log.d("TestArticlesRepository_Log", "fetchFullContent: $result")
-//            result
-//        }
-//    }
 
 
 }

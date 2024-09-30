@@ -92,9 +92,6 @@ internal fun TestSearchScreen(
         }
     }
 
-    val imageLoader = ImageLoader.Builder(LocalContext.current)
-        .memoryCachePolicy(CachePolicy.ENABLED)
-        .build()
 
 
     Scaffold(
@@ -137,7 +134,7 @@ internal fun TestSearchScreen(
                     .fillMaxSize(),
                 state = state,
                 listState = listState,
-                imageLoader = imageLoader,
+                imageLoader = viewModel.imageLoader,
                 onClickItem = {
                     onClickNews(it)
                 }
@@ -153,10 +150,10 @@ fun ListCategories(
     modifier: Modifier = Modifier,
     onClickCategory: (CategoryNews) -> Unit
 ) {
-    LazyRow( // Используем LazyRow для горизонтального списка
+    LazyRow(
         modifier = modifier
-            .fillMaxWidth() // Заполняем ширину контейнера
-            .padding(top = 5.dp), // Добавляем отступы
+            .fillMaxWidth()
+            .padding(top = 5.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
@@ -193,7 +190,7 @@ fun ListContent(
             items = state.value.searchResult,
             key = { it.url }
         ) {
-            ContentListItem(it, imageLoader) { article->
+            ContentListItem(it, imageLoader) { article ->
                 onClickItem(article)
             }
         }

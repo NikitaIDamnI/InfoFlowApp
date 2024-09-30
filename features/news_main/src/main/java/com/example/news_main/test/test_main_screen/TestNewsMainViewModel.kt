@@ -3,6 +3,7 @@ package com.example.news_main.test.test_main_screen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil.ImageLoader
 import com.example.common.mergeWith
 import com.example.data.model.Article
 import com.example.data.test.NewsRepositoryImpl
@@ -22,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TestNewsMainViewModel @Inject constructor(
-    private val repository: NewsRepositoryImpl
+    private val repository: NewsRepositoryImpl,
+    val imageLoader: ImageLoader
 ) : ViewModel() {
 
     private val loadNewArticlesEvent = MutableSharedFlow<TestNewsMainScreenState>(1)

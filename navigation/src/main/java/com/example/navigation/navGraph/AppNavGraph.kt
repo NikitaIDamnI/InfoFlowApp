@@ -14,7 +14,7 @@ fun AppNavGraph(
     navController: NavHostController,
     mainScreenContent: @Composable () -> Unit,
     searchScreenContent: @Composable (String) -> Unit,
-    detailedNewsScreenContent: @Composable (NavBackStackEntry) -> Unit,
+    detailedNewsScreenContent: @Composable () -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -31,8 +31,8 @@ fun AppNavGraph(
                 category
             )
         }
-        composable(route = Screen.DetailedNews.route) { backStackEntry ->
-            detailedNewsScreenContent(backStackEntry)
+        composable(route = Screen.DetailedNews.route) {
+            detailedNewsScreenContent()
         }
 
 
