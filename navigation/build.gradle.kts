@@ -44,7 +44,7 @@ dependencies {
     implementation(libs.material)
 
     api(libs.androidx.navigation.compose)
-    implementation(libs.dagger.hilt.navigation.compose)
+    api(libs.dagger.hilt.navigation.compose)
 
 
     //Initial dependencies

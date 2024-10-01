@@ -34,7 +34,10 @@ dependencies {
 
     api(libs.material.icons)
     implementation(libs.gson)
+    api(libs.kotlinx.serialization.json)
 
+    api(libs.dagger.hilt.navigation.compose)
+    api(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

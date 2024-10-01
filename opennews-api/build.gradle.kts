@@ -19,4 +19,6 @@ dependencies{
     implementation(libs.retrofit.adapters.result)
     api(libs.okhttp)
     kapt(libs.retrofit.responseTypeKeeper)
+
+
 }

@@ -53,7 +53,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.dagger.hilt.navigation.compose)
+
 
 
     api(libs.kotlinx.immutable)
