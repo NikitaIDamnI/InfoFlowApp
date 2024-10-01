@@ -1,14 +1,17 @@
 package com.example.common
 
-import java.util.Date
+import kotlinx.serialization.Serializable
 
- data class ArticleUI(
+@Serializable
+data class ArticleUI(
     val id: String,
-    val title: String ,
-    val description: String ,
-    val imageUrl: String ,
-    val url: String ,
-    val content:String,
-    val author: String ,
-    val publishedAt: Date?
+    val title: String,
+    val description: String,
+    val imageUrl: String,
+    val url: String,
+    val content: String,
+    val author: String,
+    val publishedAt: String
 )
+
+
