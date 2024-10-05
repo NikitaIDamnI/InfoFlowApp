@@ -1,4 +1,4 @@
-package com.example.news_main.test.test_main_screen
+package com.example.news_main
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BookmarkBorder
@@ -6,9 +6,7 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Language
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.common.Screen
-
-import com.example.news_main.R
+import com.example.navigation.Screen
 
 sealed class NavigationItem(
     val screen: Screen,

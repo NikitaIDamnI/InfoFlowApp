@@ -1,9 +1,11 @@
-package com.example.news_main.test.test_main_screen
+package com.example.news_main
+
+import com.example.common.ArticleUI
 
 
 data class TestNewsMainScreenState(
-    val topHeadlines: List<com.example.common.ArticleUI>,
-    val recommendations: List<com.example.common.ArticleUI>,
+    val topHeadlines: List<ArticleUI> = emptyList(),
+    val recommendations: List<ArticleUI> = emptyList(),
     val stateLoaded: TestStateLoaded = TestStateLoaded.Null
 
 ) {

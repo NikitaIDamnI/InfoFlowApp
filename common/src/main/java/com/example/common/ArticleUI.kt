@@ -1,6 +1,7 @@
 package com.example.common
 
 import kotlinx.serialization.Serializable
+import java.util.Date
 
 @Serializable
 data class ArticleUI(
@@ -11,7 +12,8 @@ data class ArticleUI(
     val url: String,
     val content: String,
     val author: String,
-    val publishedAt: String
+    @Serializable(with = DateTimeUTCSerializer::class)
+    val publishedAt: Date
 )
 
 

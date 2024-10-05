@@ -4,33 +4,26 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.toRoute
 import coil.ImageLoader
 import com.example.common.ArticleUI
-import com.example.common.Screen
-import com.example.common.mergeWith
-import com.example.data.model.Article
 import com.example.data.test.NewsRepositoryImpl
+import com.example.navigation.Screen
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapMerge
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext.Element
 
 @HiltViewModel
 class DetailedNewsScreenViewModel @Inject constructor(
@@ -41,9 +34,8 @@ class DetailedNewsScreenViewModel @Inject constructor(
 
     private val favoritesEvent: MutableSharedFlow<Boolean> = MutableSharedFlow(1)
 
-    private val articleJson: String? = savedStateHandle[Screen.KEY_ARTICLE]
-    private val articleUI: ArticleUI =
-        articleJson.let { Gson().fromJson(it, ArticleUI::class.java) }
+    private val articleUI = Screen.DetailedNews.from(savedStateHandle).articleUI
+
 
     val state: StateFlow<DetailedNewsScreenState> = combine(
         flowOf(
@@ -72,21 +64,37 @@ class DetailedNewsScreenViewModel @Inject constructor(
         }
     }
 
-    // Изменение состояния избранного
     fun addToFavorites() {
         viewModelScope.launch {
             favoritesEvent.emit(!state.value.isFavorite)
         }
     }
 
-    // Сохранение избранного в кеш
     fun updateFavoritesCache() {
         viewModelScope.launch {
             if (state.value.isFavorite) {
                 repository.addToFavorites(articleUI)
-            }else{
+            } else {
                 repository.deleteToFavorites(articleUI)
             }
         }
     }
+
+//    suspend fun extractHtmlContent(url: String, partialContent: String): String? {
+//        return withContext(Dispatchers.IO) {
+//            try {
+//                // Загружаем HTML-документ
+//                val document = Jsoup.connect(url).get()
+//
+//                // Ищем элемент, который содержит часть контента
+//                val element: Element? = document.body().getElementsContainingOwnText(partialContent).firstOrNull()
+//
+//                // Если элемент найден, ищем его родительский элемент с нужным классом
+//                element?.parents()?.firstOrNull { it.hasClass("article-body-class") }?.html()
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                null
+//            }
+//        }
+//    }
 }

@@ -1,7 +1,6 @@
 package com.example.common
 
-import com.example.common.CategoryNews.RECOMMENDATION
-import com.example.common.CategoryNews.TOP_HEADLINES
+import android.net.Uri
 import com.example.common.CategoryNews.entries
 
 
@@ -15,9 +14,9 @@ enum class CategoryNews(
     SCIENCE(displayName = "Science"),
     BUSINESS(displayName = "Business"),
     TECHNOLOGY(displayName = "Technology"),
+    TOP_HEADLINES(displayName = "Top headlines"),
     ENTERTAINMENT(displayName = "Entertainment"),
-    RECOMMENDATION(displayName = "Recommendation"),
-    TOP_HEADLINES(displayName = "Top Headlines");
+    RECOMMENDATION(displayName = "Recommendation");
 
     override fun toString(): String {
         return displayName
@@ -36,6 +35,8 @@ enum class CategoryNews(
     }
 }
 
-
+fun String.encode(): String {
+    return Uri.encode(this)
+}
 
 

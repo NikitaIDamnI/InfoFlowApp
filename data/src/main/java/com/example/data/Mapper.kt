@@ -1,6 +1,7 @@
 package com.example.data
 
 import com.example.common.ArticleUI
+import com.example.common.getTimeAgo
 import com.example.data.model.Article
 import com.example.data.model.Source
 import com.example.data.test.SortBy
@@ -9,6 +10,7 @@ import com.example.database.models.Source as SourceDBO
 import com.example.news.opennews_api.models.ArticleDTO
 import com.example.news.opennews_api.models.SortByDto
 import com.example.news.opennews_api.models.SourceDTO
+import java.util.Date
 
 internal fun List<ArticleDBO>.toArticle(): List<Article> = this.map { it.toArticle() }
 
@@ -35,7 +37,7 @@ internal fun SourceDBO.toSource(): Source {
 }
 
 internal fun SourceDTO.toSource(): Source {
-    return Source(id = id?:name, name = name)
+    return Source(id = id ?: name, name = name)
 }
 
 internal fun SourceDTO.toSourceDbo(): SourceDBO {
@@ -90,8 +92,8 @@ internal fun ArticleUI.toArticleDbo(): ArticleDBO {
     )
 }
 
- fun Article.toUiArticle(): com.example.common.ArticleUI {
-    return com.example.common.ArticleUI(
+fun Article.toUiArticle(): ArticleUI {
+    return ArticleUI(
         id = source?.id ?: "",
         title = title ?: "",
         description = description ?: "",
@@ -99,7 +101,21 @@ internal fun ArticleUI.toArticleDbo(): ArticleDBO {
         url = url ?: "",
         content = content ?: "",
         author = author ?: "",
-        publishedAt = publishedAt
+        publishedAt = publishedAt ?: Date()
+
+    )
+}
+
+fun ArticleDBO.toArticleUI(): ArticleUI {
+    return ArticleUI(
+        id = id.toString(),
+        title = title ?: "",
+        description = description ?: "",
+        imageUrl = urlToImage ?: "",
+        url = url ?: "",
+        content = content ?: "",
+        author = author ?: "",
+        publishedAt = publishedAt ?: Date()
 
     )
 }

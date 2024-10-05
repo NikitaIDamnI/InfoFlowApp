@@ -41,19 +41,24 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavigatorState
 import coil.ImageLoader
 import coil.request.CachePolicy
 import com.example.common.ArticleUI
 import com.example.common.ColorNotActive
 import com.example.common.IconTopBar
 import com.example.common.ImageNews
+import com.example.common.getDatePublication
+import com.example.navigation.NavigationState
 
 @Composable
 fun DetailedNewsScreen(
+    articleUIID: ArticleUI,
+    navState: NavigationState,
     onBackPressed: () -> Unit,
     onSettingPost: () -> Unit
 ) {
-    DetailedNewsScreen(
+    NewsScreen(
         viewModel = hiltViewModel(),
         onBackPressed = onBackPressed,
         onSettingPost = onSettingPost
@@ -62,7 +67,7 @@ fun DetailedNewsScreen(
 }
 
 @Composable
-internal fun DetailedNewsScreen(
+internal fun NewsScreen(
     viewModel: DetailedNewsScreenViewModel,
     onBackPressed: () -> Unit,
     onSettingPost: () -> Unit
@@ -72,15 +77,18 @@ internal fun DetailedNewsScreen(
     val imageLoader = viewModel.imageLoader
 
     Title(imageLoader, articleUI)
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        topBar = { TopBar(
-            state = state,
-            onBackPressed = onBackPressed,
-            onAddFavorite =  {viewModel.addToFavorites()} ,
-            onSettingPost = onSettingPost
-        ) },
+        topBar = {
+            TopBar(
+                state = state,
+                onBackPressed = onBackPressed,
+                onAddFavorite = { viewModel.addToFavorites() },
+                onSettingPost = onSettingPost
+            )
+        },
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground
     ) { paddingValues ->
@@ -143,7 +151,7 @@ private fun Title(imageLoader: ImageLoader, articleUI: ArticleUI) {
                 )
                 Text(
                     modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-                    text = articleUI.publishedAt.toString(),
+                    text = articleUI.publishedAt.getDatePublication(),
                     fontSize = 15.sp,
                     color = Color.White
                 )
@@ -210,7 +218,7 @@ fun IconTopBarFavorite(
     modifier: Modifier = Modifier,
     isFavorite: Boolean,
     colorIcon: Color = Color.Black,
-    colorBack:Color = ColorNotActive,
+    colorBack: Color = ColorNotActive,
     onClick: () -> Unit
 ) {
     Log.d("Content_Log", "isFavorite: $isFavorite")
@@ -222,7 +230,7 @@ fun IconTopBarFavorite(
             .background(colorBack)
     ) {
         IconButton(onClick = { onClick() }) {
-            if (isFavorite){
+            if (isFavorite) {
                 Icon(
                     modifier = Modifier
                         .size(35.dp)
@@ -231,7 +239,7 @@ fun IconTopBarFavorite(
                     contentDescription = "",
                     tint = colorIcon
                 )
-            }else{
+            } else {
                 Icon(
                     modifier = Modifier
                         .size(35.dp)

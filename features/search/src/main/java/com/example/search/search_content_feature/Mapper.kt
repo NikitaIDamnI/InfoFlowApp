@@ -1,6 +1,8 @@
 package com.example.search.search_content_feature
 
+import com.example.common.getTimeAgo
 import com.example.data.model.Article
+import java.util.Date
 
 internal fun Article.toUiArticle(): com.example.common.ArticleUI {
     return com.example.common.ArticleUI(
@@ -11,7 +13,7 @@ internal fun Article.toUiArticle(): com.example.common.ArticleUI {
         url = url ?: "",
         content = content ?: "",
         author = author ?: "",
-        publishedAt = publishedAt
+        publishedAt = publishedAt ?: Date()
 
     )
 }
