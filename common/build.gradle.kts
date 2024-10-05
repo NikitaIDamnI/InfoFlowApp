@@ -15,11 +15,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "21"
     }
 }
 
@@ -34,7 +34,10 @@ dependencies {
 
     api(libs.material.icons)
     implementation(libs.gson)
+    api(libs.kotlinx.serialization.json)
 
+    api(libs.dagger.hilt.navigation.compose)
+    api(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

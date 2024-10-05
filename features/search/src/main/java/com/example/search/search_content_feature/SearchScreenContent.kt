@@ -43,30 +43,28 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.ImageLoader
-import coil.request.CachePolicy
 import com.example.common.ArticleUI
 import com.example.common.CategoryCard
 import com.example.common.CategoryNews
 import com.example.common.ContentListItem
 import com.example.common.IconTopBar
+import com.example.common.Title
 import com.example.search.R
 
 @Composable
 fun TestSearchScreen(
-    categoryNews: String,
+    categoryNews: CategoryNews,
     onClickNews: (ArticleUI) -> Unit,
     onBackPressed: () -> Unit
 ) {
     TestSearchScreen(
-        categoryNews = categoryNews,
+        currentCategoryNews = categoryNews,
         onBackPressed = onBackPressed,
         onClickNews = onClickNews,
         viewModel = hiltViewModel()
@@ -75,7 +73,7 @@ fun TestSearchScreen(
 
 @Composable
 internal fun TestSearchScreen(
-    categoryNews: String,
+    currentCategoryNews: CategoryNews,
     viewModel: SearchScreenViewModel,
     onClickNews: (ArticleUI) -> Unit,
     onBackPressed: () -> Unit
@@ -92,8 +90,6 @@ internal fun TestSearchScreen(
         }
     }
 
-
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { TopBar(onBackPressed = onBackPressed) },
@@ -102,7 +98,9 @@ internal fun TestSearchScreen(
         Title(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = paddingValues.calculateTopPadding(), start = 15.dp)
+                .padding(top = paddingValues.calculateTopPadding(), start = 15.dp),
+            mainTitle = "Discover",
+            commentForTitle = "News from all around the world"
         )
         Column(
             modifier = Modifier
@@ -126,6 +124,7 @@ internal fun TestSearchScreen(
             Spacer(modifier = Modifier.height(5.dp))
             ListCategories(
                 state = state,
+                currentCategoryNews = currentCategoryNews,
                 onClickCategory = { viewModel.onCategoryChange(it) }
             )
             Spacer(modifier = Modifier.height(15.dp))
@@ -148,7 +147,8 @@ internal fun TestSearchScreen(
 fun ListCategories(
     state: State<SearchScreenState>,
     modifier: Modifier = Modifier,
-    onClickCategory: (CategoryNews) -> Unit
+    onClickCategory: (CategoryNews) -> Unit,
+    currentCategoryNews: CategoryNews
 ) {
     LazyRow(
         modifier = modifier
@@ -159,7 +159,7 @@ fun ListCategories(
     ) {
 
         items(
-            items = CategoryNews.toListCategory(state.value.category),
+            items = CategoryNews.toListCategory(currentCategoryNews),
             key = { it.name },
         ) { category ->
             CategoryCard(
@@ -284,28 +284,3 @@ private fun TopBar(
     )
 }
 
-@Composable
-private fun Title(
-    modifier: Modifier,
-) {
-    Box(
-        modifier = modifier
-    ) {
-        Column {
-            Text(
-                modifier = Modifier,
-                text = "Discover",
-                fontSize = 40.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
-            Text(
-                modifier = Modifier,
-                text = "News from all around the world",
-                fontSize = 12.sp,
-                color = Color.Gray
-            )
-        }
-    }
-
-}

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlinSerialization)
 
 }
 
@@ -26,11 +27,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "21"
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.8"
@@ -44,7 +45,7 @@ dependencies {
     implementation(libs.material)
 
     api(libs.androidx.navigation.compose)
-    implementation(libs.dagger.hilt.navigation.compose)
+    api(libs.dagger.hilt.navigation.compose)
 
 
     //Initial dependencies

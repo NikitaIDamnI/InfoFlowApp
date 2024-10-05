@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -74,6 +75,35 @@ fun CategoryCard(
             color = colorText
         )
     }
+}
+
+@Composable
+fun Title(
+    modifier: Modifier,
+    mainTitle: String,
+    commentForTitle: String
+
+) {
+    Box(
+        modifier = modifier
+    ) {
+        Column {
+            Text(
+                modifier = Modifier,
+                text = mainTitle,
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+            Text(
+                modifier = Modifier,
+                text = commentForTitle,
+                fontSize = 12.sp,
+                color = Color.Gray
+            )
+        }
+    }
+
 }
 
 @Composable

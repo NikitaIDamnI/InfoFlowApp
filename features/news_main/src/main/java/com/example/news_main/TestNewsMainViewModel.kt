@@ -1,4 +1,4 @@
-package com.example.news_main.test.test_main_screen
+package com.example.news_main
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -14,7 +14,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -29,9 +31,12 @@ class TestNewsMainViewModel @Inject constructor(
 
     private val loadNewArticlesEvent = MutableSharedFlow<TestNewsMainScreenState>(1)
 
-    val state = repository.getEverythingNews()
-        .onStart { loadNews() }
-        .mergeStateLoaded(loadNewArticlesEvent)
+    val state: StateFlow<TestNewsMainScreenState> = flowOf<TestNewsMainScreenState>()
+        .map {
+            TestNewsMainScreenState()
+        }
+        .onStart { loadNewsFromDb() }
+        .mergeWith(loadNewArticlesEvent)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
@@ -42,21 +47,56 @@ class TestNewsMainViewModel @Inject constructor(
             )
         )
 
+    init {
+        viewModelScope.launch {
+            state.collect{
+                Log.d("TestNewsMainViewModel_Log", "${it.stateLoaded} ")
+                Log.d("TestNewsMainViewModel_Log", "${it.topHeadlines} ")
+
+            }
+        }
+
+    }
+
+    private fun loadNewsFromDb() {
+        viewModelScope.launch {
+            val favorites = repository.getFavorites()
+
+            loadNewArticlesEvent.emit(
+                state.value.copy(
+                    topHeadlines = favorites,
+                    recommendations = favorites,
+                    stateLoaded = TestNewsMainScreenState.TestStateLoaded.Success
+                )
+            )
+        }
+    }
+
     private fun loadNews() {
+        Log.d("TestNewsMainViewModel_Log", "Start loadNews")
+
 
         val loadRecommendations = viewModelScope.async {
             loadNewArticlesEvent.emit(state.value.copy(stateLoaded = TestNewsMainScreenState.TestStateLoaded.Loading))
             repository.loadGetEverythingNewsFromApi().map { it.toUiArticle() }
         }
 
+
         val loadTopHeadlines = viewModelScope.async {
             repository.loadTopHeadlines().map { it.toUiArticle() }
         }
 
+
         viewModelScope.launch {
             try {
+                Log.d("TestNewsMainViewModel_Log", "Start try")
+
                 val recommendations = loadRecommendations.await()
                 val topHeadlines = loadTopHeadlines.await()
+
+                Log.d("TestNewsMainViewModel_Log", "Start ${recommendations.get(0)}")
+                Log.d("TestNewsMainViewModel_Log", "Start ${topHeadlines.get(0)}")
+
 
                 loadNewArticlesEvent.emit(
                     state.value.copy(
@@ -67,6 +107,8 @@ class TestNewsMainViewModel @Inject constructor(
                 )
 
             } catch (e: Exception) {
+                Log.d("TestNewsMainViewModel_Log", "Start catch")
+
                 loadNewArticlesEvent.emit(
                     state.value.copy(
                         stateLoaded = TestNewsMainScreenState.TestStateLoaded.Error(

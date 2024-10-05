@@ -6,7 +6,9 @@ import com.example.common.CategoryNews
 import com.example.data.model.Article
 import com.example.data.toArticle
 import com.example.data.toArticleDbo
+import com.example.data.toArticleUI
 import com.example.data.toDto
+import com.example.data.toUiArticle
 import com.example.database.NewsDatabase
 import com.example.news.opennews_api.NewsApi
 import com.example.news.opennews_api.models.ArticleDTO
@@ -39,8 +41,8 @@ public class NewsRepositoryImpl @Inject constructor(
     ): List<Article> {
         val articlesTopHeadlines = api.topHeadlines(
             query = null,
-            country = "us" ,
-            category =  CategoryNewsDTO.GENERAL.name,
+            country = "us",
+            category = CategoryNewsDTO.GENERAL.name,
             sources = null,
         )
         when {
@@ -64,9 +66,15 @@ public class NewsRepositoryImpl @Inject constructor(
         val articleDBO = articleUI.toArticleDbo()
         database.articlesDao.insert(articleDBO)
     }
+
     suspend fun deleteToFavorites(articleUI: ArticleUI) {
         database.articlesDao.remove(articleUI.url)
     }
+
+    suspend fun getFavorites(): List<ArticleUI>{
+        return database.articlesDao.getAll().map { it.toArticleUI() }
+    }
+
 
     private fun filterContent(it: ArticleDTO) =
         it.url != "https://removed.com" && it.content != null && it.urlToImage != null
@@ -89,6 +97,7 @@ public class NewsRepositoryImpl @Inject constructor(
                     .filter { filterContent(it) }
                     .toArticleDbo()
 
+                database.articlesDao.insert(resultSuccess)
                 return resultSuccess.map { it.toArticle() }
             }
 
