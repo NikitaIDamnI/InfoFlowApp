@@ -50,18 +50,18 @@ import com.example.common.GradientCard
 import com.example.common.ImageNews
 import com.example.common.MainBlueColor
 import com.example.common.getTimeAgo
-import com.example.news_main.TestNewsMainScreenState
+import com.example.news_main.NewsMainScreenState
 
 @Composable
  fun HomeScreen(
     paddingValues: PaddingValues,
-    state: State<TestNewsMainScreenState>,
+    state: State<NewsMainScreenState>,
     imageLoader: ImageLoader,
     onClickNews: (ArticleUI) -> Unit,
     onClickNextAllNews: (CategoryNews, List<ArticleUI>) -> Unit
 
 ) {
-    Log.d("TestNewsMainScreen_Log", "HomeScreen")
+    Log.d("Recomposition", "HomeScreen")
 
     Column(modifier = Modifier.padding(paddingValues)) {
         TopHeadlines(
@@ -97,7 +97,7 @@ import com.example.news_main.TestNewsMainScreenState
 @Composable
 private fun TopHeadlines(
     modifier: Modifier = Modifier,
-    state: State<TestNewsMainScreenState>,
+    state: State<NewsMainScreenState>,
     imageLoader: ImageLoader,
     onClickNews: (ArticleUI) -> Unit,
     onClickNextAllNews: () -> Unit
@@ -271,7 +271,7 @@ private fun AuthorAndDataPublication(article: ArticleUI) {
 @Composable
 private fun Recommendation(
     modifier: Modifier = Modifier,
-    state: State<TestNewsMainScreenState>,
+    state: State<NewsMainScreenState>,
     imageLoader: ImageLoader,
     onClickNews: (ArticleUI) -> Unit,
     onClickNextAllNews: () -> Unit

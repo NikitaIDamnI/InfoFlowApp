@@ -42,8 +42,8 @@ import com.example.navigation.Screen
 import com.example.navigation.rememberNavigationState
 import com.example.news_main.NavigationItem
 import com.example.news_main.R
-import com.example.news_main.TestNewsMainScreenState
-import com.example.news_main.TestNewsMainViewModel
+import com.example.news_main.NewsMainScreenState
+import com.example.news_main.NewsMainViewModel
 
 
 @Composable
@@ -64,7 +64,7 @@ fun TestNewsMainScreen(
 
 @Composable
 internal fun TestNewsMainScreen(
-    viewModel: TestNewsMainViewModel,
+    viewModel: NewsMainViewModel,
     onClickNews: (ArticleUI) -> Unit,
     onClickSearch: (CategoryNews) -> Unit,
     onClickSetting: () -> Unit,
@@ -74,7 +74,7 @@ internal fun TestNewsMainScreen(
 
     val state = viewModel.state.collectAsState()
 
-    if (state.value.stateLoaded !is TestNewsMainScreenState.TestStateLoaded.Initial &&
+    if (state.value.stateLoaded !is NewsMainScreenState.TestStateLoaded.Initial &&
         state.value.topHeadlines.isNotEmpty()
     ) {
         MainScreen(
@@ -91,7 +91,7 @@ internal fun TestNewsMainScreen(
 
 @Composable
 private fun MainScreen(
-    viewModel: TestNewsMainViewModel,
+    viewModel: NewsMainViewModel,
     onClickNews: (ArticleUI) -> Unit,
     onClickSearch: (CategoryNews) -> Unit,
     onClickSetting: () -> Unit,
@@ -99,7 +99,7 @@ private fun MainScreen(
 ) {
     val navigationState = rememberNavigationState()
 
-    Log.d("TestNewsMainScreen_Log", "MainScreen")
+    Log.d("Recomposition", "MainScreen")
 
     val state = viewModel.state.collectAsState()
 
@@ -140,7 +140,7 @@ private fun MainScreen(
                 stateNavScreen.value = Screen.Favorite
                 FavoriteScreen(
                     paddingValues = paddingValues,
-                    listFavorites = state.value.recommendations,
+                    listFavorites = state.value.favorites,
                     imageLoader = viewModel.imageLoader,
                     onClickNews = onClickNews,
                     onDeleteFavoriteNews = {}
@@ -157,15 +157,10 @@ private fun MainScreen(
 
 
 
-@Composable
-fun TestScreenFavorite(modifier: Modifier = Modifier) {
-    Log.d("TestNewsMainScreen_Log", "TestScreenFavorite")
-
-}
 
 @Composable
 fun TestScreenWorld(modifier: Modifier = Modifier) {
-    Log.d("TestNewsMainScreen_Log", "TestScreenWorld")
+    Log.d("Recomposition", "TestScreenWorld")
 
 }
 
@@ -176,7 +171,7 @@ fun BottomBar(
     stateNavigationBar: State<Screen>,
     onNavigateClick: (Screen) -> Unit
 ) {
-    Log.d("TestNewsMainScreen_Log", "BottomBar")
+    Log.d("Recomposition", "BottomBar")
 
 
     NavigationBar(
@@ -257,7 +252,7 @@ private fun TopBar(
     onClickSearch: (CategoryNews) -> Unit,
     onClickSetting: () -> Unit,
 ) {
-    Log.d("TestNewsMainScreen_Log", "TopBar")
+    Log.d("Recomposition", "TopBar")
 
     TopAppBar(
         title = {

@@ -4,18 +4,17 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
+import com.example.common.ArticleUI
 import com.example.common.mergeWith
-import com.example.data.model.Article
-import com.example.data.test.NewsRepositoryImpl
+import com.example.data.NewsRepositoryImpl
 import com.example.data.toUiArticle
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -24,60 +23,38 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TestNewsMainViewModel @Inject constructor(
+class NewsMainViewModel @Inject constructor(
     private val repository: NewsRepositoryImpl,
     val imageLoader: ImageLoader
 ) : ViewModel() {
 
-    private val loadNewArticlesEvent = MutableSharedFlow<TestNewsMainScreenState>(1)
+    private val loadNewArticlesEvent = MutableSharedFlow<NewsMainScreenState>(1)
 
-    val state: StateFlow<TestNewsMainScreenState> = flowOf<TestNewsMainScreenState>()
+    val state: StateFlow<NewsMainScreenState> = flowOf<NewsMainScreenState>()
         .map {
-            TestNewsMainScreenState()
+            NewsMainScreenState()
         }
-        .onStart { loadNewsFromDb() }
+        .onStart {
+            loadNews()
+        }
         .mergeWith(loadNewArticlesEvent)
+        .mergeFavorites(repository.getFavorites())
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = TestNewsMainScreenState(
+            initialValue = NewsMainScreenState(
                 topHeadlines = emptyList(),
                 recommendations = emptyList(),
-                stateLoaded = TestNewsMainScreenState.TestStateLoaded.Initial
+                stateLoaded = NewsMainScreenState.TestStateLoaded.Initial
             )
         )
-
-    init {
-        viewModelScope.launch {
-            state.collect{
-                Log.d("TestNewsMainViewModel_Log", "${it.stateLoaded} ")
-                Log.d("TestNewsMainViewModel_Log", "${it.topHeadlines} ")
-
-            }
-        }
-
-    }
-
-    private fun loadNewsFromDb() {
-        viewModelScope.launch {
-            val favorites = repository.getFavorites()
-
-            loadNewArticlesEvent.emit(
-                state.value.copy(
-                    topHeadlines = favorites,
-                    recommendations = favorites,
-                    stateLoaded = TestNewsMainScreenState.TestStateLoaded.Success
-                )
-            )
-        }
-    }
 
     private fun loadNews() {
         Log.d("TestNewsMainViewModel_Log", "Start loadNews")
 
 
         val loadRecommendations = viewModelScope.async {
-            loadNewArticlesEvent.emit(state.value.copy(stateLoaded = TestNewsMainScreenState.TestStateLoaded.Loading))
+            loadNewArticlesEvent.emit(state.value.copy(stateLoaded = NewsMainScreenState.TestStateLoaded.Loading))
             repository.loadGetEverythingNewsFromApi().map { it.toUiArticle() }
         }
 
@@ -85,7 +62,6 @@ class TestNewsMainViewModel @Inject constructor(
         val loadTopHeadlines = viewModelScope.async {
             repository.loadTopHeadlines().map { it.toUiArticle() }
         }
-
 
         viewModelScope.launch {
             try {
@@ -102,7 +78,7 @@ class TestNewsMainViewModel @Inject constructor(
                     state.value.copy(
                         topHeadlines = topHeadlines,
                         recommendations = recommendations,
-                        stateLoaded = TestNewsMainScreenState.TestStateLoaded.Success
+                        stateLoaded = NewsMainScreenState.TestStateLoaded.Success
                     )
                 )
 
@@ -111,7 +87,7 @@ class TestNewsMainViewModel @Inject constructor(
 
                 loadNewArticlesEvent.emit(
                     state.value.copy(
-                        stateLoaded = TestNewsMainScreenState.TestStateLoaded.Error(
+                        stateLoaded = NewsMainScreenState.TestStateLoaded.Error(
                             e.message ?: ""
                         )
                     )
@@ -119,19 +95,13 @@ class TestNewsMainViewModel @Inject constructor(
             }
         }
     }
+
 }
 
 
-@OptIn(ExperimentalCoroutinesApi::class)
-fun Flow<List<Article>>.mergeStateLoaded(stateLoadedFlow: Flow<TestNewsMainScreenState>): Flow<TestNewsMainScreenState> {
-    return flatMapMerge { _ ->
-        stateLoadedFlow.map { newStateLoaded ->
-            TestNewsMainScreenState(
-                topHeadlines = newStateLoaded.topHeadlines,
-                stateLoaded = newStateLoaded.stateLoaded,
-                recommendations = newStateLoaded.recommendations
-            )
-        }
+fun Flow<NewsMainScreenState>.mergeFavorites(favorites: Flow<List<ArticleUI>>): Flow<NewsMainScreenState> {
+    return combine(this, favorites) { state, favoriteArticles ->
+        state.copy(favorites = favoriteArticles)
     }
 }
 

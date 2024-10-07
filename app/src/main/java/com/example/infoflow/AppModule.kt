@@ -1,12 +1,11 @@
 package com.example.infoflow
 
 import android.content.Context
-import androidx.compose.ui.platform.LocalContext
 import coil.ImageLoader
 import coil.request.CachePolicy
 import com.example.common.AppDispatchers
-import com.example.data.test.NewsRepository
-import com.example.data.test.NewsRepositoryImpl
+import com.example.data.NewsRepository
+import com.example.data.NewsRepositoryImpl
 import com.example.database.NewsDatabase
 import com.example.news.opennews_api.NewsApi
 import dagger.Binds
@@ -60,6 +59,4 @@ interface AppModule {
 
     }
 
-//    @Provides
-//    fun provideLogger(): Logger = AndroidLogcatLogger()
 }

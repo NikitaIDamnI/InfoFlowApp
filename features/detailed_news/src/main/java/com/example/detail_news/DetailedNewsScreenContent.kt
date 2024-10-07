@@ -44,6 +44,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavigatorState
 import coil.ImageLoader
 import coil.request.CachePolicy
+import com.airbnb.lottie.LottieComposition
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.common.ArticleUI
 import com.example.common.ColorNotActive
 import com.example.common.IconTopBar
@@ -73,10 +78,10 @@ internal fun NewsScreen(
     onSettingPost: () -> Unit
 ) {
     val state = viewModel.state.collectAsState()
-    val articleUI = state.value.article
-    val imageLoader = viewModel.imageLoader
-
-    Title(imageLoader, articleUI)
+    val composition = rememberLottieComposition(
+        spec = LottieCompositionSpec.Asset("loadDetailedAnimation.json")
+    )
+    Log.d("Recomposition", "NewsScreen")
 
     Scaffold(
         modifier = Modifier
@@ -89,24 +94,33 @@ internal fun NewsScreen(
                 onSettingPost = onSettingPost
             )
         },
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground
+        containerColor = Color.White,
+
     ) { paddingValues ->
         paddingValues
         Column {
-            Spacer(Modifier.fillMaxHeight(0.49f))
 
-            Card(
+            Box(
                 modifier = Modifier
-                    .fillMaxSize(),
-                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
+                    .fillMaxSize()
+
             ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(10.dp),
-                    text = articleUI.content
-                )
+                val htmlContent = state.value.htmlContent
+
+                if (htmlContent != null) {
+                    WebViewCompose(htmlContent)
+                } else {
+                    LottieAnimation(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(150.dp),
+                        composition = composition.value,
+                        iterations = LottieConstants.IterateForever
+
+                    )
+                }
+
+
             }
         }
 
@@ -174,8 +188,8 @@ private fun TopBar(
 ) {
     TopAppBar(
         colors = TopAppBarColors(
-            containerColor = Color.Transparent,
-            scrolledContainerColor = Color.Transparent,
+            containerColor = Color.White,
+            scrolledContainerColor = Color.White,
             navigationIconContentColor = Color.Black,
             actionIconContentColor = Color.Black,
             titleContentColor = Color.Black

@@ -1,28 +1,31 @@
-package com.example.data.test
+package com.example.data
 
 import android.util.Log
 import com.example.common.ArticleUI
 import com.example.common.CategoryNews
 import com.example.data.model.Article
-import com.example.data.toArticle
-import com.example.data.toArticleDbo
-import com.example.data.toArticleUI
-import com.example.data.toDto
-import com.example.data.toUiArticle
+import com.example.data.model.SortBy
 import com.example.database.NewsDatabase
 import com.example.news.opennews_api.NewsApi
 import com.example.news.opennews_api.models.ArticleDTO
 import com.example.news.opennews_api.models.CategoryNewsDTO
 import com.example.news.opennews_api.models.Language
 import com.example.news.opennews_api.models.SortByDto
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 public class NewsRepositoryImpl @Inject constructor(
     private val database: NewsDatabase,
     private val api: NewsApi,
 ) : NewsRepository {
+
 
     override fun getEverythingNews(): Flow<List<Article>> = flow {
         val dbArticles = loadGetEverythingNewsFromApi()
@@ -39,6 +42,7 @@ public class NewsRepositoryImpl @Inject constructor(
         country: String?,
         category: CategoryNews,
     ): List<Article> {
+
         val articlesTopHeadlines = api.topHeadlines(
             query = null,
             country = "us",
@@ -48,8 +52,9 @@ public class NewsRepositoryImpl @Inject constructor(
         when {
             articlesTopHeadlines.isSuccess -> {
                 val resultSuccess = articlesTopHeadlines.getOrThrow().articles
-                    .filter { filterContent(it) }  // Фильтруем статьи
+                    .filter { filterContent(it) }
                     .toArticleDbo()
+
                 return resultSuccess.map { it.toArticle() }
             }
 
@@ -71,8 +76,8 @@ public class NewsRepositoryImpl @Inject constructor(
         database.articlesDao.remove(articleUI.url)
     }
 
-    suspend fun getFavorites(): List<ArticleUI>{
-        return database.articlesDao.getAll().map { it.toArticleUI() }
+     fun getFavorites(): Flow<List<ArticleUI>>{
+        return database.articlesDao.observeAll().map { it.map { it.toArticleUI() } }
     }
 
 
@@ -97,7 +102,6 @@ public class NewsRepositoryImpl @Inject constructor(
                     .filter { filterContent(it) }
                     .toArticleDbo()
 
-                database.articlesDao.insert(resultSuccess)
                 return resultSuccess.map { it.toArticle() }
             }
 

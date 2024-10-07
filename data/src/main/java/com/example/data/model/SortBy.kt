@@ -1,6 +1,4 @@
-package com.example.data.test
-
-import kotlinx.serialization.SerialName
+package com.example.data.model
 
 enum class SortBy {
     RELEVANCY,
