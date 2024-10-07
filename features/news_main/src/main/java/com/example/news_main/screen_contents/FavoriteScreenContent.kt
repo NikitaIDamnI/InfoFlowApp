@@ -1,5 +1,6 @@
 package com.example.news_main.screen_contents
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,7 +30,7 @@ fun FavoriteScreen(
     onDeleteFavoriteNews: (ArticleUI) -> Unit,
 ) {
     val listState = rememberLazyListState()
-
+    Log.d("Recomposition", "FavoriteScreen")
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {

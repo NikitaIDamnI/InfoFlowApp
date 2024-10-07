@@ -66,11 +66,3 @@ class MainActivity : ComponentActivity() {
 
 }
 
-
-@Preview
-@Composable
-fun GreetingPreview() {
-    InfoFlowTheme {
-        Text("HI")
-    }
-}

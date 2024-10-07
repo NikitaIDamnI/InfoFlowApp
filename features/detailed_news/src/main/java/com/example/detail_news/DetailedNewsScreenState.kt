@@ -6,6 +6,7 @@ import com.example.common.ArticleUI
 data class DetailedNewsScreenState(
     val article: ArticleUI,
     val isFavorite: Boolean,
+    val htmlContent: String? = null
 ) {
     sealed interface TestStateLoaded {
         data object Null : TestStateLoaded

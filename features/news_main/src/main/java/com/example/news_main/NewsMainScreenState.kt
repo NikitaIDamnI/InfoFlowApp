@@ -3,9 +3,10 @@ package com.example.news_main
 import com.example.common.ArticleUI
 
 
-data class TestNewsMainScreenState(
+data class NewsMainScreenState(
     val topHeadlines: List<ArticleUI> = emptyList(),
     val recommendations: List<ArticleUI> = emptyList(),
+    val favorites: List<ArticleUI> = emptyList(),
     val stateLoaded: TestStateLoaded = TestStateLoaded.Null
 
 ) {

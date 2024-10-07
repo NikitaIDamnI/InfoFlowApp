@@ -1,4 +1,4 @@
-package com.example.data.test
+package com.example.data
 
 data class ResultTest<T>(
     val data: T? = null,

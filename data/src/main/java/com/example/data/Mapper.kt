@@ -1,10 +1,9 @@
 package com.example.data
 
 import com.example.common.ArticleUI
-import com.example.common.getTimeAgo
 import com.example.data.model.Article
 import com.example.data.model.Source
-import com.example.data.test.SortBy
+import com.example.data.model.SortBy
 import com.example.database.models.ArticleDBO
 import com.example.database.models.Source as SourceDBO
 import com.example.news.opennews_api.models.ArticleDTO

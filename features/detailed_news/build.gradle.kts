@@ -48,7 +48,9 @@ dependencies {
     implementation(libs.material)
     implementation(libs.material.icons)
 
+    implementation(libs.jsoup)
 
+    implementation (libs.lottie.compose)
 
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
