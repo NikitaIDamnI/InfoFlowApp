@@ -4,10 +4,9 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import coil.ImageLoader
 import com.example.common.CategoryNews
-import com.example.data.test.NewsRepositoryImpl
+import com.example.data.NewsRepositoryImpl
 import com.example.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
