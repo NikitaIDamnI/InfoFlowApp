@@ -1,29 +1,32 @@
 package com.example.common
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BookmarkBorder
-import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,12 +34,20 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.ImageLoader
 import coil.compose.AsyncImage
+import  androidx.compose.runtime.State
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+
+private const val PREFS_NAME = "theme_prefs"
+private const val THEME_KEY = "is_dark_theme"
 
 val GradientCard = Brush.verticalGradient(
     colors = listOf(
@@ -56,8 +67,8 @@ fun CategoryCard(
     activeCategory: CategoryNews
 ) {
     val isSelected = categoryNews == activeCategory
-    val colorText = if (isSelected) Color.White else Color.Black
-    val colorBackground = if (isSelected) MainBlueColor else ColorNotActive
+    val colorText = if (isSelected) Color.White else MaterialTheme.colorScheme.onBackground
+    val colorBackground = if (isSelected) MainBlueColor else MaterialTheme.colorScheme.onBackground.copy(0.1f)
     Card(
         modifier = modifier,
         colors = CardColors(
@@ -81,8 +92,8 @@ fun CategoryCard(
 fun Title(
     modifier: Modifier,
     mainTitle: String,
-    commentForTitle: String
-
+    commentForTitle: String,
+    color: Color = MaterialTheme.colorScheme.onBackground
 ) {
     Box(
         modifier = modifier
@@ -93,13 +104,13 @@ fun Title(
                 text = mainTitle,
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = color
             )
             Text(
                 modifier = Modifier,
                 text = commentForTitle,
                 fontSize = 12.sp,
-                color = Color.Gray
+                color = color
             )
         }
     }
@@ -160,7 +171,7 @@ fun ContentRecommendation(
             text = articles.title,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onBackground,
             maxLines = 4,
         )
         Text(
@@ -202,8 +213,8 @@ fun ImageNews(
 @Composable
 fun IconTopBar(
     modifier: Modifier = Modifier,
-    colorIcon: Color = Color.Black,
-    colorBack:Color = ColorNotActive,
+    colorIcon: Color = MaterialTheme.colorScheme.onBackground ,
+    colorBack: Color = MaterialTheme.colorScheme.onBackground.copy(0.1f),
     icon: ImageVector,
     onClick: () -> Unit
 ) {
@@ -225,3 +236,21 @@ fun IconTopBar(
         }
     }
 }
+
+@Composable
+fun rememberThemeState (): MutableState<Boolean>{
+    val context = LocalContext.current
+    val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    val isDarkTheme = prefs.getBoolean(THEME_KEY, isSystemInDarkTheme())
+   return remember {
+        mutableStateOf<Boolean>(isDarkTheme)
+    }
+}
+
+
+fun saveThemeOnAppClose(context: Context,isDarkTheme: Boolean) {
+    val context = context
+    val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    prefs.edit().putBoolean(THEME_KEY, isDarkTheme).apply()
+}
+

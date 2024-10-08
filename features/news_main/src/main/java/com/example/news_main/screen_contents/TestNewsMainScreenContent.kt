@@ -2,6 +2,8 @@ package com.example.news_main.screen_contents
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,8 +11,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DoneAll
+import androidx.compose.material.icons.filled.Nightlight
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.WbSunny
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +25,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -48,13 +54,15 @@ import com.example.news_main.NewsMainViewModel
 
 @Composable
 fun TestNewsMainScreen(
+    isDarkTheme: State<Boolean>,
     onClickNews: (ArticleUI) -> Unit,
     onClickSearch: (CategoryNews) -> Unit,
     onClickSetting: () -> Unit,
-    onClickNextAllNews: (CategoryNews,List<ArticleUI>) -> Unit
+    onClickNextAllNews: (CategoryNews, List<ArticleUI>) -> Unit
 ) {
     TestNewsMainScreen(
         viewModel = hiltViewModel(),
+        isDarkTheme = isDarkTheme,
         onClickNews = onClickNews,
         onClickSearch = onClickSearch,
         onClickSetting = onClickSetting,
@@ -65,10 +73,11 @@ fun TestNewsMainScreen(
 @Composable
 internal fun TestNewsMainScreen(
     viewModel: NewsMainViewModel,
+    isDarkTheme: State<Boolean>,
     onClickNews: (ArticleUI) -> Unit,
     onClickSearch: (CategoryNews) -> Unit,
     onClickSetting: () -> Unit,
-    onClickNextAllNews: (CategoryNews,List<ArticleUI>) -> Unit
+    onClickNextAllNews: (CategoryNews, List<ArticleUI>) -> Unit
 
 ) {
 
@@ -79,6 +88,7 @@ internal fun TestNewsMainScreen(
     ) {
         MainScreen(
             viewModel = viewModel,
+            isDarkTheme = isDarkTheme,
             onClickNews = onClickNews,
             onClickSearch = onClickSearch,
             onClickSetting = onClickSetting,
@@ -92,10 +102,11 @@ internal fun TestNewsMainScreen(
 @Composable
 private fun MainScreen(
     viewModel: NewsMainViewModel,
+    isDarkTheme: State<Boolean>,
     onClickNews: (ArticleUI) -> Unit,
     onClickSearch: (CategoryNews) -> Unit,
     onClickSetting: () -> Unit,
-    onClickNextAllNews: (CategoryNews,List<ArticleUI>) -> Unit
+    onClickNextAllNews: (CategoryNews, List<ArticleUI>) -> Unit
 ) {
     val navigationState = rememberNavigationState()
 
@@ -109,6 +120,7 @@ private fun MainScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopBar(
+                isDarkTheme = isDarkTheme,
                 onClickSearch = onClickSearch,
                 onClickSetting = onClickSetting
             )
@@ -148,22 +160,11 @@ private fun MainScreen(
 
             },
             worldScreenContent = {
-                stateNavScreen.value = Screen.World
-                TestScreenWorld()
+
             }
         )
     }
 }
-
-
-
-
-@Composable
-fun TestScreenWorld(modifier: Modifier = Modifier) {
-    Log.d("Recomposition", "TestScreenWorld")
-
-}
-
 
 
 @Composable
@@ -234,12 +235,26 @@ fun IconNavBottom(navigationItem: NavigationItem) {
 
 @Composable
 fun PreviewMainScreen() {
-    Box(modifier = Modifier.fillMaxSize()) {
+    val isDarkTheme = isSystemInDarkTheme()
+    val backColor = if (isDarkTheme) Color.Black else {
+        Color.White
+    }
+    val imageLogo = if (isDarkTheme) {
+        R.drawable.full_logo_night
+    } else {
+        R.drawable.full_logo_day
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(backColor)
+    ) {
         Image(
             modifier = Modifier
                 .size(300.dp)
                 .align(Alignment.Center),
-            painter = painterResource(id = R.drawable.full_logo),
+            painter = painterResource(id = imageLogo),
             contentDescription = null,
         )
     }
@@ -249,15 +264,33 @@ fun PreviewMainScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(
+    isDarkTheme: State<Boolean>,
     onClickSearch: (CategoryNews) -> Unit,
     onClickSetting: () -> Unit,
 ) {
-    Log.d("Recomposition", "TopBar")
+    val imageLogo = if (isDarkTheme.value) {
+        R.drawable.shor_logo_night
+    } else {
+        R.drawable.shor_logo_day
+    }
+
+    val logoIconTheme = if (isDarkTheme.value) {
+        Icons.Outlined.WbSunny
+    } else {
+        Icons.Default.Nightlight
+    }
 
     TopAppBar(
+        colors = TopAppBarColors(
+            containerColor = Color.Transparent,
+            scrolledContainerColor = Color.Transparent,
+            navigationIconContentColor = Color.Transparent,
+            titleContentColor = Color.Transparent,
+            actionIconContentColor = Color.Transparent
+        ),
         title = {
             Image(
-                painter = painterResource(id = R.drawable.shor_logo),
+                painter = painterResource(id = imageLogo),
                 contentDescription = null,
                 modifier = Modifier.size(30.dp),
             )
@@ -265,12 +298,16 @@ private fun TopBar(
         actions = {
             IconTopBar(
                 icon = Icons.Default.Search,
-                onClick = { onClickSearch(CategoryNews.ALL) }
+                onClick = { onClickSearch(CategoryNews.ALL) },
+                colorBack = MaterialTheme.colorScheme.onBackground.copy(0.1f),
+                colorIcon = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.width(10.dp))
             IconTopBar(
                 onClick = onClickSetting,
-                icon = Icons.Default.Settings
+                icon = logoIconTheme,
+                colorBack = MaterialTheme.colorScheme.onBackground.copy(0.1f),
+                colorIcon = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.width(10.dp))
 
