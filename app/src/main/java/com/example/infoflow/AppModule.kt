@@ -4,8 +4,8 @@ import android.content.Context
 import coil.ImageLoader
 import coil.request.CachePolicy
 import com.example.common.AppDispatchers
-import com.example.data.NewsRepository
-import com.example.data.NewsRepositoryImpl
+import com.example.data.repositories.interfaces.NewsRepository
+import com.example.data.repositories.NewsRepositoryImpl
 import com.example.database.NewsDatabase
 import com.example.news.opennews_api.NewsApi
 import dagger.Binds

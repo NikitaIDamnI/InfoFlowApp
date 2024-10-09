@@ -1,9 +1,7 @@
-package com.example.data
+package com.example.data.repositories.interfaces
 
 import com.example.common.models.ArticleUI
-import com.example.common.models.CategoryNews
 import com.example.data.model.Article
-import com.example.data.model.SortBy
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {

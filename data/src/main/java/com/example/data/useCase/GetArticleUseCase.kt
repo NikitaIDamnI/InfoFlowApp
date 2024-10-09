@@ -1,7 +1,7 @@
 package com.example.data.useCase
 
 import com.example.common.models.ArticleUI
-import com.example.data.NewsRepositoryImpl
+import com.example.data.repositories.NewsRepositoryImpl
 import com.example.data.model.Article
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -11,16 +11,16 @@ class GetArticleUseCase @Inject constructor(
 ) {
     fun getFromFavorite() = repository.getFavorites()
 
-     fun getFromApi(categoryApi: CategoryApi): Flow<List<Article>> {
-        return when (categoryApi) {
-            CategoryApi.TOP_HEADLINES -> repository.getTopHeadlinersNews()
-            CategoryApi.EVERYTHING -> repository.getEverythingNews()
-        }
+    fun getTopHeadlinersFromApi(): Flow<List<Article>> {
+        return repository.getTopHeadlinersNews()
+    }
+
+    fun getEverythingFromApi(): Flow<List<Article>> {
+        return repository.getEverythingNews()
+
     }
 
     suspend fun checkFavoriteArticle(articleUI: ArticleUI) = repository.checkFavorite(articleUI)
 
-    enum class CategoryApi {
-        TOP_HEADLINES, EVERYTHING
-    }
+
 }
