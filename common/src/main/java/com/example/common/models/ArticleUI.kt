@@ -1,5 +1,6 @@
-package com.example.common
+package com.example.common.models
 
+import com.example.common.DateTimeUTCSerializer
 import kotlinx.serialization.Serializable
 import java.util.Date
 

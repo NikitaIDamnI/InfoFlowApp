@@ -19,12 +19,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.rounded.Bookmark
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -37,29 +36,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavigatorState
 import coil.ImageLoader
-import coil.request.CachePolicy
-import com.airbnb.lottie.LottieComposition
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.common.ArticleUI
+import com.example.common.models.ArticleUI
 import com.example.common.ColorNotActive
 import com.example.common.IconTopBar
 import com.example.common.ImageNews
 import com.example.common.getDatePublication
-import com.example.navigation.NavigationState
 
 @Composable
 fun DetailedNewsScreen(
-    articleUIID: ArticleUI,
-    navState: NavigationState,
     onBackPressed: () -> Unit,
     onSettingPost: () -> Unit
 ) {
@@ -96,7 +88,7 @@ internal fun NewsScreen(
         },
         containerColor = Color.White,
 
-    ) { paddingValues ->
+        ) { paddingValues ->
         paddingValues
         Column {
 
@@ -105,21 +97,41 @@ internal fun NewsScreen(
                     .fillMaxSize()
 
             ) {
-                val htmlContent = state.value.htmlContent
+                when (val stateLoaded = state.value.httpContent) {
+                    is DetailedNewsScreenState.StateHttpContent.Error ->{
+                            Icon(
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .size(100.dp)
+                                ,
+                                imageVector = Icons.Outlined.ErrorOutline,
+                                contentDescription = ""
+                            )
 
-                if (htmlContent != null) {
-                    WebViewCompose(htmlContent)
-                } else {
-                    LottieAnimation(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .size(150.dp),
-                        composition = composition.value,
-                        iterations = LottieConstants.IterateForever
+                            Text(
+                                modifier = Modifier.align(Alignment.Center),
+                                text = stateLoaded.message
+                            )
 
-                    )
+                    }
+
+                    DetailedNewsScreenState.StateHttpContent.Loading -> {
+                        LottieAnimation(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(150.dp),
+                            composition = composition.value,
+                            iterations = LottieConstants.IterateForever
+
+                        )
+                    }
+
+                    is DetailedNewsScreenState.StateHttpContent.Success -> {
+                        WebViewCompose(stateLoaded.htmlContent)
+                    }
+
+                    else -> {}
                 }
-
 
             }
         }

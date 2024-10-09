@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
-import com.example.common.ArticleUI
+import com.example.common.models.ArticleUI
 import com.example.common.ContentListItem
 import com.example.common.Title
 

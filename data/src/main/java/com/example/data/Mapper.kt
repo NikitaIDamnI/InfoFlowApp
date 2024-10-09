@@ -1,6 +1,6 @@
 package com.example.data
 
-import com.example.common.ArticleUI
+import com.example.common.models.ArticleUI
 import com.example.data.model.Article
 import com.example.data.model.Source
 import com.example.data.model.SortBy

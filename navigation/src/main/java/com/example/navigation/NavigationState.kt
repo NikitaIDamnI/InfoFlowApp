@@ -1,19 +1,13 @@
 package com.example.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.common.ArticleUI
-import com.example.common.CategoryNews
+import com.example.common.models.ArticleUI
+import com.example.common.models.CategoryNews
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 
 class NavigationState(
     val navHostController: NavHostController

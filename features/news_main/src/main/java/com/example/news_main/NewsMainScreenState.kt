@@ -1,6 +1,6 @@
 package com.example.news_main
 
-import com.example.common.ArticleUI
+import com.example.common.models.ArticleUI
 
 
 data class NewsMainScreenState(

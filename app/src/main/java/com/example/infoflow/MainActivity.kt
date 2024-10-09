@@ -56,8 +56,6 @@ class MainActivity : ComponentActivity() {
 
                     detailedNewsScreenContent = {
                         DetailedNewsScreen(
-                            articleUIID = it,
-                            navState = navigationState,
                             onBackPressed = { navigationState.navHostController.popBackStack() },
                             onSettingPost = {},
                         )

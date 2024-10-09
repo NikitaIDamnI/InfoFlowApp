@@ -11,10 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DoneAll
 import androidx.compose.material.icons.filled.Nightlight
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.WbSunny
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -39,8 +37,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.common.ArticleUI
-import com.example.common.CategoryNews
+import com.example.common.models.ArticleUI
+import com.example.common.models.CategoryNews
 import com.example.common.IconTopBar
 import com.example.common.MainBlueColor
 import com.example.navigation.MainScreenNavGraph
@@ -160,6 +158,8 @@ private fun MainScreen(
 
             },
             worldScreenContent = {
+                stateNavScreen.value = Screen.World
+
 
             }
         )

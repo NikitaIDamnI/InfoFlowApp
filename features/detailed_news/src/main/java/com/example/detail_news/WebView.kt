@@ -13,7 +13,7 @@ fun WebViewCompose(htmlContent: String) {
 
         AndroidView(factory = { context ->
             WebView(context).apply {
-                settings.javaScriptEnabled = true // Включаем JavaScript
+                settings.javaScriptEnabled = true
                 webViewClient = object : WebViewClient() {
                     override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                         return true

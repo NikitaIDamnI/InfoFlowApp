@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
-import com.example.common.CategoryNews
+import com.example.common.models.CategoryNews
 import com.example.data.NewsRepositoryImpl
 import com.example.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel

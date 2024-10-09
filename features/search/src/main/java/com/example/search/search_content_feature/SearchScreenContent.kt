@@ -46,9 +46,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
-import com.example.common.ArticleUI
+import com.example.common.models.ArticleUI
 import com.example.common.CategoryCard
-import com.example.common.CategoryNews
+import com.example.common.models.CategoryNews
 import com.example.common.ContentListItem
 import com.example.common.IconTopBar
 import com.example.common.Title

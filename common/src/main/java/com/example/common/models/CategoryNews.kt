@@ -1,7 +1,7 @@
-package com.example.common
+package com.example.common.models
 
 import android.net.Uri
-import com.example.common.CategoryNews.entries
+import com.example.common.models.CategoryNews.entries
 
 
 enum class CategoryNews(
