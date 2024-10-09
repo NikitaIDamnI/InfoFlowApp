@@ -91,7 +91,7 @@ class DetailedNewsScreenViewModel @Inject constructor(
                     )
 
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 loadHtmlContentEvent.emit(
                     state.value.copy(
                         httpContent = StateHttpContent.Error("Error loading content")

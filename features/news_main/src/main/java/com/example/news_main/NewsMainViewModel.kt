@@ -1,6 +1,5 @@
 package com.example.news_main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
@@ -14,7 +13,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,7 +20,6 @@ class NewsMainViewModel @Inject constructor(
     getArticleUseCase: GetArticleUseCase,
     val imageLoader: ImageLoader
 ) : ViewModel() {
-
 
     val state: StateFlow<NewsMainScreenState> = combine(
         getArticleUseCase.getTopHeadlinersFromApi(),
@@ -41,7 +38,7 @@ class NewsMainViewModel @Inject constructor(
                 stateLoaded = NewsMainScreenState.TestStateLoaded.Error(it.message.toString())
             )
         }
-        .mergeFavorites(getArticleUseCase.getFromFavorite())
+        .combineFavorites(getArticleUseCase.getFromFavorite())
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
@@ -52,19 +49,10 @@ class NewsMainViewModel @Inject constructor(
             )
         )
 
-
-    init {
-        viewModelScope.launch{
-            state.collect{
-                Log.d("NewsMainViewModel_Log", "${it.stateLoaded}")
-            }
-        }
-    }
-
 }
 
 
-fun Flow<NewsMainScreenState>.mergeFavorites(favorites: Flow<List<ArticleUI>>): Flow<NewsMainScreenState> {
+fun Flow<NewsMainScreenState>.combineFavorites(favorites: Flow<List<ArticleUI>>): Flow<NewsMainScreenState> {
     return combine(this, favorites) { state, favoriteArticles ->
         state.copy(favorites = favoriteArticles)
     }

@@ -1,12 +1,11 @@
 package com.example.search.search_content_feature
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import com.example.common.models.CategoryNews
-import com.example.data.repositories.NewsRepositoryImpl
+import com.example.data.useCase.SearchUseCase
 import com.example.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -17,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
-    private val repository: NewsRepositoryImpl,
+    private val searchUseCase: SearchUseCase,
     savedStateHandle: SavedStateHandle,
     val imageLoader: ImageLoader
 ) : ViewModel() {
@@ -42,10 +41,8 @@ class SearchScreenViewModel @Inject constructor(
         _state.value = _state.value.copy(category = category)
     }
 
-    fun onSearchNews(query: String) {
-        Log.d("SearchScreenViewModel_Log", "onSearchNews ($query)")
-
-        if (query != "") {
+    fun onSearchNews(query: String?) {
+        if (!query.isNullOrBlank()) {
             loadNews(
                 query = query,
                 category = _state.value.category
@@ -54,7 +51,7 @@ class SearchScreenViewModel @Inject constructor(
     }
 
     private fun loadNews(
-        query: String?,
+        query: String,
         category: CategoryNews
     ) {
 
@@ -64,7 +61,10 @@ class SearchScreenViewModel @Inject constructor(
                 _state.value =
                     _state.value.copy(stateLoaded = SearchScreenState.TestStateLoaded.Loading)
 
-                val resultSearch = repository.searchNews(query, category)
+                val resultSearch = searchUseCase(
+                    query = query,
+                    category =category
+                )
 
                 _state.value = _state.value.copy(
                     searchResult = resultSearch,
