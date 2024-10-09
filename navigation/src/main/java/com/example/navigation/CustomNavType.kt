@@ -3,7 +3,6 @@ package com.example.navigation
 import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.NavType
-import com.example.common.ArticleUI
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 

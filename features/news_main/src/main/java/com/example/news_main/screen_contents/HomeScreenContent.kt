@@ -43,8 +43,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.ImageLoader
-import com.example.common.ArticleUI
-import com.example.common.CategoryNews
+import com.example.common.models.ArticleUI
+import com.example.common.models.CategoryNews
 import com.example.common.ContentListItem
 import com.example.common.GradientCard
 import com.example.common.ImageNews

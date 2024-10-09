@@ -2,9 +2,8 @@ package com.example.navigation
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
-import com.example.common.ArticleUI
-import com.example.common.CategoryNews
-import com.example.navigation.toNavType
+import com.example.common.models.ArticleUI
+import com.example.common.models.CategoryNews
 import kotlinx.serialization.Serializable
 import kotlin.reflect.typeOf
 

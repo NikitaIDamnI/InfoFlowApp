@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.DisposableEffect
+import com.example.common.rememberThemeState
+import com.example.common.saveThemeOnAppClose
 import com.example.detail_news.DetailedNewsScreen
 import com.example.infoflow.ui.theme.InfoFlowTheme
 import com.example.navigation.AppNavGraph
@@ -22,16 +22,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            InfoFlowTheme {
+            val isDarkTheme = rememberThemeState()
+
+            InfoFlowTheme(isDarkTheme.value) {
                 val navigationState = rememberNavigationState()
                 AppNavGraph(
                     navController = navigationState.navHostController,
                     mainScreenContent = {
                         TestNewsMainScreen(
+                            isDarkTheme =isDarkTheme,
                             onClickNews = {
                                 navigationState.navigationToDetailedNews(it)
                             },
-                            onClickSetting = {},
+                            onClickSetting = {
+                                isDarkTheme.value = !isDarkTheme.value
+                            },
                             onClickSearch = { category ->
                                 navigationState.navigationToSearch(category, emptyList())
                             },
@@ -51,14 +56,19 @@ class MainActivity : ComponentActivity() {
 
                     detailedNewsScreenContent = {
                         DetailedNewsScreen(
-                            articleUIID = it,
-                            navState = navigationState,
                             onBackPressed = { navigationState.navHostController.popBackStack() },
                             onSettingPost = {},
                         )
 
                     },
                 )
+
+                DisposableEffect(Unit) {
+                    onDispose {
+                        saveThemeOnAppClose(context = applicationContext, isDarkTheme.value)
+                    }
+                }
+
             }
 
         }

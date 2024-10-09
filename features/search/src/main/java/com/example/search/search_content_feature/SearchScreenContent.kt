@@ -2,7 +2,6 @@ package com.example.search.search_content_feature
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -44,14 +43,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
-import com.example.common.ArticleUI
+import com.example.common.models.ArticleUI
 import com.example.common.CategoryCard
-import com.example.common.CategoryNews
+import com.example.common.models.CategoryNews
 import com.example.common.ContentListItem
 import com.example.common.IconTopBar
 import com.example.common.Title

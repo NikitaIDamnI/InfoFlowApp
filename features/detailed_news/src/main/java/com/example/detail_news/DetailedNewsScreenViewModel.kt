@@ -1,11 +1,13 @@
 package com.example.detail_news
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.mergeWith
-import com.example.data.NewsRepositoryImpl
+import com.example.data.repositories.FavoriteRepositoryImpl
+import com.example.data.repositories.NewsRepositoryImpl
+import com.example.data.useCase.ManageFavoritesUseCase
+import com.example.detail_news.DetailedNewsScreenState.StateHttpContent
 import com.example.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,18 +24,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailedNewsScreenViewModel @Inject constructor(
-    private val repository: NewsRepositoryImpl,
-    private val savedStateHandle: SavedStateHandle,
+    private val manageFavorites : ManageFavoritesUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val favoritesEvent: MutableSharedFlow<DetailedNewsScreenState> = MutableSharedFlow(1)
-    private val loadHtmlContentEvent: MutableSharedFlow<DetailedNewsScreenState> = MutableSharedFlow(1)
+    private val loadHtmlContentEvent: MutableSharedFlow<DetailedNewsScreenState> =
+        MutableSharedFlow(1)
 
     private val articleUI = Screen.DetailedNews.from(savedStateHandle).articleUI
 
 
     val state: StateFlow<DetailedNewsScreenState> = flow {
-        emit(DetailedNewsScreenState(article = articleUI, isFavorite = repository.checkFavorite(articleUI)))
+        emit(
+            DetailedNewsScreenState(
+                article = articleUI,
+                isFavorite = manageFavorites.checkFavorite(articleUI),
+                httpContent = StateHttpContent.Loading,
+            )
+        )
     }
         .onStart {
             extractHtmlContent(
@@ -45,17 +54,12 @@ class DetailedNewsScreenViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Eagerly,
-            initialValue = DetailedNewsScreenState(article = articleUI, isFavorite = false)
+            initialValue = DetailedNewsScreenState(
+                article = articleUI,
+                isFavorite = false,
+                httpContent = StateHttpContent.Initial
+            )
         )
-
-    init{
-        viewModelScope.launch{
-            state.collect{
-                Log.d("DetailedNewsScreenViewModel_Log", it.htmlContent.toString())
-
-            }
-        }
-    }
 
 
     fun addToFavorites() {
@@ -67,9 +71,9 @@ class DetailedNewsScreenViewModel @Inject constructor(
     fun updateFavoritesCache() {
         viewModelScope.launch {
             if (state.value.isFavorite) {
-                repository.addToFavorites(articleUI)
+                manageFavorites.addToFavorites(articleUI)
             } else {
-                repository.deleteToFavorites(articleUI)
+                manageFavorites.deleteToFavorites(articleUI)
             }
         }
     }
@@ -77,18 +81,23 @@ class DetailedNewsScreenViewModel @Inject constructor(
 
     fun extractHtmlContent(url: String) {
         viewModelScope.launch {
-            val htmlContent = try {
+            try {
                 withContext(Dispatchers.IO) {
                     val document = Jsoup.connect(url).get()
-                    document.html()
-                }
-            } catch (e: Exception) {
-                Log.e("HTMLContentError", "Error loading content", e)
-                e.printStackTrace()
-                null
-            }
+                    loadHtmlContentEvent.emit(
+                        state.value.copy(
+                            httpContent = StateHttpContent.Success(document.html())
+                        )
+                    )
 
-            loadHtmlContentEvent.emit(state.value.copy(htmlContent = htmlContent))
+                }
+            } catch (_: Exception) {
+                loadHtmlContentEvent.emit(
+                    state.value.copy(
+                        httpContent = StateHttpContent.Error("Error loading content")
+                    )
+                )
+            }
         }
     }
 

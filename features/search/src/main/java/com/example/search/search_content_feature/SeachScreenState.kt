@@ -1,7 +1,7 @@
 package com.example.search.search_content_feature
 
-import com.example.common.ArticleUI
-import com.example.common.CategoryNews
+import com.example.common.models.ArticleUI
+import com.example.common.models.CategoryNews
 
 data class SearchScreenState(
     val query: String? = null,
