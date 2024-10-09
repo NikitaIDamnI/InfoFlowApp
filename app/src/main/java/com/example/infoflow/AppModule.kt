@@ -4,8 +4,10 @@ import android.content.Context
 import coil.ImageLoader
 import coil.request.CachePolicy
 import com.example.common.AppDispatchers
+import com.example.data.repositories.FavoriteRepositoryImpl
 import com.example.data.repositories.interfaces.NewsRepository
 import com.example.data.repositories.NewsRepositoryImpl
+import com.example.data.repositories.interfaces.FavoriteRepository
 import com.example.database.NewsDatabase
 import com.example.news.opennews_api.NewsApi
 import dagger.Binds
@@ -23,7 +25,10 @@ interface AppModule {
 
     @Singleton
     @Binds
-    fun bindRepository(impl: NewsRepositoryImpl): NewsRepository
+    fun bindRepositoryNews(impl: NewsRepositoryImpl): NewsRepository
+    @Singleton
+    @Binds
+    fun bindRepositoryFavorites(impl: FavoriteRepositoryImpl): FavoriteRepository
 
     companion object {
         @Provides

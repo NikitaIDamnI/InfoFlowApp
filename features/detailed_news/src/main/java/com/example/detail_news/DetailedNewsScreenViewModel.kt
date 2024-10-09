@@ -4,7 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.mergeWith
+import com.example.data.repositories.FavoriteRepositoryImpl
 import com.example.data.repositories.NewsRepositoryImpl
+import com.example.data.useCase.ManageFavoritesUseCase
 import com.example.detail_news.DetailedNewsScreenState.StateHttpContent
 import com.example.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailedNewsScreenViewModel @Inject constructor(
-    private val repository: NewsRepositoryImpl,
+    private val manageFavorites : ManageFavoritesUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -37,7 +39,7 @@ class DetailedNewsScreenViewModel @Inject constructor(
         emit(
             DetailedNewsScreenState(
                 article = articleUI,
-                isFavorite = repository.checkFavorite(articleUI),
+                isFavorite = manageFavorites.checkFavorite(articleUI),
                 httpContent = StateHttpContent.Loading,
             )
         )
@@ -69,9 +71,9 @@ class DetailedNewsScreenViewModel @Inject constructor(
     fun updateFavoritesCache() {
         viewModelScope.launch {
             if (state.value.isFavorite) {
-                repository.addToFavorites(articleUI)
+                manageFavorites.addToFavorites(articleUI)
             } else {
-                repository.deleteToFavorites(articleUI)
+                manageFavorites.deleteToFavorites(articleUI)
             }
         }
     }

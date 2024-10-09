@@ -11,5 +11,4 @@ interface NewsRepository {
     fun getTopHeadlinersNews(): Flow<List<Article>>
 
 
-    suspend fun addToFavorites(articleUI: ArticleUI)
 }

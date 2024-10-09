@@ -11,6 +11,7 @@ import com.example.data.toArticle
 import com.example.data.toArticleDbo
 import com.example.data.toArticleUI
 import com.example.data.toDto
+import com.example.data.toUiArticle
 import com.example.database.NewsDatabase
 import com.example.news.opennews_api.NewsApi
 import com.example.news.opennews_api.models.ArticleDTO
@@ -24,7 +25,6 @@ import kotlin.collections.map
 
 public class NewsRepositoryImpl @Inject constructor(
     private val application: Application,
-    private val database: NewsDatabase,
     private val api: NewsApi,
 ) : NewsRepository {
 
@@ -39,19 +39,25 @@ public class NewsRepositoryImpl @Inject constructor(
         emit(articles)
     }
 
+    suspend fun searchNews(
+        query: String?,
+        category: CategoryNews
+    ): List<ArticleUI> {
+        val resultSearch =
+            if (category != CategoryNews.ALL && category != CategoryNews.RECOMMENDATION && category != CategoryNews.TOP_HEADLINES) {
+                loadGetEverythingNewsFromApi(
+                    query = query,
+                ).map { it.toUiArticle() }
+            } else {
+                loadTopHeadlines(
+                    query = query,
+                    category = category
+                ).map { it.toUiArticle() }
+            }
 
-    override suspend fun addToFavorites(articleUI: ArticleUI) {
-        val articleDBO = articleUI.toArticleDbo()
-        database.articlesDao.insert(articleDBO)
+        return resultSearch
     }
 
-    suspend fun deleteToFavorites(articleUI: ArticleUI) {
-        database.articlesDao.remove(articleUI.url)
-    }
-
-    fun getFavorites(): Flow<List<ArticleUI>> {
-        return database.articlesDao.observeAll().map { it.map { it.toArticleUI() } }
-    }
 
 
     private fun filterContent(it: ArticleDTO): Boolean {
@@ -59,7 +65,7 @@ public class NewsRepositoryImpl @Inject constructor(
                 && it.content != null && it.urlToImage != null
     }
 
-     suspend fun loadGetEverythingNewsFromApi(
+   private suspend fun loadGetEverythingNewsFromApi(
         query: String? = "All world news",
         from: String? = null,
         to: String? = null,
@@ -73,7 +79,7 @@ public class NewsRepositoryImpl @Inject constructor(
         languages = languages,
     ).resultApi()
 
-     suspend fun loadTopHeadlines(
+   private suspend fun loadTopHeadlines(
         query: String? = null,
         country: String? = "us",
         category: CategoryNews = CategoryNews.GENERAL,
@@ -86,12 +92,6 @@ public class NewsRepositoryImpl @Inject constructor(
 
 
 
-    suspend fun checkFavorite(article: ArticleUI): Boolean {
-        val isFavorite = database.articlesDao.checkFavorite(article.url)
-        return isFavorite == 1
-    }
-
-
 
     fun Result<ResponseDTO<ArticleDTO>>.resultApi(): List<Article> {
         when {
@@ -102,6 +102,7 @@ public class NewsRepositoryImpl @Inject constructor(
 
                 return resultSuccess.map { it.toArticle() }
             }
+
             this.isFailure -> {
                 error(this.exceptionOrNull() ?: "Unknown error try again later")
             }

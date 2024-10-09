@@ -64,17 +64,8 @@ class SearchScreenViewModel @Inject constructor(
                 _state.value =
                     _state.value.copy(stateLoaded = SearchScreenState.TestStateLoaded.Loading)
 
-                val resultSearch =
-                    if (category != CategoryNews.ALL && category != CategoryNews.RECOMMENDATION && category != CategoryNews.TOP_HEADLINES) {
-                        repository.loadGetEverythingNewsFromApi(
-                            query = query,
-                        ).map { it.toUiArticle() }
-                    } else {
-                        repository.loadTopHeadlines(
-                            query = query,
-                            category = category
-                        ).map { it.toUiArticle() }
-                    }
+                val resultSearch = repository.searchNews(query, category)
+
                 _state.value = _state.value.copy(
                     searchResult = resultSearch,
                     stateLoaded = SearchScreenState.TestStateLoaded.Success
