@@ -1,4 +1,4 @@
-package com.example.data.useCase
+package com.example.domain.useCase
 
 import com.example.common.models.CategoryNews
 import com.example.data.repositories.NewsRepositoryImpl

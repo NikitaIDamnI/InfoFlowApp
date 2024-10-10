@@ -4,10 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.mergeWith
-import com.example.data.repositories.FavoriteRepositoryImpl
-import com.example.data.repositories.NewsRepositoryImpl
-import com.example.data.useCase.ManageFavoritesUseCase
 import com.example.detail_news.DetailedNewsScreenState.StateHttpContent
+import com.example.domain.useCase.ManageFavoritesUseCase
 import com.example.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +37,9 @@ class DetailedNewsScreenViewModel @Inject constructor(
         emit(
             DetailedNewsScreenState(
                 article = articleUI,
-                isFavorite = manageFavorites.checkFavorite(articleUI),
+                isFavorite = manageFavorites.checkFavorite(
+                    articleUI
+                ),
                 httpContent = StateHttpContent.Loading,
             )
         )

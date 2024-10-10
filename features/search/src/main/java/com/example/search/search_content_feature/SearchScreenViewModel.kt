@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import com.example.common.models.CategoryNews
-import com.example.data.useCase.SearchUseCase
 import com.example.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -16,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
-    private val searchUseCase: SearchUseCase,
+    private val searchUseCase: com.example.domain.useCase.SearchUseCase,
     savedStateHandle: SavedStateHandle,
     val imageLoader: ImageLoader
 ) : ViewModel() {

@@ -5,10 +5,10 @@ import com.example.data.model.Article
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
-    fun getEverythingNews(): Flow<List<Article>>
+    fun getEverythingNews(): Flow<List<ArticleUI>>
 
 
-    fun getTopHeadlinersNews(): Flow<List<Article>>
+    fun getTopHeadlinersNews(): Flow<List<ArticleUI>>
 
 
 }
