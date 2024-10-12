@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import com.example.common.models.ArticleUI
-import com.example.data.useCase.GetArticleUseCase
-import com.example.data.toUiArticle
+import com.example.domain.useCase.GetArticleUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -26,8 +25,8 @@ class NewsMainViewModel @Inject constructor(
         getArticleUseCase.getEverythingFromApi()
     ) { topHeadlines, everything ->
         NewsMainScreenState(
-            topHeadlines = topHeadlines.map { it.toUiArticle() },
-            recommendations = everything.map { it.toUiArticle() },
+            topHeadlines = topHeadlines.map { it },
+            recommendations = everything.map { it },
             stateLoaded = NewsMainScreenState.TestStateLoaded.Success
         )
     }

@@ -29,13 +29,13 @@ public class NewsRepositoryImpl @Inject constructor(
 ) : NewsRepository {
 
 
-    override fun getEverythingNews(): Flow<List<Article>> = flow {
-        val articles = loadGetEverythingNewsFromApi()
+    override fun getEverythingNews(): Flow<List<ArticleUI>> = flow {
+        val articles = loadGetEverythingNewsFromApi().map { it.toUiArticle() }
         emit(articles)
     }
 
-    override fun getTopHeadlinersNews(): Flow<List<Article>> = flow {
-        val articles = loadTopHeadlines()
+    override fun getTopHeadlinersNews(): Flow<List<ArticleUI>> = flow {
+        val articles = loadTopHeadlines().map { it.toUiArticle() }
         emit(articles)
     }
 
