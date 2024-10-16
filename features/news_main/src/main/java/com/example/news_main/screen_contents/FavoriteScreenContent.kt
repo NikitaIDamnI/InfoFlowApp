@@ -18,8 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import com.example.common.models.ArticleUI
-import com.example.common.ContentListItem
-import com.example.common.Title
 
 @Composable
 fun FavoriteScreen(
@@ -45,7 +43,7 @@ fun FavoriteScreen(
                     bottom = paddingValues.calculateBottomPadding()
                 )
         ) {
-            Title(
+            com.example.uikit.Title(
                 modifier = Modifier
                     .fillMaxWidth(),
                 mainTitle = "Favorites",
@@ -87,7 +85,7 @@ fun ListContent(
             items = listFavorites,
             key = { it.url }
         ) {
-            ContentListItem(it, imageLoader) { article ->
+            com.example.uikit.ContentListItem(it, imageLoader) { article ->
                 onClickItem(article)
             }
         }

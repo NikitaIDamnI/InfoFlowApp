@@ -10,5 +10,9 @@ plugins {
     alias(libs.plugins.androidx.room) apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.detekt) apply false
+}
 
+allprojects.onEach { project ->
+    project.plugins.apply(libs.plugins.detekt.get().pluginId)
 }

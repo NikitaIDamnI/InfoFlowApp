@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -30,6 +31,8 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+
 }
 
 dependencies {
@@ -38,6 +41,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.javax.inject)
     implementation (libs.jsoup)
+
+
 
     implementation(project(":opennews-api"))
     implementation(project(":database"))

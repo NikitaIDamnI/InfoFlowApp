@@ -1,4 +1,4 @@
-package com.example.common
+package com.example.uikit
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -40,8 +40,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.ImageLoader
 import coil.compose.AsyncImage
-import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
+
+
 
 private const val PREFS_NAME = "theme_prefs"
 private const val THEME_KEY = "is_dark_theme"
@@ -78,7 +79,7 @@ fun CategoryCard(
             modifier = Modifier
                 .padding(start = 15.dp, end = 15.dp, top = 5.dp, bottom = 5.dp)
                 .align(Alignment.Start),
-            text = categoryNews.toString(),
+            text = categoryNews .toString(),
             fontSize = 15.sp,
             color = colorText
         )
@@ -116,9 +117,9 @@ fun Title(
 
 @Composable
 fun ContentListItem(
-    articles: ArticleUI,
+    articles: com.example.common.models.ArticleUI,
     imageLoader: ImageLoader,
-    onClick: (ArticleUI) -> Unit
+    onClick: (com.example.common.models.ArticleUI) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -157,7 +158,7 @@ fun ContentListItem(
 @Composable
 fun ContentRecommendation(
     modifier: Modifier = Modifier,
-    articles: ArticleUI,
+    articles: com.example.common.models.ArticleUI,
 ) {
     Box(modifier = modifier) {
 
@@ -199,7 +200,7 @@ fun ImageNews(
     } else {
         Image(
             modifier = modifier,
-            painter = painterResource(id = R.drawable.the_main_image),
+            painter = painterResource(id = com.example.common.R.drawable.the_main_image),
             contentDescription = "",
             contentScale = ContentScale.Crop,
         )

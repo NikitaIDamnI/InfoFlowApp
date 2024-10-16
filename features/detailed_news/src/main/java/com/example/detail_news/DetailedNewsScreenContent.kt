@@ -45,9 +45,6 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.common.models.ArticleUI
-import com.example.common.ColorNotActive
-import com.example.common.IconTopBar
-import com.example.common.ImageNews
 import com.example.common.getDatePublication
 
 @Composable
@@ -148,7 +145,7 @@ internal fun NewsScreen(
 
 @Composable
 private fun Title(imageLoader: ImageLoader, articleUI: ArticleUI) {
-    ImageNews(
+    com.example.uikit.ImageNews(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(0.55f),
@@ -211,7 +208,7 @@ private fun TopBar(
 
         },
         navigationIcon = {
-            IconTopBar(
+            com.example.uikit.IconTopBar(
                 icon = Icons.Default.ArrowBackIosNew,
                 colorIcon = Color.White,
                 colorBack = Color.Transparent.copy(0.1f),
@@ -227,7 +224,7 @@ private fun TopBar(
                 colorBack = Color.Transparent.copy(0.1f),
             )
             Spacer(modifier = Modifier.width(10.dp))
-            IconTopBar(
+            com.example.uikit.IconTopBar(
                 icon = Icons.Default.MoreHoriz,
                 colorIcon = Color.White,
                 colorBack = Color.Transparent.copy(0.1f),
@@ -244,7 +241,7 @@ fun IconTopBarFavorite(
     modifier: Modifier = Modifier,
     isFavorite: Boolean,
     colorIcon: Color = Color.Black,
-    colorBack: Color = ColorNotActive,
+    colorBack: Color = com.example.uikit.ColorNotActive,
     onClick: () -> Unit
 ) {
     Log.d("Content_Log", "isFavorite: $isFavorite")

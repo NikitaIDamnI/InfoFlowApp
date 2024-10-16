@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.kapt)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -74,17 +75,11 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
 
 
-
     //Initial dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.coil.compose)
+
 
     debugImplementation(libs.okhttp.logging.interceptor)
 
@@ -96,10 +91,12 @@ dependencies {
     implementation(project(":features:detailed_news"))
     implementation(project(":navigation"))
 
+    implementation(project(":uikit"))
 
 
     implementation(project(":database"))
     implementation(project(":common"))
+
 
 
 

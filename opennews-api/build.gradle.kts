@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.jvm)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.detekt)
+
 }
 
 java {
@@ -19,6 +21,9 @@ dependencies{
     implementation(libs.retrofit.adapters.result)
     api(libs.okhttp)
     kapt(libs.retrofit.responseTypeKeeper)
+
+
+
 
 
 }

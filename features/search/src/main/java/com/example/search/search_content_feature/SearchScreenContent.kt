@@ -47,11 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import com.example.common.models.ArticleUI
-import com.example.common.CategoryCard
 import com.example.common.models.CategoryNews
-import com.example.common.ContentListItem
-import com.example.common.IconTopBar
-import com.example.common.Title
 import com.example.search.R
 
 @Composable
@@ -92,7 +88,7 @@ internal fun TestSearchScreen(
         topBar = { TopBar(onBackPressed = onBackPressed) },
         containerColor = MaterialTheme.colorScheme.background,
     ) { paddingValues ->
-        Title(
+        com.example.uikit.Title(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = paddingValues.calculateTopPadding(), start = 15.dp),
@@ -159,7 +155,7 @@ fun ListCategories(
             items = CategoryNews.toListCategory(currentCategoryNews),
             key = { it.name },
         ) { category ->
-            CategoryCard(
+            com.example.uikit.CategoryCard(
                 modifier = Modifier
                     .clip(CircleShape)
                     .clickable { onClickCategory(category) },
@@ -187,7 +183,7 @@ fun ListContent(
             items = state.value.searchResult,
             key = { it.url }
         ) {
-            ContentListItem(it, imageLoader) { article ->
+            com.example.uikit.ContentListItem(it, imageLoader) { article ->
                 onClickItem(article)
             }
         }
@@ -272,7 +268,7 @@ private fun TopBar(
     TopAppBar(
         title = {},
         navigationIcon = {
-            IconTopBar(
+            com.example.uikit.IconTopBar(
                 modifier = Modifier.padding(start = 10.dp),
                 icon = Icons.Outlined.ArrowBackIosNew,
                 onClick = onBackPressed

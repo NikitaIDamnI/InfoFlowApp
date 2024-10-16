@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.kapt)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -69,16 +70,14 @@ dependencies {
     compileOnly(libs.androidx.compose.runtime)
 
 
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+
 
     implementation(project(":domain"))
     implementation(project(":common"))
     implementation(project(":navigation"))
+    implementation(project(":uikit"))
+
+
 
 
 
