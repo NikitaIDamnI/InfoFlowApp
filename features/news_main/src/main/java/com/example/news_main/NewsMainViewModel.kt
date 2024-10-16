@@ -30,12 +30,12 @@ class NewsMainViewModel @Inject constructor(
             stateLoaded = NewsMainScreenState.TestStateLoaded.Success
         )
     }
-        .catch {
-            NewsMainScreenState(
+        .catch { e ->
+            emit(NewsMainScreenState(
                 topHeadlines = emptyList(),
                 recommendations = emptyList(),
-                stateLoaded = NewsMainScreenState.TestStateLoaded.Error(it.message.toString())
-            )
+                stateLoaded = NewsMainScreenState.TestStateLoaded.Error("Download error")
+            ))
         }
         .combineFavorites(getArticleUseCase.getFromFavorite())
         .stateIn(
