@@ -36,7 +36,7 @@ interface AppModule {
     companion object {
         @Provides
         @Singleton
-        fun provideOkhttpClient(): OkHttpClient? {
+        fun provideOkhttpClient(): OkHttpClient {
             return if (BuildConfig.DEBUG) {
                 val logging = HttpLoggingInterceptor()
                     .setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -44,16 +44,16 @@ interface AppModule {
                 OkHttpClient.Builder()
                     .addInterceptor(logging)
                     .build()
-
             } else {
-                null
+                OkHttpClient.Builder() // Создаем клиент без логирования
+                    .build()
             }
         }
 
         @Provides
         @Singleton
         fun provideNewsApi(
-            okhttpClient: OkHttpClient
+            okhttpClient: OkHttpClient?,
         ): NewsApi {
             return NewsApi(
                 baseUrl = BuildConfig.NEWS_API_BASE_URL,
