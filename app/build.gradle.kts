@@ -85,7 +85,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.coil.compose)
-    implementation(libs.okhttp.logging.interceptor)
+
+    debugImplementation(libs.okhttp.logging.interceptor)
 
 
     implementation(project(":data"))
