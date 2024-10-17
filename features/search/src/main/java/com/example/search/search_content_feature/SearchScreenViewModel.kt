@@ -58,7 +58,7 @@ class SearchScreenViewModel @Inject constructor(
         searchJob = viewModelScope.launch {
             try {
                 _state.value =
-                    _state.value.copy(stateLoaded = SearchScreenState.TestStateLoaded.Loading)
+                    _state.value.copy(stateLoaded = SearchScreenState.StateLoaded.Loading)
 
                 val resultSearch = searchUseCase(
                     query = query,
@@ -67,12 +67,12 @@ class SearchScreenViewModel @Inject constructor(
 
                 _state.value = _state.value.copy(
                     searchResult = resultSearch,
-                    stateLoaded = SearchScreenState.TestStateLoaded.Success
+                    stateLoaded = SearchScreenState.StateLoaded.Success
                 )
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 _state.value = _state.value.copy(
-                    stateLoaded = SearchScreenState.TestStateLoaded.Error(
-                        message = e.message.toString()
+                    stateLoaded = SearchScreenState.StateLoaded.Error(
+                        message = "Nothing found"
                     )
                 )
             }

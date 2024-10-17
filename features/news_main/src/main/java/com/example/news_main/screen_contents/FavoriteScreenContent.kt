@@ -25,7 +25,6 @@ fun FavoriteScreen(
     listFavorites: List<ArticleUI>,
     imageLoader: ImageLoader,
     onClickNews: (ArticleUI) -> Unit,
-    onDeleteFavoriteNews: (ArticleUI) -> Unit,
 ) {
     val listState = rememberLazyListState()
     Log.d("Recomposition", "FavoriteScreen")

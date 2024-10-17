@@ -7,16 +7,14 @@ data class SearchScreenState(
     val query: String? = null,
     val searchResult: List<ArticleUI> = emptyList(),
     val category: CategoryNews = CategoryNews.ALL,
-    val stateLoaded: TestStateLoaded = TestStateLoaded.Initial
-
+    val stateLoaded: StateLoaded = StateLoaded.Initial
 ) {
-    sealed interface TestStateLoaded {
-        data object Initial : TestStateLoaded
-        data object Success : TestStateLoaded
-        data class Error(val message: String) : TestStateLoaded
-        data object Loading : TestStateLoaded
+    sealed interface StateLoaded {
+        data object Initial : StateLoaded
+        data object Success : StateLoaded
+        data class Error(val message: String) : StateLoaded
+        data object Loading : StateLoaded
     }
-
 }
 
 

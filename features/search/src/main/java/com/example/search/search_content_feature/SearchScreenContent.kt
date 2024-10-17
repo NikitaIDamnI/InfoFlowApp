@@ -78,7 +78,7 @@ internal fun TestSearchScreen(
     val listState = rememberLazyListState()
 
     LaunchedEffect(state.value.stateLoaded) {
-        if (state.value.stateLoaded == SearchScreenState.TestStateLoaded.Loading) {
+        if (state.value.stateLoaded == SearchScreenState.StateLoaded.Loading) {
             listState.scrollToItem(0)
         }
     }
@@ -214,7 +214,7 @@ private fun SearchBarNews(
         onActiveChange = {},
         trailingIcon = {
             Row {
-                if (state.value.stateLoaded == SearchScreenState.TestStateLoaded.Loading) {
+                if (state.value.stateLoaded == SearchScreenState.StateLoaded.Loading) {
                     CircularProgressIndicator(
                         modifier = Modifier
                             .size(30.dp)

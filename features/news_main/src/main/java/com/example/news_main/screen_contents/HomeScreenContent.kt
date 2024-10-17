@@ -48,6 +48,8 @@ import com.example.common.models.CategoryNews
 import com.example.common.getTimeAgo
 import com.example.news_main.NewsMainScreenState
 
+private const val SIZE_RECOMMENDATION = 3
+
 @Composable
  fun HomeScreen(
     paddingValues: PaddingValues,
@@ -273,7 +275,7 @@ private fun Recommendation(
     onClickNextAllNews: () -> Unit
 ) {
     val recommendation = remember {
-        state.value.recommendations.take(3)
+        state.value.recommendations.take(SIZE_RECOMMENDATION)
     }
     Column(
         modifier = modifier,

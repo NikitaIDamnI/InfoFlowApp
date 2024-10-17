@@ -46,7 +46,9 @@ import com.example.news_main.NavigationItem
 import com.example.news_main.R
 import com.example.news_main.NewsMainScreenState
 import com.example.news_main.NewsMainViewModel
+import com.example.uikit.IconTopBar
 
+const val ALPHA_ON_BACKGROUND = 0.1f
 
 @Composable
 fun TestNewsMainScreen(
@@ -151,7 +153,6 @@ private fun MainScreen(
                     listFavorites = state.value.favorites,
                     imageLoader = viewModel.imageLoader,
                     onClickNews = onClickNews,
-                    onDeleteFavoriteNews = {}
                 )
 
             },
@@ -294,17 +295,17 @@ private fun TopBar(
             )
         },
         actions = {
-            com.example.uikit.IconTopBar(
+            IconTopBar(
                 icon = Icons.Default.Search,
                 onClick = { onClickSearch(CategoryNews.ALL) },
-                colorBack = MaterialTheme.colorScheme.onBackground.copy(0.1f),
+                colorBack = MaterialTheme.colorScheme.onBackground.copy(alpha = ALPHA_ON_BACKGROUND),
                 colorIcon = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.width(10.dp))
-            com.example.uikit.IconTopBar(
+            IconTopBar(
                 onClick = onClickSetting,
                 icon = logoIconTheme,
-                colorBack = MaterialTheme.colorScheme.onBackground.copy(0.1f),
+                colorBack = MaterialTheme.colorScheme.onBackground.copy(alpha = ALPHA_ON_BACKGROUND),
                 colorIcon = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.width(10.dp))
