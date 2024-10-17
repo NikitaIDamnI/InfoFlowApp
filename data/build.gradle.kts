@@ -41,10 +41,10 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.javax.inject)
     implementation (libs.jsoup)
+    implementation(project(":opennews_api"))
 
 
 
-    implementation(project(":opennews-api"))
     implementation(project(":database"))
     implementation(project(":common"))
 

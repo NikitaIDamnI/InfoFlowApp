@@ -9,7 +9,7 @@ import com.example.data.repositories.interfaces.NewsRepository
 import com.example.data.repositories.NewsRepositoryImpl
 import com.example.data.repositories.interfaces.FavoriteRepository
 import com.example.database.NewsDatabase
-import com.example.news.opennews_api.NewsApi
+import com.example.news.api.NewsApi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -33,7 +33,6 @@ interface AppModule {
     fun bindRepositoryFavorites(impl: FavoriteRepositoryImpl): FavoriteRepository
 
     companion object {
-
 
         @Provides
         @Singleton
@@ -68,7 +67,6 @@ interface AppModule {
                 .memoryCachePolicy(CachePolicy.ENABLED)
                 .build()
         }
-
     }
 
 }

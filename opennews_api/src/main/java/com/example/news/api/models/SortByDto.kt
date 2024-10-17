@@ -1,4 +1,4 @@
-package com.example.news.opennews_api.models
+package com.example.news.api.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

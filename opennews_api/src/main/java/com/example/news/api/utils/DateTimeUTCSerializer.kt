@@ -1,4 +1,4 @@
-package com.example.news.opennews_api.utils
+package com.example.news.api.utils
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

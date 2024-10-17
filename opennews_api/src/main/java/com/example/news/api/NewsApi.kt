@@ -1,13 +1,13 @@
 @file:Suppress("unused")
 
-package com.example.news.opennews_api
+package com.example.news.api
 
 import androidx.annotation.IntRange
-import com.example.news.opennews_api.models.ArticleDTO
-import com.example.news.opennews_api.models.Language
-import com.example.news.opennews_api.models.ResponseDTO
-import com.example.news.opennews_api.models.SortByDto
-import com.example.news.opennews_api.utils.NewsApiKeyInterceptor
+import com.example.news.api.models.ArticleDTO
+import com.example.news.api.models.Language
+import com.example.news.api.models.ResponseDTO
+import com.example.news.api.models.SortByDto
+import com.example.news.api.utils.NewsApiKeyInterceptor
 import com.skydoves.retrofit.adapters.result.ResultCallAdapterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType

@@ -60,7 +60,6 @@ fun FavoriteScreen(
                 onClickItem = {
                     onClickNews(it)
                 },
-                onDeleteItem = onDeleteFavoriteNews
             )
         }
     }
@@ -73,8 +72,6 @@ fun ListContent(
     listState: LazyListState,
     imageLoader: ImageLoader,
     onClickItem: (ArticleUI) -> Unit,
-    onDeleteItem: (ArticleUI) -> Unit,
-
     ) {
 
     LazyColumn(

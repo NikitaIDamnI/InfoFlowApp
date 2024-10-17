@@ -85,7 +85,7 @@ dependencies {
 
 
     implementation(project(":data"))
-    implementation(project(":opennews-api"))
+    implementation(project(":opennews_api"))
     implementation(project(":features:news_main"))
     implementation(project(":features:search"))
     implementation(project(":features:detailed_news"))

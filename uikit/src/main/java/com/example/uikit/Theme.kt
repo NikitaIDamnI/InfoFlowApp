@@ -1,6 +1,9 @@
 package com.example.uikit
 
 import android.os.Build
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 
 private val DarkColorScheme = androidx.compose.material3.darkColorScheme(
     primary = Purple80,
@@ -36,19 +39,17 @@ fun InfoFlowTheme(
     dynamicColor: Boolean = true,
     content: @androidx.compose.runtime.Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = androidx.compose.ui.platform.LocalContext.current
-            if (darkTheme) androidx.compose.material3.dynamicDarkColorScheme(context) else androidx.compose.material3.dynamicLightColorScheme(
-                context
-            )
+    val colorScheme =
+        when {
+            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                val context = androidx.compose.ui.platform.LocalContext.current
+                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            }
+            darkTheme -> DarkColorScheme
+            else -> LightColorScheme
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
-
-    androidx.compose.material3.MaterialTheme(
+    MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
         content = content

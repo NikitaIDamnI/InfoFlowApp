@@ -1,6 +1,6 @@
-package com.example.news.opennews_api.models
+package com.example.news.api.models
 
-import com.example.news.opennews_api.utils.DateTimeUTCSerializer
+import com.example.news.api.utils.DateTimeUTCSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.Date

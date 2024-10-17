@@ -2,8 +2,8 @@ package com.example.data.repositories
 
 import com.example.common.models.ArticleUI
 import com.example.data.repositories.interfaces.FavoriteRepository
-import com.example.data.toArticleDbo
-import com.example.data.toArticleUI
+import com.example.data.mappers.toArticleDbo
+import com.example.data.mappers.toArticleUI
 import com.example.database.NewsDatabase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

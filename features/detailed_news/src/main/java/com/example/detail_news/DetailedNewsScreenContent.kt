@@ -5,16 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.MoreHoriz
@@ -37,15 +33,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.ImageLoader
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.common.models.ArticleUI
-import com.example.common.getDatePublication
+
+const val ALPHA_TRANSPARENT = 0.1F
 
 @Composable
 fun DetailedNewsScreen(
@@ -143,50 +137,6 @@ internal fun NewsScreen(
 
 }
 
-@Composable
-private fun Title(imageLoader: ImageLoader, articleUI: ArticleUI) {
-    com.example.uikit.ImageNews(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.55f),
-        imageLoader = imageLoader,
-        url = articleUI.imageUrl,
-    )
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.55f)
-    ) {
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(Color.Transparent.copy(0.05f))
-                .align(Alignment.BottomStart)
-        ) {
-            Column {
-                Text(
-                    modifier = Modifier.padding(10.dp),
-                    text = articleUI.title,
-                    fontSize = 25.sp,
-                    color = Color.White
-
-                )
-                Text(
-                    modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-                    text = articleUI.publishedAt.getDatePublication(),
-                    fontSize = 15.sp,
-                    color = Color.White
-                )
-                Spacer(Modifier.height(60.dp))
-
-            }
-
-        }
-
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(
@@ -211,7 +161,7 @@ private fun TopBar(
             com.example.uikit.IconTopBar(
                 icon = Icons.Default.ArrowBackIosNew,
                 colorIcon = Color.White,
-                colorBack = Color.Transparent.copy(0.1f),
+                colorBack = Color.Transparent.copy(ALPHA_TRANSPARENT),
                 onClick = onBackPressed
 
             )
@@ -221,13 +171,13 @@ private fun TopBar(
                 isFavorite = state.value.isFavorite,
                 onClick = onAddFavorite,
                 colorIcon = Color.White,
-                colorBack = Color.Transparent.copy(0.1f),
+                colorBack = Color.Transparent.copy(ALPHA_TRANSPARENT),
             )
             Spacer(modifier = Modifier.width(10.dp))
             com.example.uikit.IconTopBar(
                 icon = Icons.Default.MoreHoriz,
                 colorIcon = Color.White,
-                colorBack = Color.Transparent.copy(0.1f),
+                colorBack = Color.Transparent.copy(ALPHA_TRANSPARENT),
                 onClick = onSettingPost
             )
             Spacer(modifier = Modifier.width(10.dp))

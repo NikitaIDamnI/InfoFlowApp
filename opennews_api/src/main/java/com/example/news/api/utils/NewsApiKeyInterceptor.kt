@@ -1,4 +1,4 @@
-package com.example.news.opennews_api.utils
+package com.example.news.api.utils
 
 import okhttp3.Interceptor
 import okhttp3.Response

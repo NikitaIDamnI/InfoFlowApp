@@ -7,19 +7,16 @@ import com.example.data.R
 import com.example.data.model.Article
 import com.example.data.model.SortBy
 import com.example.data.repositories.interfaces.NewsRepository
-import com.example.data.toArticle
-import com.example.data.toArticleDbo
-import com.example.data.toArticleUI
-import com.example.data.toDto
-import com.example.data.toUiArticle
-import com.example.database.NewsDatabase
-import com.example.news.opennews_api.NewsApi
-import com.example.news.opennews_api.models.ArticleDTO
-import com.example.news.opennews_api.models.Language
-import com.example.news.opennews_api.models.ResponseDTO
+import com.example.data.mappers.toArticle
+import com.example.data.mappers.toArticleDbo
+import com.example.data.mappers.toDto
+import com.example.data.mappers.toUiArticle
+import com.example.news.api.NewsApi
+import com.example.news.api.models.ArticleDTO
+import com.example.news.api.models.Language
+import com.example.news.api.models.ResponseDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlin.collections.map
 
@@ -44,7 +41,8 @@ public class NewsRepositoryImpl @Inject constructor(
         category: CategoryNews
     ): List<ArticleUI> {
         val resultSearch =
-            if (category != CategoryNews.ALL && category != CategoryNews.RECOMMENDATION && category != CategoryNews.TOP_HEADLINES) {
+
+            if (isSpecificCategory(category)) {
                 loadGetEverythingNewsFromApi(
                     query = query,
                 ).map { it.toUiArticle() }
@@ -111,5 +109,10 @@ public class NewsRepositoryImpl @Inject constructor(
         }
     }
 
+    private fun isSpecificCategory(category: CategoryNews): Boolean {
+        return category != CategoryNews.ALL &&
+                category != CategoryNews.RECOMMENDATION &&
+                category != CategoryNews.TOP_HEADLINES
+    }
 
 }
