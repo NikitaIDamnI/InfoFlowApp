@@ -1,5 +1,6 @@
 package com.example.news_main
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,11 +33,13 @@ class NewsMainViewModel @Inject constructor(
         )
     }
         .catch { e ->
-            emit(NewsMainScreenState(
-                topHeadlines = emptyList(),
-                recommendations = emptyList(),
-                stateLoaded = NewsMainScreenState.TestStateLoaded.Error("Download error")
-            ))
+            emit(
+                NewsMainScreenState(
+                    topHeadlines = emptyList(),
+                    recommendations = emptyList(),
+                    stateLoaded = NewsMainScreenState.TestStateLoaded.Error("Download error")
+                )
+            )
         }
         .combineFavorites(getArticleUseCase.getFromFavorite())
         .stateIn(
@@ -47,6 +51,15 @@ class NewsMainViewModel @Inject constructor(
                 stateLoaded = NewsMainScreenState.TestStateLoaded.Initial
             )
         )
+
+    init {
+        viewModelScope.launch {
+            state.collect {
+                Log.d("NewsMainViewModel_Log", "${it.topHeadlines} ")
+            }
+
+        }
+    }
 
 }
 

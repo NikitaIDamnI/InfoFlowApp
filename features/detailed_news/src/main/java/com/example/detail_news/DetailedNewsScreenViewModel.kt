@@ -1,5 +1,6 @@
 package com.example.detail_news
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailedNewsScreenViewModel @Inject constructor(
-    private val manageFavorites : ManageFavoritesUseCase,
+    private val manageFavorites: ManageFavoritesUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -61,6 +62,13 @@ class DetailedNewsScreenViewModel @Inject constructor(
             )
         )
 
+    init {
+        viewModelScope.launch{
+            state.collect{
+                Log.d("DetailedNewsScreenViewModel_Log", "state:$it ")
+            }
+        }
+    }
 
     fun addToFavorites() {
         viewModelScope.launch {

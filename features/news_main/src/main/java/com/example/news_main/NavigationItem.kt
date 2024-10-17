@@ -33,9 +33,9 @@ sealed class NavigationItem(
         icon = Icons.Outlined.Language
     )
 
-    companion object{
-        fun getAll():List<NavigationItem>{
-            return listOf(Home,Favorite,World)
+    companion object {
+        fun getAll(): List<NavigationItem> {
+            return listOf(Home, Favorite, World)
         }
     }
 

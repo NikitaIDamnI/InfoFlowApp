@@ -40,8 +40,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.ImageLoader
 import coil.compose.AsyncImage
+import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
-
 
 
 private const val PREFS_NAME = "theme_prefs"
@@ -66,7 +66,8 @@ fun CategoryCard(
 ) {
     val isSelected = categoryNews == activeCategory
     val colorText = if (isSelected) Color.White else MaterialTheme.colorScheme.onBackground
-    val colorBackground = if (isSelected) MainBlueColor else MaterialTheme.colorScheme.onBackground.copy(0.1f)
+    val colorBackground =
+        if (isSelected) MainBlueColor else MaterialTheme.colorScheme.onBackground.copy(0.1f)
     Card(
         modifier = modifier,
         colors = CardColors(
@@ -79,7 +80,7 @@ fun CategoryCard(
             modifier = Modifier
                 .padding(start = 15.dp, end = 15.dp, top = 5.dp, bottom = 5.dp)
                 .align(Alignment.Start),
-            text = categoryNews .toString(),
+            text = categoryNews.toString(),
             fontSize = 15.sp,
             color = colorText
         )
@@ -116,11 +117,7 @@ fun Title(
 }
 
 @Composable
-fun ContentListItem(
-    articles: com.example.common.models.ArticleUI,
-    imageLoader: ImageLoader,
-    onClick: (com.example.common.models.ArticleUI) -> Unit
-) {
+fun ContentListItem(articles: ArticleUI, imageLoader: ImageLoader, onClick: (ArticleUI) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -211,7 +208,7 @@ fun ImageNews(
 @Composable
 fun IconTopBar(
     modifier: Modifier = Modifier,
-    colorIcon: Color = MaterialTheme.colorScheme.onBackground ,
+    colorIcon: Color = MaterialTheme.colorScheme.onBackground,
     colorBack: Color = MaterialTheme.colorScheme.onBackground.copy(0.1f),
     icon: ImageVector,
     onClick: () -> Unit
@@ -236,17 +233,17 @@ fun IconTopBar(
 }
 
 @Composable
-fun rememberThemeState (): MutableState<Boolean>{
+fun rememberThemeState(): MutableState<Boolean> {
     val context = LocalContext.current
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     val isDarkTheme = prefs.getBoolean(THEME_KEY, isSystemInDarkTheme())
-   return remember {
+    return remember {
         mutableStateOf<Boolean>(isDarkTheme)
     }
 }
 
 
-fun saveThemeOnAppClose(context: Context,isDarkTheme: Boolean) {
+fun saveThemeOnAppClose(context: Context, isDarkTheme: Boolean) {
     val context = context
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     prefs.edit().putBoolean(THEME_KEY, isDarkTheme).apply()

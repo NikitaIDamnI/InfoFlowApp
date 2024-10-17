@@ -14,10 +14,6 @@ class NavigationState(
 ) {
 
     private val _stateNavigationScreen = MutableStateFlow<Screen>(Screen.Home)
-
-
-
-
     fun navigationTo(route: Screen) {
         navHostController.navigate(route) {
             popUpTo(navHostController.graph.findStartDestination().id) {
@@ -25,24 +21,23 @@ class NavigationState(
             }
             launchSingleTop = true
             restoreState = true
-
         }
         _stateNavigationScreen.value = route
     }
 
-    fun navigationToSearch(category: CategoryNews,content: List<ArticleUI>) {
-        navHostController.navigate(Screen.Search(
-            content = content,
-            category = category
-        ))
+    fun navigationToSearch(category: CategoryNews, content: List<ArticleUI>) {
+        navHostController.navigate(
+            Screen.Search(
+                content = content,
+                category = category
+            )
+        )
     }
 
     fun navigationToDetailedNews(article: ArticleUI) {
         navHostController.navigate(Screen.DetailedNews(article))
     }
-
 }
-
 
 @Composable
 fun rememberNavigationState(

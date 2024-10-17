@@ -42,10 +42,37 @@ fun Date.getTimeAgo(): String {
 
     return when {
         seconds < SECONDS_IN_MINUTE -> "только что"
-        minutes < MINUTES_IN_HOUR -> "$minutes ${getPluralForm(minutes.toInt(), "минуту", "минуты", "минут")} назад"
-        hours < HOURS_IN_DAY -> "$hours ${getPluralForm(hours.toInt(), "час", "часа", "часов")} назад"
+        minutes < MINUTES_IN_HOUR ->
+            "$minutes ${
+                getPluralForm(
+                    minutes.toInt(),
+                    "минуту",
+                    "минуты",
+                    "минут"
+                )
+            } назад"
+
+        hours < HOURS_IN_DAY ->
+            "$hours ${
+                getPluralForm(
+                    hours.toInt(),
+                    "час",
+                    "часа",
+                    "часов"
+                )
+            } назад"
+
         days < DAYS_IN_MONTH -> "$days ${getPluralForm(days.toInt(), "день", "дня", "дней")} назад"
-        months < MIN_MONTHS_IN_YEAR -> "$months ${getPluralForm(months.toInt(), "месяц", "месяца", "месяцев")} назад"
+        months < MIN_MONTHS_IN_YEAR ->
+            "$months ${
+                getPluralForm(
+                    months.toInt(),
+                    "месяц",
+                    "месяца",
+                    "месяцев"
+                )
+            } назад"
+
         else -> "$years ${getPluralForm(years.toInt(), "год", "года", "лет")} назад"
     }
 }

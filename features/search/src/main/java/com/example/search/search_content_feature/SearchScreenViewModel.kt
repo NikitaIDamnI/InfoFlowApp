@@ -62,7 +62,7 @@ class SearchScreenViewModel @Inject constructor(
 
                 val resultSearch = searchUseCase(
                     query = query,
-                    category =category
+                    category = category
                 )
 
                 _state.value = _state.value.copy(

@@ -43,21 +43,20 @@ const val ALPHA_TRANSPARENT = 0.1F
 
 @Composable
 fun DetailedNewsScreen(
-    onBackPressed: () -> Unit,
-    onSettingPost: () -> Unit
+    onBackPress: () -> Unit,
+    onSettingPost: () -> Unit,
 ) {
     NewsScreen(
         viewModel = hiltViewModel(),
-        onBackPressed = onBackPressed,
+        onBackPress = onBackPress,
         onSettingPost = onSettingPost
     )
-
 }
 
 @Composable
 internal fun NewsScreen(
     viewModel: DetailedNewsScreenViewModel,
-    onBackPressed: () -> Unit,
+    onBackPress: () -> Unit,
     onSettingPost: () -> Unit
 ) {
     val state = viewModel.state.collectAsState()
@@ -67,43 +66,43 @@ internal fun NewsScreen(
     Log.d("Recomposition", "NewsScreen")
 
     Scaffold(
-        modifier = Modifier
+        Modifier
             .fillMaxSize(),
-        topBar = {
+        {
             TopBar(
                 state = state,
-                onBackPressed = onBackPressed,
+                onBackPressed = onBackPress,
                 onAddFavorite = { viewModel.addToFavorites() },
                 onSettingPost = onSettingPost
             )
         },
         containerColor = Color.White,
 
-        ) { paddingValues ->
+    ) { paddingValues ->
         paddingValues
         Column {
-
             Box(
                 modifier = Modifier
                     .fillMaxSize()
 
             ) {
                 when (val stateLoaded = state.value.httpContent) {
-                    is DetailedNewsScreenState.StateHttpContent.Error ->{
-                            Icon(
-                                modifier = Modifier
-                                    .align(Alignment.Center)
-                                    .size(100.dp)
-                                ,
-                                imageVector = Icons.Outlined.ErrorOutline,
-                                contentDescription = ""
-                            )
+                    is DetailedNewsScreenState.StateHttpContent.Error -> {
+                        Icon(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(100.dp),
+                            imageVector = Icons.Outlined.ErrorOutline,
+                            contentDescription = ""
+                        )
 
-                            Text(
-                                modifier = Modifier.align(Alignment.Center),
-                                text = stateLoaded.message
-                            )
-
+                        Text(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .padding(top = 150.dp)
+                            ,
+                            text = stateLoaded.message
+                        )
                     }
 
                     DetailedNewsScreenState.StateHttpContent.Loading -> {
@@ -123,10 +122,8 @@ internal fun NewsScreen(
 
                     else -> {}
                 }
-
             }
         }
-
     }
 
     DisposableEffect(Unit) {
@@ -134,7 +131,6 @@ internal fun NewsScreen(
             viewModel.updateFavoritesCache()
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -155,7 +151,6 @@ private fun TopBar(
         ),
         title = {
             Spacer(modifier = Modifier.fillMaxWidth()) // Добавляем Spacer для выравнивания
-
         },
         navigationIcon = {
             com.example.uikit.IconTopBar(
@@ -183,7 +178,6 @@ private fun TopBar(
             Spacer(modifier = Modifier.width(10.dp))
         }
     )
-
 }
 
 @Composable
@@ -222,7 +216,6 @@ fun IconTopBarFavorite(
                     tint = colorIcon
                 )
             }
-
         }
     }
 }

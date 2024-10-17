@@ -26,7 +26,7 @@ sealed class Screen {
     data class Search(
         val category: CategoryNews,
         val content: List<ArticleUI>
-    ) : Screen(){
+    ) : Screen() {
         companion object {
             val typeMap = mapOf(
                 typeOf<CategoryNews>() to toNavType<CategoryNews>(),
@@ -49,10 +49,4 @@ sealed class Screen {
                 savedStateHandle.toRoute<DetailedNews>(typeMap)
         }
     }
-
-
-    fun toRoute(): String {
-        return this::class.qualifiedName.toString()
-    }
 }
-

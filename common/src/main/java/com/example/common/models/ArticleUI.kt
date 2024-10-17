@@ -16,5 +16,3 @@ data class ArticleUI(
     @Serializable(with = DateTimeUTCSerializer::class)
     val publishedAt: Date
 )
-
-

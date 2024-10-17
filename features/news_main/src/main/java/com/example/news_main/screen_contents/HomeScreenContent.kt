@@ -43,15 +43,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.ImageLoader
+import com.example.common.getTimeAgo
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
-import com.example.common.getTimeAgo
 import com.example.news_main.NewsMainScreenState
 
 private const val SIZE_RECOMMENDATION = 3
 
 @Composable
- fun HomeScreen(
+fun HomeScreen(
     paddingValues: PaddingValues,
     state: State<NewsMainScreenState>,
     imageLoader: ImageLoader,
@@ -85,13 +85,16 @@ private const val SIZE_RECOMMENDATION = 3
             state = state,
             imageLoader = imageLoader,
             onClickNews = { onClickNews(it) },
-            onClickNextAllNews = { onClickNextAllNews(
-                CategoryNews.RECOMMENDATION,
-                state.value.recommendations
-            ) }
+            onClickNextAllNews = {
+                onClickNextAllNews(
+                    CategoryNews.RECOMMENDATION,
+                    state.value.recommendations
+                )
+            }
         )
     }
 }
+
 @Composable
 private fun TopHeadlines(
     modifier: Modifier = Modifier,
@@ -166,7 +169,8 @@ private fun TopHeadlines(
             horizontalArrangement = Arrangement.Center
         ) {
             repeat(pagerState.pageCount) { pageIndex ->
-                val color = if (pagerState.currentPage == pageIndex) com.example.uikit.MainBlueColor else Color.Gray
+                val color =
+                    if (pagerState.currentPage == pageIndex) com.example.uikit.MainBlueColor else Color.Gray
                 if (pagerState.currentPage == pageIndex) {
                     Box(
                         modifier = Modifier

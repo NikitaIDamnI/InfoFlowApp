@@ -12,7 +12,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-dependencies{
+dependencies {
     implementation(libs.retrofit)
     implementation(libs.kotlinx.coroutines.core)
     api(libs.kotlinx.serialization.json)
@@ -21,9 +21,6 @@ dependencies{
     implementation(libs.retrofit.adapters.result)
     api(libs.okhttp)
     kapt(libs.retrofit.responseTypeKeeper)
-
-
-
 
 
 }

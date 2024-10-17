@@ -43,9 +43,9 @@ import com.example.navigation.MainScreenNavGraph
 import com.example.navigation.Screen
 import com.example.navigation.rememberNavigationState
 import com.example.news_main.NavigationItem
-import com.example.news_main.R
 import com.example.news_main.NewsMainScreenState
 import com.example.news_main.NewsMainViewModel
+import com.example.news_main.R
 import com.example.uikit.IconTopBar
 
 const val ALPHA_ON_BACKGROUND = 0.1f

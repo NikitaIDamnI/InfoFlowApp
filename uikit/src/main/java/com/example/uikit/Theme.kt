@@ -45,6 +45,7 @@ fun InfoFlowTheme(
                 val context = androidx.compose.ui.platform.LocalContext.current
                 if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
             }
+
             darkTheme -> DarkColorScheme
             else -> LightColorScheme
         }

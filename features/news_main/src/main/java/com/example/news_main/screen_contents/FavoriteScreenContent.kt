@@ -71,7 +71,7 @@ fun ListContent(
     listState: LazyListState,
     imageLoader: ImageLoader,
     onClickItem: (ArticleUI) -> Unit,
-    ) {
+) {
 
     LazyColumn(
         modifier = modifier,

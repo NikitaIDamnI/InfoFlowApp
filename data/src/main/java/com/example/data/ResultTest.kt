@@ -18,10 +18,3 @@ public fun <I : Any, O : Any> ResultTest<I>.map(mapper: (I) -> O): ResultTest<O>
     state = this.state
 )
 
-//internal fun <T : Any> Result<T>.toResultTest(): ResultTest<T> {
-//    return when {
-//        isSuccess ->
-//        isFailure -> ResultTest(state = ResultTest.State.Error(error = exceptionOrNull()!!))
-//        else -> error("Impossible branch")
-//    }
-//}

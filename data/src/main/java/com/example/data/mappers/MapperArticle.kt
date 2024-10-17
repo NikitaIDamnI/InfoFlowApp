@@ -4,10 +4,10 @@ import com.example.common.models.ArticleUI
 import com.example.data.model.Article
 import com.example.data.model.SortBy
 import com.example.database.models.ArticleDBO
-import com.example.database.models.Source as SourceDBO
 import com.example.news.api.models.ArticleDTO
 import com.example.news.api.models.SortByDto
 import java.util.Date
+import com.example.database.models.Source as SourceDBO
 
 internal fun List<ArticleDBO>.toArticle(): List<Article> = this.map { it.toArticle() }
 
