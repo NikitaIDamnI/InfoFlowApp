@@ -22,7 +22,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "InfoFlow"
 include(":app")
-include(":opennews-api")
+include(":opennews_api")
 include(":database")
 include(":data")
 include(":features:news_main")
@@ -31,3 +31,4 @@ include(":features:search")
 include(":navigation")
 include(":features:detailed_news")
 include(":domain")
+include(":uikit")

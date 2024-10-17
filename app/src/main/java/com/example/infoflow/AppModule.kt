@@ -9,7 +9,7 @@ import com.example.data.repositories.interfaces.NewsRepository
 import com.example.data.repositories.NewsRepositoryImpl
 import com.example.data.repositories.interfaces.FavoriteRepository
 import com.example.database.NewsDatabase
-import com.example.news.opennews_api.NewsApi
+import com.example.news.api.NewsApi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -17,7 +17,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 
 import javax.inject.Singleton
 
@@ -34,21 +33,6 @@ interface AppModule {
     fun bindRepositoryFavorites(impl: FavoriteRepositoryImpl): FavoriteRepository
 
     companion object {
-        @Provides
-        @Singleton
-        fun provideOkhttpClient(): OkHttpClient {
-            return if (BuildConfig.DEBUG) {
-                val logging = HttpLoggingInterceptor()
-                    .setLevel(HttpLoggingInterceptor.Level.BODY)
-
-                OkHttpClient.Builder()
-                    .addInterceptor(logging)
-                    .build()
-            } else {
-                OkHttpClient.Builder() // Создаем клиент без логирования
-                    .build()
-            }
-        }
 
         @Provides
         @Singleton
@@ -83,7 +67,6 @@ interface AppModule {
                 .memoryCachePolicy(CachePolicy.ENABLED)
                 .build()
         }
-
     }
 
 }

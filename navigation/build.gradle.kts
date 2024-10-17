@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.detekt)
 
 }
 
@@ -60,6 +61,9 @@ dependencies {
 
 
     implementation(libs.gson)
+
+
+
 
 
     implementation(project(":common"))

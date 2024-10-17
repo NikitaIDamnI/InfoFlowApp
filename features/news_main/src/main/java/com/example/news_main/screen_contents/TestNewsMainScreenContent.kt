@@ -39,8 +39,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
-import com.example.common.IconTopBar
-import com.example.common.MainBlueColor
 import com.example.navigation.MainScreenNavGraph
 import com.example.navigation.Screen
 import com.example.navigation.rememberNavigationState
@@ -199,9 +197,9 @@ fun BottomBar(
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = MainBlueColor,
+                    selectedIconColor = com.example.uikit.MainBlueColor,
                     selectedTextColor = Color.White,
-                    indicatorColor = MainBlueColor,
+                    indicatorColor = com.example.uikit.MainBlueColor,
                     unselectedIconColor = Color.Gray,
                 )
             )
@@ -296,14 +294,14 @@ private fun TopBar(
             )
         },
         actions = {
-            IconTopBar(
+            com.example.uikit.IconTopBar(
                 icon = Icons.Default.Search,
                 onClick = { onClickSearch(CategoryNews.ALL) },
                 colorBack = MaterialTheme.colorScheme.onBackground.copy(0.1f),
                 colorIcon = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.width(10.dp))
-            IconTopBar(
+            com.example.uikit.IconTopBar(
                 onClick = onClickSetting,
                 icon = logoIconTheme,
                 colorBack = MaterialTheme.colorScheme.onBackground.copy(0.1f),

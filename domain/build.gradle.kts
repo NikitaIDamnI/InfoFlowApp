@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -37,6 +38,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.javax.inject)
     implementation (libs.jsoup)
+
+
 
     implementation(project(":data"))
     implementation(project(":common"))

@@ -45,10 +45,6 @@ import androidx.compose.ui.unit.sp
 import coil.ImageLoader
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
-import com.example.common.ContentListItem
-import com.example.common.GradientCard
-import com.example.common.ImageNews
-import com.example.common.MainBlueColor
 import com.example.common.getTimeAgo
 import com.example.news_main.NewsMainScreenState
 
@@ -132,7 +128,7 @@ private fun TopHeadlines(
                     .padding(end = 10.dp)
                     .clickable { onClickNextAllNews() },
                 fontSize = 16.sp,
-                color = MainBlueColor,
+                color = com.example.uikit.MainBlueColor,
                 text = "View all"
             )
         }
@@ -168,7 +164,7 @@ private fun TopHeadlines(
             horizontalArrangement = Arrangement.Center
         ) {
             repeat(pagerState.pageCount) { pageIndex ->
-                val color = if (pagerState.currentPage == pageIndex) MainBlueColor else Color.Gray
+                val color = if (pagerState.currentPage == pageIndex) com.example.uikit.MainBlueColor else Color.Gray
                 if (pagerState.currentPage == pageIndex) {
                     Box(
                         modifier = Modifier
@@ -205,10 +201,10 @@ private fun TopHeadlinesItem(
     ) {
     Box(
         modifier = modifier
-            .background(GradientCard)
+            .background(com.example.uikit.GradientCard)
             .clickable { onClickNews(article) }
     ) {
-        ImageNews(
+        com.example.uikit.ImageNews(
             modifier = Modifier.fillMaxSize(),
             url = article.imageUrl,
             imageLoader = imageLoader,
@@ -301,7 +297,7 @@ private fun Recommendation(
                     .padding(end = 10.dp)
                     .clickable { onClickNextAllNews() },
                 fontSize = 16.sp,
-                color = MainBlueColor,
+                color = com.example.uikit.MainBlueColor,
                 text = "View all"
             )
         }
@@ -314,7 +310,7 @@ private fun Recommendation(
                 items = recommendation,
                 key = { it.url },
             ) {
-                ContentListItem(
+                com.example.uikit.ContentListItem(
                     articles = it,
                     imageLoader = imageLoader,
                     onClick = {

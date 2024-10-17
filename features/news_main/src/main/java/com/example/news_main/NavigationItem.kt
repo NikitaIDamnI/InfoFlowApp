@@ -8,6 +8,7 @@ import androidx.compose.material.icons.outlined.Language
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.navigation.Screen
 
+
 sealed class NavigationItem(
     val screen: Screen,
     val titleResId: Int,

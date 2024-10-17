@@ -2,11 +2,14 @@ package com.example.common.models
 
 import android.net.Uri
 import com.example.common.models.CategoryNews.entries
+import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializer
 
 
 enum class CategoryNews(
     private val displayName: String,
 ) {
+
     ALL(displayName = "All"),
     SPORTS(displayName = "Sports"),
     HEALTH(displayName = "Health"),

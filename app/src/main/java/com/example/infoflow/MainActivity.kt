@@ -8,10 +8,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.DisposableEffect
-import com.example.common.rememberThemeState
-import com.example.common.saveThemeOnAppClose
+import com.example.uikit.rememberThemeState
+import com.example.uikit.saveThemeOnAppClose
 import com.example.detail_news.DetailedNewsScreen
-import com.example.infoflow.ui.theme.InfoFlowTheme
 import com.example.navigation.AppNavGraph
 import com.example.navigation.rememberNavigationState
 import com.example.news_main.screen_contents.TestNewsMainScreen
@@ -28,7 +27,7 @@ class MainActivity : ComponentActivity() {
             val isDarkTheme = rememberThemeState()
 
 
-            InfoFlowTheme(darkTheme = isDarkTheme.value) {
+            com.example.uikit.InfoFlowTheme(darkTheme = isDarkTheme.value) {
                 val navigationState = rememberNavigationState()
 
                 setStatusBarIconsColor(isDarkTheme.value)
@@ -37,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     navController = navigationState.navHostController,
                     mainScreenContent = {
                         TestNewsMainScreen(
-                            isDarkTheme =isDarkTheme,
+                            isDarkTheme = isDarkTheme,
                             onClickNews = {
                                 navigationState.navigationToDetailedNews(it)
                             },

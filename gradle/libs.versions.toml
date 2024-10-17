@@ -1,7 +1,7 @@
 [versions]
 agp = "8.7.1"
 jsoup = "1.18.1"
-kotlin = "2.0.20"
+kotlin = "2.0.21"
 kotlin-serialization-json = "1.7.1"
 annotation = "1.8.2"
 coreKtx = "1.13.1"
@@ -12,12 +12,12 @@ lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
 composeBom = "2024.09.02"
 room = "2.6.1"
-ksp = "2.0.10-1.0.24"
+ksp = "2.0.21-1.0.25"
 dagger = "2.52"
 javax-inject = "1"
 okhttp = "4.12.0"
 coil = "2.6.0"
-detekt = "1.23.6"
+detekt = "1.23.7"
 retrofit = "2.11.0"
 kotlinx-coroutines = "1.9.0-RC.2"
 retrofitAdaptersResult = "1.0.12"
@@ -58,6 +58,7 @@ dagger-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compo
 
 
 
+
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-adapters-result = { module = "com.github.skydoves:retrofit-adapters-result", version.ref = "retrofitAdaptersResult" }
@@ -84,9 +85,6 @@ coil-core = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 
-detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
-androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
 androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
 
 detekt-rules-compose = { module = "io.nlopez.compose.rules:detekt", version.ref = "compose-rules" }
@@ -125,4 +123,4 @@ kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 androidx-room = { id = "androidx.room", version.ref = "room" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
