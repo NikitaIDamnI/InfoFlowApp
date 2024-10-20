@@ -1,11 +1,11 @@
-package com.example.detail_news
+package com.example.detailNews
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.mergeWith
-import com.example.detail_news.DetailedNewsScreenState.StateHttpContent
+import com.example.detailNews.DetailedNewsScreenState.StateHttpContent
 import com.example.domain.useCase.ManageFavoritesUseCase
 import com.example.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel

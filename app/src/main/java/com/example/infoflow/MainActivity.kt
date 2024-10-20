@@ -8,7 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.DisposableEffect
-import com.example.detail_news.DetailedNewsScreen
+import com.example.detailNews.DetailedNewsScreen
 import com.example.navigation.AppNavGraph
 import com.example.navigation.rememberNavigationState
 import com.example.news_main.screen_contents.TestNewsMainScreen
