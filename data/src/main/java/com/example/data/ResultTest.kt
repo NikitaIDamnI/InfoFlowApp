@@ -17,4 +17,3 @@ public fun <I : Any, O : Any> ResultTest<I>.map(mapper: (I) -> O): ResultTest<O>
     data = data?.let(mapper),
     state = this.state
 )
-

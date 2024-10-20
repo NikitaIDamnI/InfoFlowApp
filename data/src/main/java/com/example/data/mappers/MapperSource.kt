@@ -15,4 +15,3 @@ internal fun SourceDTO.toSource(): Source {
 internal fun SourceDTO.toSourceDbo(): SourceDBO {
     return SourceDBO(id = id ?: name, name = name)
 }
-

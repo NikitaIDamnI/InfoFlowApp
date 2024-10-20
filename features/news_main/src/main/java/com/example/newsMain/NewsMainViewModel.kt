@@ -1,4 +1,4 @@
-package com.example.news_main
+package com.example.newsMain
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -57,20 +57,12 @@ class NewsMainViewModel @Inject constructor(
             state.collect {
                 Log.d("NewsMainViewModel_Log", "${it.topHeadlines} ")
             }
-
         }
     }
-
 }
-
 
 fun Flow<NewsMainScreenState>.combineFavorites(favorites: Flow<List<ArticleUI>>): Flow<NewsMainScreenState> {
     return combine(this, favorites) { state, favoriteArticles ->
         state.copy(favorites = favoriteArticles)
     }
 }
-
-
-
-
-

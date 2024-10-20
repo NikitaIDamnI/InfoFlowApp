@@ -5,9 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
     fun getEverythingNews(): Flow<List<ArticleUI>>
-
-
     fun getTopHeadlinersNews(): Flow<List<ArticleUI>>
-
-
 }

@@ -1,4 +1,4 @@
-package com.example.search.search_content_feature
+package com.example.search.searchContentFeature
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -54,24 +54,27 @@ import com.example.search.R
 fun TestSearchScreen(
     categoryNews: CategoryNews,
     onClickNews: (ArticleUI) -> Unit,
-    onBackPressed: () -> Unit
+    modifier: Modifier = Modifier,
+    onBackPress: () -> Unit
 ) {
     TestSearchScreen(
         currentCategoryNews = categoryNews,
-        onBackPressed = onBackPressed,
+        modifier = modifier,
+        onBackPress = onBackPress,
         onClickNews = onClickNews,
         viewModel = hiltViewModel()
     )
 }
 
 @Composable
+@Suppress("LongMethod")
 internal fun TestSearchScreen(
     currentCategoryNews: CategoryNews,
     viewModel: SearchScreenViewModel,
     onClickNews: (ArticleUI) -> Unit,
-    onBackPressed: () -> Unit
+    modifier: Modifier = Modifier,
+    onBackPress: () -> Unit
 ) {
-
     val state = viewModel.state.collectAsState()
     val focusRequester = remember { FocusRequester() }
 
@@ -84,8 +87,8 @@ internal fun TestSearchScreen(
     }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = { TopBar(onBackPressed = onBackPressed) },
+        modifier = modifier.fillMaxSize(),
+        topBar = { TopBar(onBackPress = onBackPress) },
         containerColor = MaterialTheme.colorScheme.background,
     ) { paddingValues ->
         com.example.uikit.Title(
@@ -133,15 +136,14 @@ internal fun TestSearchScreen(
             )
         }
     }
-
 }
 
 @Composable
 fun ListCategories(
     state: State<SearchScreenState>,
-    modifier: Modifier = Modifier,
     onClickCategory: (CategoryNews) -> Unit,
-    currentCategoryNews: CategoryNews
+    currentCategoryNews: CategoryNews,
+    modifier: Modifier = Modifier
 ) {
     LazyRow(
         modifier = modifier
@@ -150,7 +152,6 @@ fun ListCategories(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
-
         items(
             items = CategoryNews.toListCategory(currentCategoryNews),
             key = { it.name },
@@ -168,13 +169,12 @@ fun ListCategories(
 
 @Composable
 fun ListContent(
-    modifier: Modifier,
     state: State<SearchScreenState>,
     listState: LazyListState,
     imageLoader: ImageLoader,
+    modifier: Modifier = Modifier,
     onClickItem: (ArticleUI) -> Unit
 ) {
-
     LazyColumn(
         modifier = modifier,
         state = listState
@@ -188,17 +188,14 @@ fun ListContent(
             }
         }
     }
-
-
 }
-
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun SearchBarNews(
-    modifier: Modifier = Modifier,
     state: State<SearchScreenState>,
     onQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
     onSearch: (String) -> Unit,
 ) {
     SearchBar(
@@ -263,7 +260,7 @@ private fun SearchBarNews(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(
-    onBackPressed: () -> Unit
+    onBackPress: () -> Unit
 ) {
     TopAppBar(
         title = {},
@@ -271,9 +268,8 @@ private fun TopBar(
             com.example.uikit.IconTopBar(
                 modifier = Modifier.padding(start = 10.dp),
                 icon = Icons.Outlined.ArrowBackIosNew,
-                onClick = onBackPressed
+                onClick = onBackPress
             )
         }
     )
 }
-

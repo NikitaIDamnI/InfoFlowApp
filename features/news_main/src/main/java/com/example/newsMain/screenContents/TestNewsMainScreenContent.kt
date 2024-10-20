@@ -1,4 +1,4 @@
-package com.example.news_main.screen_contents
+package com.example.newsMain.screenContents
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -37,28 +38,29 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.ImageLoader
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
 import com.example.navigation.MainScreenNavGraph
 import com.example.navigation.Screen
 import com.example.navigation.rememberNavigationState
-import com.example.news_main.NavigationItem
-import com.example.news_main.NewsMainScreenState
-import com.example.news_main.NewsMainViewModel
+import com.example.newsMain.NavigationItem
+import com.example.newsMain.NewsMainScreenState
+import com.example.newsMain.NewsMainViewModel
 import com.example.news_main.R
 import com.example.uikit.IconTopBar
 
 const val ALPHA_ON_BACKGROUND = 0.1f
 
 @Composable
-fun TestNewsMainScreen(
+fun NewsMainScreen(
     isDarkTheme: State<Boolean>,
     onClickNews: (ArticleUI) -> Unit,
     onClickSearch: (CategoryNews) -> Unit,
     onClickSetting: () -> Unit,
     onClickNextAllNews: (CategoryNews, List<ArticleUI>) -> Unit
 ) {
-    TestNewsMainScreen(
+    NewsMainScreen(
         viewModel = hiltViewModel(),
         isDarkTheme = isDarkTheme,
         onClickNews = onClickNews,
@@ -69,27 +71,29 @@ fun TestNewsMainScreen(
 }
 
 @Composable
-internal fun TestNewsMainScreen(
+@Suppress("LongParameterList")
+internal fun NewsMainScreen(
     viewModel: NewsMainViewModel,
     isDarkTheme: State<Boolean>,
     onClickNews: (ArticleUI) -> Unit,
     onClickSearch: (CategoryNews) -> Unit,
     onClickSetting: () -> Unit,
+    modifier: Modifier = Modifier,
     onClickNextAllNews: (CategoryNews, List<ArticleUI>) -> Unit
-
 ) {
-
     val state = viewModel.state.collectAsState()
 
     if (state.value.stateLoaded !is NewsMainScreenState.TestStateLoaded.Initial &&
         state.value.topHeadlines.isNotEmpty()
     ) {
         MainScreen(
-            viewModel = viewModel,
+            state = state,
             isDarkTheme = isDarkTheme,
+            imageLoader = viewModel.imageLoader,
             onClickNews = onClickNews,
             onClickSearch = onClickSearch,
             onClickSetting = onClickSetting,
+            modifier = modifier,
             onClickNextAllNews = onClickNextAllNews
         )
     } else {
@@ -98,24 +102,22 @@ internal fun TestNewsMainScreen(
 }
 
 @Composable
+@Suppress("LongParameterList")
 private fun MainScreen(
-    viewModel: NewsMainViewModel,
+    state: State<NewsMainScreenState>,
     isDarkTheme: State<Boolean>,
+    imageLoader: ImageLoader,
     onClickNews: (ArticleUI) -> Unit,
     onClickSearch: (CategoryNews) -> Unit,
     onClickSetting: () -> Unit,
+    modifier: Modifier = Modifier,
     onClickNextAllNews: (CategoryNews, List<ArticleUI>) -> Unit
 ) {
     val navigationState = rememberNavigationState()
-
-    Log.d("Recomposition", "MainScreen")
-
-    val state = viewModel.state.collectAsState()
-
     val stateNavScreen = remember { mutableStateOf<Screen>(Screen.Home) }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         topBar = {
             TopBar(
                 isDarkTheme = isDarkTheme,
@@ -135,9 +137,9 @@ private fun MainScreen(
             navController = navigationState.navHostController,
             homeScreenContent = {
                 HomeScreen(
-                    paddingValues = paddingValues,
+                    modifier = Modifier.padding(paddingValues),
                     state = state,
-                    imageLoader = viewModel.imageLoader,
+                    imageLoader = imageLoader,
                     onClickNews = onClickNews,
                     onClickNextAllNews = { categoryNews, content ->
                         onClickNextAllNews(categoryNews, content)
@@ -149,33 +151,36 @@ private fun MainScreen(
             favoriteScreenContent = {
                 stateNavScreen.value = Screen.Favorite
                 FavoriteScreen(
-                    paddingValues = paddingValues,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(
+                            start = 10.dp,
+                            end = 10.dp,
+                            top = paddingValues.calculateTopPadding(),
+                            bottom = paddingValues.calculateBottomPadding()
+                        ),
                     listFavorites = state.value.favorites,
-                    imageLoader = viewModel.imageLoader,
+                    imageLoader = imageLoader,
                     onClickNews = onClickNews,
                 )
-
-
             },
             worldScreenContent = {
                 stateNavScreen.value = Screen.World
-
-
             }
         )
     }
 }
 
-
 @Composable
 fun BottomBar(
     stateNavigationBar: State<Screen>,
+    modifier: Modifier = Modifier,
     onNavigateClick: (Screen) -> Unit
 ) {
     Log.d("Recomposition", "BottomBar")
 
-
     NavigationBar(
+        modifier = modifier,
         containerColor = Color.Transparent,
     ) {
         NavigationItem.Companion.getAll().forEach { navItem ->
@@ -207,14 +212,15 @@ fun BottomBar(
             )
         }
     }
-
 }
 
 @Composable
-fun IconNavBottom(navigationItem: NavigationItem) {
-
-
+fun IconNavBottom(
+    navigationItem: NavigationItem,
+    modifier: Modifier = Modifier
+) {
     Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -228,15 +234,16 @@ fun IconNavBottom(navigationItem: NavigationItem) {
             text = stringResource(id = navigationItem.titleResId),
             color = Color.White,
             fontSize = 12.sp
-
         )
     }
 }
 
 @Composable
-fun PreviewMainScreen() {
+fun PreviewMainScreen(modifier: Modifier = Modifier) {
     val isDarkTheme = isSystemInDarkTheme()
-    val backColor = if (isDarkTheme) Color.Black else {
+    val backColor = if (isDarkTheme) {
+        Color.Black
+    } else {
         Color.White
     }
     val imageLogo = if (isDarkTheme) {
@@ -246,7 +253,7 @@ fun PreviewMainScreen() {
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(backColor)
     ) {
@@ -259,7 +266,6 @@ fun PreviewMainScreen() {
         )
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -310,14 +316,6 @@ private fun TopBar(
                 colorIcon = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.width(10.dp))
-
         }
     )
-
 }
-
-
-
-
-
-

@@ -13,7 +13,6 @@ internal fun List<ArticleDBO>.toArticle(): List<Article> = this.map { it.toArtic
 
 internal fun List<ArticleDTO>.toArticleDbo(): List<ArticleDBO> = this.map { it.toArticleDbo() }
 
-
 internal fun ArticleDBO.toArticle(): Article {
     return Article(
         cacheId = id,
@@ -27,7 +26,6 @@ internal fun ArticleDBO.toArticle(): Article {
         content = content
     )
 }
-
 
 internal fun ArticleDTO.toArticle(): Article {
     return Article(
@@ -60,7 +58,6 @@ fun SortBy.toDto(): SortByDto {
         SortBy.RELEVANCY -> SortByDto.RELEVANCY
         SortBy.POPULARITY -> SortByDto.POPULARITY
         SortBy.PUBLISHED_AT -> SortByDto.PUBLISHED_AT
-
     }
 }
 
@@ -104,4 +101,3 @@ fun ArticleDBO.toArticleUI(): ArticleUI {
 
     )
 }
-

@@ -27,10 +27,8 @@ class FavoriteRepositoryImpl @Inject constructor(
         return database.articlesDao.observeAll().map { it.map { it.toArticleUI() } }
     }
 
-
     override suspend fun checkFavorite(article: ArticleUI): Boolean {
         val isFavorite = database.articlesDao.checkFavorite(article.url)
         return isFavorite == 1
     }
-
 }

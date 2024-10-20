@@ -12,5 +12,4 @@ class SearchUseCase @Inject constructor(
             query = query,
             category = category
         )
-
 }

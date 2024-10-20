@@ -25,7 +25,6 @@ public class NewsRepositoryImpl @Inject constructor(
     private val api: NewsApi,
 ) : NewsRepository {
 
-
     override fun getEverythingNews(): Flow<List<ArticleUI>> = flow {
         val articles = loadGetEverythingNewsFromApi().map { it.toUiArticle() }
         emit(articles)
@@ -54,7 +53,6 @@ public class NewsRepositoryImpl @Inject constructor(
 
         return resultSearch
     }
-
 
     private fun filterContent(it: ArticleDTO): Boolean {
         return (it.url != application.getString(non_existent_http)) && (it.content != null)
@@ -85,7 +83,6 @@ public class NewsRepositoryImpl @Inject constructor(
         sources = null,
     ).resultApi()
 
-
     fun Result<ResponseDTO<ArticleDTO>>.resultApi(): List<Article> {
         when {
             this.isSuccess -> {
@@ -99,15 +96,13 @@ public class NewsRepositoryImpl @Inject constructor(
             this.isFailure -> {
                 error(this.exceptionOrNull() ?: "Unknown error try again later")
             }
-
             else -> error("Something went wrong")
         }
     }
 
     private fun isSpecificCategory(category: CategoryNews): Boolean {
         return category != CategoryNews.ALL &&
-                category != CategoryNews.RECOMMENDATION &&
-                category != CategoryNews.TOP_HEADLINES
+            category != CategoryNews.RECOMMENDATION &&
+            category != CategoryNews.TOP_HEADLINES
     }
-
 }

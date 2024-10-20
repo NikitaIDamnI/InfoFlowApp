@@ -17,8 +17,5 @@ class GetArticleUseCase @javax.inject.Inject constructor(
 
     fun getEverythingFromApi(): Flow<List<ArticleUI>> {
         return repository.getEverythingNews()
-
     }
-
-
 }

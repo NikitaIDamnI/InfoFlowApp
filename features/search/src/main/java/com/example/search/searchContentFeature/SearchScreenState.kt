@@ -1,4 +1,4 @@
-package com.example.search.search_content_feature
+package com.example.search.searchContentFeature
 
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
@@ -16,5 +16,3 @@ data class SearchScreenState(
         data object Loading : StateLoaded
     }
 }
-
-

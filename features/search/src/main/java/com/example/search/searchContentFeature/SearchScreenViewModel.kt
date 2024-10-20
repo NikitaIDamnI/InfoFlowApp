@@ -1,4 +1,4 @@
-package com.example.search.search_content_feature
+package com.example.search.searchContentFeature
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -23,14 +23,12 @@ class SearchScreenViewModel @Inject constructor(
     private val categoryFromArg = Screen.Search.from(savedStateHandle).category
     private val contentFromArg = Screen.Search.from(savedStateHandle).content
 
-
     private val _state = MutableStateFlow(
         SearchScreenState(category = categoryFromArg, searchResult = contentFromArg)
     )
     val state = _state.asStateFlow()
 
     private var searchJob: Job? = null
-
 
     fun onQueryChange(query: String) {
         _state.value = _state.value.copy(query = query)
@@ -53,7 +51,6 @@ class SearchScreenViewModel @Inject constructor(
         query: String,
         category: CategoryNews
     ) {
-
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             try {
@@ -76,19 +73,6 @@ class SearchScreenViewModel @Inject constructor(
                     )
                 )
             }
-
         }
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-

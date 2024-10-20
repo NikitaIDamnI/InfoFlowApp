@@ -48,7 +48,6 @@ interface NewsApi {
         @Query("pageSize") @IntRange(from = 0, to = 100) pageSize: Int = 100,
         @Query("page") @IntRange(from = 1) page: Int = 1
     ): Result<ResponseDTO<ArticleDTO>>
-
 }
 
 fun NewsApi(

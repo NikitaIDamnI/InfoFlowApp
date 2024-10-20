@@ -22,6 +22,5 @@ enum class CategoryNewsDTO {
     SPORTS,
 
     @SerialName("technology")
-    TECHNOLOGY;
-
+    TECHNOLOGY
 }

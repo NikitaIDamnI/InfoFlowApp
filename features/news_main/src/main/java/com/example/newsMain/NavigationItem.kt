@@ -1,13 +1,12 @@
-package com.example.news_main
+package com.example.newsMain
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Language
-
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.navigation.Screen
-
+import com.example.news_main.R
 
 sealed class NavigationItem(
     val screen: Screen,
@@ -38,8 +37,4 @@ sealed class NavigationItem(
             return listOf(Home, Favorite, World)
         }
     }
-
 }
-
-
-

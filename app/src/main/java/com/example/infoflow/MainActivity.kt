@@ -11,8 +11,8 @@ import androidx.compose.runtime.DisposableEffect
 import com.example.detailNews.DetailedNewsScreen
 import com.example.navigation.AppNavGraph
 import com.example.navigation.rememberNavigationState
-import com.example.news_main.screen_contents.TestNewsMainScreen
-import com.example.search.search_content_feature.TestSearchScreen
+import com.example.newsMain.screenContents.NewsMainScreen
+import com.example.search.searchContentFeature.TestSearchScreen
 import com.example.uikit.InfoFlowTheme
 import com.example.uikit.rememberThemeState
 import com.example.uikit.saveThemeOnAppClose
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                 AppNavGraph(
                     navController = navigationState.navHostController,
                     mainScreenContent = {
-                        TestNewsMainScreen(
+                        NewsMainScreen(
                             isDarkTheme = isDarkTheme,
                             onClickNews = {
                                 navigationState.navigationToDetailedNews(it)
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
                         TestSearchScreen(
                             categoryNews = it,
                             onClickNews = { navigationState.navigationToDetailedNews(it) },
-                            onBackPressed = { navigationState.navHostController.popBackStack() }
+                            onBackPress = { navigationState.navHostController.popBackStack() }
                         )
                     },
 
