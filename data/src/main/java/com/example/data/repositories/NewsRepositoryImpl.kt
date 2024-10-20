@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import kotlin.collections.map
 
-public class NewsRepositoryImpl @Inject constructor(
+class NewsRepositoryImpl @Inject constructor(
     private val application: Application,
     private val api: NewsApi,
 ) : NewsRepository {
@@ -79,7 +79,7 @@ public class NewsRepositoryImpl @Inject constructor(
     ): List<Article> = api.topHeadlines(
         query = query,
         country = country,
-        category = category.name,
+        category = category.toDto(),
         sources = null,
     ).resultApi()
 
@@ -101,8 +101,8 @@ public class NewsRepositoryImpl @Inject constructor(
     }
 
     private fun isSpecificCategory(category: CategoryNews): Boolean {
-        return category != CategoryNews.ALL &&
-            category != CategoryNews.RECOMMENDATION &&
-            category != CategoryNews.TOP_HEADLINES
+        return category == CategoryNews.ALL ||
+            category == CategoryNews.RECOMMENDATION ||
+            category == CategoryNews.TOP_HEADLINES
     }
 }

@@ -1,48 +1,19 @@
 package com.example.data.mappers
 
 import com.example.common.models.ArticleUI
+import com.example.common.models.CategoryNews
 import com.example.data.model.Article
 import com.example.data.model.SortBy
 import com.example.database.models.ArticleDBO
 import com.example.news.api.models.ArticleDTO
+import com.example.news.api.models.CategoryNewsDTO
 import com.example.news.api.models.SortByDto
 import java.util.Date
 import com.example.database.models.Source as SourceDBO
 
-internal fun List<ArticleDBO>.toArticle(): List<Article> = this.map { it.toArticle() }
-
-internal fun List<ArticleDTO>.toArticleDbo(): List<ArticleDBO> = this.map { it.toArticleDbo() }
-
-internal fun ArticleDBO.toArticle(): Article {
-    return Article(
-        cacheId = id,
-        source = source?.toSource(),
-        author = author,
-        title = title,
-        description = description,
-        url = url,
-        urlToImage = urlToImage,
-        publishedAt = publishedAt,
-        content = content
-    )
-}
-
 internal fun ArticleDTO.toArticle(): Article {
     return Article(
         source = source?.toSource(),
-        author = author,
-        title = title,
-        description = description,
-        url = url,
-        urlToImage = urlToImage,
-        publishedAt = publishedAt,
-        content = content
-    )
-}
-
-internal fun ArticleDTO.toArticleDbo(): ArticleDBO {
-    return ArticleDBO(
-        source = source?.toSourceDbo(),
         author = author,
         title = title,
         description = description,
@@ -100,4 +71,17 @@ fun ArticleDBO.toArticleUI(): ArticleUI {
         publishedAt = publishedAt ?: Date()
 
     )
+}
+
+fun CategoryNews.toDto(): CategoryNewsDTO? {
+    return when (this) {
+        CategoryNews.SPORTS -> CategoryNewsDTO.SPORTS
+        CategoryNews.HEALTH -> CategoryNewsDTO.HEALTH
+        CategoryNews.GENERAL -> CategoryNewsDTO.GENERAL
+        CategoryNews.SCIENCE -> CategoryNewsDTO.SCIENCE
+        CategoryNews.BUSINESS -> CategoryNewsDTO.BUSINESS
+        CategoryNews.TECHNOLOGY -> CategoryNewsDTO.TECHNOLOGY
+        CategoryNews.ENTERTAINMENT -> CategoryNewsDTO.ENTERTAINMENT
+        else -> { null }
+    }
 }
