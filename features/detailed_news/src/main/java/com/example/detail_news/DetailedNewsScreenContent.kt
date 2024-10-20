@@ -54,6 +54,7 @@ fun DetailedNewsScreen(
 }
 
 @Composable
+@Suppress("LongMethod")
 internal fun NewsScreen(
     viewModel: DetailedNewsScreenViewModel,
     onBackPress: () -> Unit,
@@ -63,7 +64,6 @@ internal fun NewsScreen(
     val composition = rememberLottieComposition(
         spec = LottieCompositionSpec.Asset("loadDetailedAnimation.json")
     )
-    Log.d("Recomposition", "NewsScreen")
 
     Scaffold(
         Modifier
@@ -71,20 +71,18 @@ internal fun NewsScreen(
         {
             TopBar(
                 state = state,
-                onBackPressed = onBackPress,
+                onBackPress = onBackPress,
                 onAddFavorite = { viewModel.addToFavorites() },
                 onSettingPost = onSettingPost
             )
         },
         containerColor = Color.White,
-
     ) { paddingValues ->
         paddingValues
         Column {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-
             ) {
                 when (val stateLoaded = state.value.httpContent) {
                     is DetailedNewsScreenState.StateHttpContent.Error -> {
@@ -99,8 +97,7 @@ internal fun NewsScreen(
                         Text(
                             modifier = Modifier
                                 .align(Alignment.Center)
-                                .padding(top = 150.dp)
-                            ,
+                                .padding(top = 150.dp),
                             text = stateLoaded.message
                         )
                     }
@@ -137,7 +134,7 @@ internal fun NewsScreen(
 @Composable
 private fun TopBar(
     state: State<DetailedNewsScreenState>,
-    onBackPressed: () -> Unit,
+    onBackPress: () -> Unit,
     onAddFavorite: () -> Unit,
     onSettingPost: () -> Unit
 ) {
@@ -157,7 +154,7 @@ private fun TopBar(
                 icon = Icons.Default.ArrowBackIosNew,
                 colorIcon = Color.White,
                 colorBack = Color.Transparent.copy(ALPHA_TRANSPARENT),
-                onClick = onBackPressed
+                onClick = onBackPress
 
             )
         },
@@ -182,8 +179,8 @@ private fun TopBar(
 
 @Composable
 fun IconTopBarFavorite(
-    modifier: Modifier = Modifier,
     isFavorite: Boolean,
+    modifier: Modifier = Modifier,
     colorIcon: Color = Color.Black,
     colorBack: Color = com.example.uikit.ColorNotActive,
     onClick: () -> Unit

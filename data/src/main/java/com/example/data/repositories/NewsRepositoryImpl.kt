@@ -6,7 +6,6 @@ import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
 import com.example.data.R.string.non_existent_http
 import com.example.data.mappers.toArticle
-import com.example.data.mappers.toArticleDbo
 import com.example.data.mappers.toDto
 import com.example.data.mappers.toUiArticle
 import com.example.data.model.Article

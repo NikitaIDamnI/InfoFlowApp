@@ -33,7 +33,6 @@ class DetailedNewsScreenViewModel @Inject constructor(
 
     private val articleUI = Screen.DetailedNews.from(savedStateHandle).articleUI
 
-
     val state: StateFlow<DetailedNewsScreenState> = flow {
         emit(
             DetailedNewsScreenState(
@@ -63,8 +62,8 @@ class DetailedNewsScreenViewModel @Inject constructor(
         )
 
     init {
-        viewModelScope.launch{
-            state.collect{
+        viewModelScope.launch {
+            state.collect {
                 Log.d("DetailedNewsScreenViewModel_Log", "state:$it ")
             }
         }
@@ -86,7 +85,6 @@ class DetailedNewsScreenViewModel @Inject constructor(
         }
     }
 
-
     fun extractHtmlContent(url: String) {
         viewModelScope.launch {
             try {
@@ -97,7 +95,6 @@ class DetailedNewsScreenViewModel @Inject constructor(
                             httpContent = StateHttpContent.Success(document.html())
                         )
                     )
-
                 }
             } catch (_: Exception) {
                 loadHtmlContentEvent.emit(
@@ -108,5 +105,4 @@ class DetailedNewsScreenViewModel @Inject constructor(
             }
         }
     }
-
 }

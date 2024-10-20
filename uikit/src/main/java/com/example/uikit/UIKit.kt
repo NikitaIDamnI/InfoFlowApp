@@ -29,7 +29,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -43,36 +42,26 @@ import coil.compose.AsyncImage
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
 
-
 private const val PREFS_NAME = "theme_prefs"
 private const val THEME_KEY = "is_dark_theme"
 
-val GradientCard = Brush.verticalGradient(
-    colors = listOf(
-        Color(0xFF3D4052), Color(0xFF282a36),
-        Color(0xFF09090C),
-    )
-)
-
-val ColorNotActive = Color.Transparent.copy(alpha = 0.04f)
-
-val MainBlueColor = Color(0xFF0288D1)
-
 @Composable
 fun CategoryCard(
-    modifier: Modifier,
     categoryNews: CategoryNews,
-    activeCategory: CategoryNews
+    activeCategory: CategoryNews,
+    modifier: Modifier = Modifier,
 ) {
     val isSelected = categoryNews == activeCategory
     val colorText = if (isSelected) Color.White else MaterialTheme.colorScheme.onBackground
     val colorBackground =
-        if (isSelected) MainBlueColor else MaterialTheme.colorScheme.onBackground.copy(0.1f)
+        if (isSelected) MainBlueColor else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
     Card(
         modifier = modifier,
         colors = CardColors(
-            containerColor = colorBackground, contentColor = colorText,
-            disabledContentColor = colorBackground, disabledContainerColor = colorText
+            containerColor = colorBackground,
+            contentColor = colorText,
+            disabledContentColor = colorBackground,
+            disabledContainerColor = colorText
         ),
         shape = CircleShape
     ) {
@@ -89,9 +78,9 @@ fun CategoryCard(
 
 @Composable
 fun Title(
-    modifier: Modifier,
     mainTitle: String,
     commentForTitle: String,
+    modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onBackground
 ) {
     Box(
@@ -113,19 +102,22 @@ fun Title(
             )
         }
     }
-
 }
 
 @Composable
-fun ContentListItem(articles: ArticleUI, imageLoader: ImageLoader, onClick: (ArticleUI) -> Unit) {
+fun ContentListItem(
+    articles: ArticleUI,
+    imageLoader: ImageLoader,
+    modifier: Modifier = Modifier,
+    onClick: (ArticleUI) -> Unit
+) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(5.dp)
             .clickable { onClick(articles) }
     ) {
-
         Box(
             modifier =
             Modifier
@@ -146,19 +138,15 @@ fun ContentListItem(articles: ArticleUI, imageLoader: ImageLoader, onClick: (Art
                 .padding(10.dp),
             articles = articles
         )
-
-
     }
-
 }
 
 @Composable
 fun ContentRecommendation(
+    articles: ArticleUI,
     modifier: Modifier = Modifier,
-    articles: com.example.common.models.ArticleUI,
 ) {
     Box(modifier = modifier) {
-
         Text(
             modifier = Modifier
                 .fillMaxWidth()
@@ -179,13 +167,8 @@ fun ContentRecommendation(
     }
 }
 
-
 @Composable
-fun ImageNews(
-    modifier: Modifier = Modifier,
-    url: String,
-    imageLoader: ImageLoader,
-) {
+fun ImageNews(url: String, imageLoader: ImageLoader, modifier: Modifier = Modifier) {
     if (url != "") {
         AsyncImage(
             modifier = modifier,
@@ -202,15 +185,14 @@ fun ImageNews(
             contentScale = ContentScale.Crop,
         )
     }
-
 }
 
 @Composable
 fun IconTopBar(
+    icon: ImageVector,
     modifier: Modifier = Modifier,
     colorIcon: Color = MaterialTheme.colorScheme.onBackground,
-    colorBack: Color = MaterialTheme.colorScheme.onBackground.copy(0.1f),
-    icon: ImageVector,
+    colorBack: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
     onClick: () -> Unit
 ) {
     Box(
@@ -242,10 +224,8 @@ fun rememberThemeState(): MutableState<Boolean> {
     }
 }
 
-
 fun saveThemeOnAppClose(context: Context, isDarkTheme: Boolean) {
     val context = context
     val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     prefs.edit().putBoolean(THEME_KEY, isDarkTheme).apply()
 }
-

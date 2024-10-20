@@ -2,7 +2,6 @@ package com.example.detail_news
 
 import com.example.common.models.ArticleUI
 
-
 data class DetailedNewsScreenState(
     val article: ArticleUI,
     val isFavorite: Boolean,
@@ -15,5 +14,3 @@ data class DetailedNewsScreenState(
         data object Loading : StateHttpContent
     }
 }
-
-
