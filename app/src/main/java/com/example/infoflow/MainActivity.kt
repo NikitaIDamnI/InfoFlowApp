@@ -8,15 +8,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.DisposableEffect
-import com.example.uikit.rememberThemeState
-import com.example.uikit.saveThemeOnAppClose
-import com.example.detail_news.DetailedNewsScreen
+import com.example.detailNews.DetailedNewsScreen
 import com.example.navigation.AppNavGraph
 import com.example.navigation.rememberNavigationState
-import com.example.news_main.screen_contents.TestNewsMainScreen
-import com.example.search.search_content_feature.TestSearchScreen
+import com.example.newsMain.screenContents.NewsMainScreen
+import com.example.search.searchContentFeature.TestSearchScreen
+import com.example.uikit.InfoFlowTheme
+import com.example.uikit.rememberThemeState
+import com.example.uikit.saveThemeOnAppClose
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -25,9 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val isDarkTheme = rememberThemeState()
-
-
-            com.example.uikit.InfoFlowTheme(darkTheme = isDarkTheme.value) {
+            InfoFlowTheme(darkTheme = isDarkTheme.value) {
                 val navigationState = rememberNavigationState()
 
                 setStatusBarIconsColor(isDarkTheme.value)
@@ -35,7 +33,7 @@ class MainActivity : ComponentActivity() {
                 AppNavGraph(
                     navController = navigationState.navHostController,
                     mainScreenContent = {
-                        TestNewsMainScreen(
+                        NewsMainScreen(
                             isDarkTheme = isDarkTheme,
                             onClickNews = {
                                 navigationState.navigationToDetailedNews(it)
@@ -56,16 +54,15 @@ class MainActivity : ComponentActivity() {
                         TestSearchScreen(
                             categoryNews = it,
                             onClickNews = { navigationState.navigationToDetailedNews(it) },
-                            onBackPressed = { navigationState.navHostController.popBackStack() }
+                            onBackPress = { navigationState.navHostController.popBackStack() }
                         )
                     },
 
                     detailedNewsScreenContent = {
                         DetailedNewsScreen(
-                            onBackPressed = { navigationState.navHostController.popBackStack() },
+                            onBackPress = { navigationState.navHostController.popBackStack() },
                             onSettingPost = {},
                         )
-
                     },
                 )
 
@@ -74,11 +71,8 @@ class MainActivity : ComponentActivity() {
                         saveThemeOnAppClose(context = applicationContext, isDarkTheme.value)
                     }
                 }
-
             }
-
         }
-
     }
 
     private fun setStatusBarIconsColor(isDarkTheme: Boolean) {
@@ -100,15 +94,10 @@ class MainActivity : ComponentActivity() {
         } else {
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = if (isDarkTheme) {
-
                 window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
             } else {
-
                 window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
     }
 }
-
-
-

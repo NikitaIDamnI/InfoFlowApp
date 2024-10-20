@@ -1,4 +1,4 @@
-package com.example.detail_news
+package com.example.detailNews
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -43,67 +43,63 @@ const val ALPHA_TRANSPARENT = 0.1F
 
 @Composable
 fun DetailedNewsScreen(
-    onBackPressed: () -> Unit,
-    onSettingPost: () -> Unit
+    onBackPress: () -> Unit,
+    onSettingPost: () -> Unit,
 ) {
     NewsScreen(
         viewModel = hiltViewModel(),
-        onBackPressed = onBackPressed,
+        onBackPress = onBackPress,
         onSettingPost = onSettingPost
     )
-
 }
 
 @Composable
+@Suppress("LongMethod")
 internal fun NewsScreen(
     viewModel: DetailedNewsScreenViewModel,
-    onBackPressed: () -> Unit,
+    onBackPress: () -> Unit,
     onSettingPost: () -> Unit
 ) {
     val state = viewModel.state.collectAsState()
     val composition = rememberLottieComposition(
         spec = LottieCompositionSpec.Asset("loadDetailedAnimation.json")
     )
-    Log.d("Recomposition", "NewsScreen")
 
     Scaffold(
-        modifier = Modifier
+        Modifier
             .fillMaxSize(),
-        topBar = {
+        {
             TopBar(
                 state = state,
-                onBackPressed = onBackPressed,
+                onBackPress = onBackPress,
                 onAddFavorite = { viewModel.addToFavorites() },
                 onSettingPost = onSettingPost
             )
         },
         containerColor = Color.White,
-
-        ) { paddingValues ->
+    ) { paddingValues ->
         paddingValues
         Column {
-
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-
             ) {
                 when (val stateLoaded = state.value.httpContent) {
-                    is DetailedNewsScreenState.StateHttpContent.Error ->{
-                            Icon(
-                                modifier = Modifier
-                                    .align(Alignment.Center)
-                                    .size(100.dp)
-                                ,
-                                imageVector = Icons.Outlined.ErrorOutline,
-                                contentDescription = ""
-                            )
+                    is DetailedNewsScreenState.StateHttpContent.Error -> {
+                        Icon(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .size(100.dp),
+                            imageVector = Icons.Outlined.ErrorOutline,
+                            contentDescription = ""
+                        )
 
-                            Text(
-                                modifier = Modifier.align(Alignment.Center),
-                                text = stateLoaded.message
-                            )
-
+                        Text(
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .padding(top = 150.dp),
+                            text = stateLoaded.message
+                        )
                     }
 
                     DetailedNewsScreenState.StateHttpContent.Loading -> {
@@ -123,10 +119,8 @@ internal fun NewsScreen(
 
                     else -> {}
                 }
-
             }
         }
-
     }
 
     DisposableEffect(Unit) {
@@ -134,14 +128,13 @@ internal fun NewsScreen(
             viewModel.updateFavoritesCache()
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(
     state: State<DetailedNewsScreenState>,
-    onBackPressed: () -> Unit,
+    onBackPress: () -> Unit,
     onAddFavorite: () -> Unit,
     onSettingPost: () -> Unit
 ) {
@@ -155,14 +148,13 @@ private fun TopBar(
         ),
         title = {
             Spacer(modifier = Modifier.fillMaxWidth()) // Добавляем Spacer для выравнивания
-
         },
         navigationIcon = {
             com.example.uikit.IconTopBar(
                 icon = Icons.Default.ArrowBackIosNew,
                 colorIcon = Color.White,
                 colorBack = Color.Transparent.copy(ALPHA_TRANSPARENT),
-                onClick = onBackPressed
+                onClick = onBackPress
 
             )
         },
@@ -183,13 +175,12 @@ private fun TopBar(
             Spacer(modifier = Modifier.width(10.dp))
         }
     )
-
 }
 
 @Composable
 fun IconTopBarFavorite(
-    modifier: Modifier = Modifier,
     isFavorite: Boolean,
+    modifier: Modifier = Modifier,
     colorIcon: Color = Color.Black,
     colorBack: Color = com.example.uikit.ColorNotActive,
     onClick: () -> Unit
@@ -222,7 +213,6 @@ fun IconTopBarFavorite(
                     tint = colorIcon
                 )
             }
-
         }
     }
 }

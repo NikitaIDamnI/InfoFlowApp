@@ -1,15 +1,18 @@
-package com.example.detail_news
+package com.example.detailNews
 
-import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 
 @Composable
-fun WebViewCompose(htmlContent: String) {
-    Log.d("Recomposition", "WebViewCompose")
-
+fun WebViewCompose(
+    htmlContent: String,
+    modifier: Modifier = Modifier,
+) {
+    Box(modifier = modifier) {
         AndroidView(factory = { context ->
             WebView(context).apply {
                 settings.javaScriptEnabled = true
@@ -21,5 +24,5 @@ fun WebViewCompose(htmlContent: String) {
                 loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
             }
         })
-
+    }
 }

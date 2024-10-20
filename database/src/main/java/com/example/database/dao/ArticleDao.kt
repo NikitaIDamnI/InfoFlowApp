@@ -1,6 +1,5 @@
 package com.example.database.dao
 
-import android.os.FileObserver.DELETE
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert

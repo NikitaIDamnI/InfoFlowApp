@@ -51,7 +51,7 @@ dependencies {
 
     implementation(libs.jsoup)
 
-    implementation (libs.lottie.compose)
+    implementation(libs.lottie.compose)
 
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -76,9 +76,6 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":navigation"))
     implementation(project(":uikit"))
-
-
-
 
 
 }

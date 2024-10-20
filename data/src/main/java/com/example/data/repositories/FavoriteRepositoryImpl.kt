@@ -1,18 +1,18 @@
 package com.example.data.repositories
 
 import com.example.common.models.ArticleUI
-import com.example.data.repositories.interfaces.FavoriteRepository
 import com.example.data.mappers.toArticleDbo
 import com.example.data.mappers.toArticleUI
+import com.example.data.repositories.interfaces.FavoriteRepository
 import com.example.database.NewsDatabase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class FavoriteRepositoryImpl @Inject constructor(
-    private val database : NewsDatabase
+    private val database: NewsDatabase
 
-) : FavoriteRepository{
+) : FavoriteRepository {
 
     override suspend fun addToFavorites(articleUI: ArticleUI) {
         val articleDBO = articleUI.toArticleDbo()
@@ -27,10 +27,8 @@ class FavoriteRepositoryImpl @Inject constructor(
         return database.articlesDao.observeAll().map { it.map { it.toArticleUI() } }
     }
 
-
     override suspend fun checkFavorite(article: ArticleUI): Boolean {
         val isFavorite = database.articlesDao.checkFavorite(article.url)
         return isFavorite == 1
     }
-
 }

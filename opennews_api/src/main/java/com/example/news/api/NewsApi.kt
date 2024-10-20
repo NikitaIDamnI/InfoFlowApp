@@ -4,6 +4,7 @@ package com.example.news.api
 
 import androidx.annotation.IntRange
 import com.example.news.api.models.ArticleDTO
+import com.example.news.api.models.CategoryNewsDTO
 import com.example.news.api.models.Language
 import com.example.news.api.models.ResponseDTO
 import com.example.news.api.models.SortByDto
@@ -43,12 +44,11 @@ interface NewsApi {
     suspend fun topHeadlines(
         @Query("q") query: String? = null,
         @Query("country") country: String? = null,
-        @Query("category") category: String? = null,
+        @Query("category") category: CategoryNewsDTO? = null,
         @Query("sources") sources: String? = null,
         @Query("pageSize") @IntRange(from = 0, to = 100) pageSize: Int = 100,
         @Query("page") @IntRange(from = 1) page: Int = 1
     ): Result<ResponseDTO<ArticleDTO>>
-
 }
 
 fun NewsApi(

@@ -19,5 +19,4 @@ class ManageFavoritesUseCase @Inject constructor(
     suspend fun addToFavorites(articleUI: ArticleUI) {
         repository.addToFavorites(articleUI)
     }
-
 }

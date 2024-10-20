@@ -69,7 +69,6 @@ android {
 dependencies {
 
 
-
     implementation(libs.dagger.hilt.android)
     implementation(libs.androidx.profileinstaller)
     kapt(libs.dagger.hilt.compiler)
@@ -96,9 +95,6 @@ dependencies {
 
     implementation(project(":database"))
     implementation(project(":common"))
-
-
-
 
 
 }

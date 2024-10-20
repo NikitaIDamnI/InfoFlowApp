@@ -2,7 +2,7 @@ package com.example.data.model
 
 import java.util.Date
 
-public data class Article(
+data class Article(
     val cacheId: Long = ID_NONE,
     val source: Source?,
     val author: String?,
@@ -13,15 +13,15 @@ public data class Article(
     val publishedAt: Date?,
     val content: String?
 ) {
-    public companion object {
+    companion object {
         /**
          * Обозначает отсутствие ID
          */
-        public const val ID_NONE: Long = 0L
+        const val ID_NONE: Long = 0L
     }
 }
 
-public data class Source(
+data class Source(
     val id: String,
     val name: String
 )

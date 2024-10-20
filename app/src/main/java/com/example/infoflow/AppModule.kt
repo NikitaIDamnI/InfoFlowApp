@@ -5,9 +5,9 @@ import coil.ImageLoader
 import coil.request.CachePolicy
 import com.example.common.AppDispatchers
 import com.example.data.repositories.FavoriteRepositoryImpl
-import com.example.data.repositories.interfaces.NewsRepository
 import com.example.data.repositories.NewsRepositoryImpl
 import com.example.data.repositories.interfaces.FavoriteRepository
+import com.example.data.repositories.interfaces.NewsRepository
 import com.example.database.NewsDatabase
 import com.example.news.api.NewsApi
 import dagger.Binds
@@ -17,7 +17,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-
 import javax.inject.Singleton
 
 @Module
@@ -68,5 +67,4 @@ interface AppModule {
                 .build()
         }
     }
-
 }

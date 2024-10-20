@@ -1,10 +1,11 @@
-package com.example.detail_news
+package com.example.detailNews
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.mergeWith
-import com.example.detail_news.DetailedNewsScreenState.StateHttpContent
+import com.example.detailNews.DetailedNewsScreenState.StateHttpContent
 import com.example.domain.useCase.ManageFavoritesUseCase
 import com.example.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailedNewsScreenViewModel @Inject constructor(
-    private val manageFavorites : ManageFavoritesUseCase,
+    private val manageFavorites: ManageFavoritesUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -31,7 +32,6 @@ class DetailedNewsScreenViewModel @Inject constructor(
         MutableSharedFlow(1)
 
     private val articleUI = Screen.DetailedNews.from(savedStateHandle).articleUI
-
 
     val state: StateFlow<DetailedNewsScreenState> = flow {
         emit(
@@ -61,6 +61,13 @@ class DetailedNewsScreenViewModel @Inject constructor(
             )
         )
 
+    init {
+        viewModelScope.launch {
+            state.collect {
+                Log.d("DetailedNewsScreenViewModel_Log", "state:$it ")
+            }
+        }
+    }
 
     fun addToFavorites() {
         viewModelScope.launch {
@@ -78,7 +85,6 @@ class DetailedNewsScreenViewModel @Inject constructor(
         }
     }
 
-
     fun extractHtmlContent(url: String) {
         viewModelScope.launch {
             try {
@@ -89,7 +95,6 @@ class DetailedNewsScreenViewModel @Inject constructor(
                             httpContent = StateHttpContent.Success(document.html())
                         )
                     )
-
                 }
             } catch (_: Exception) {
                 loadHtmlContentEvent.emit(
@@ -100,5 +105,4 @@ class DetailedNewsScreenViewModel @Inject constructor(
             }
         }
     }
-
 }

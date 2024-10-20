@@ -1,9 +1,8 @@
 package com.example.domain.useCase
 
 import com.example.common.models.ArticleUI
-import com.example.data.repositories.NewsRepositoryImpl
-import com.example.data.model.Article
 import com.example.data.repositories.FavoriteRepositoryImpl
+import com.example.data.repositories.NewsRepositoryImpl
 import kotlinx.coroutines.flow.Flow
 
 class GetArticleUseCase @javax.inject.Inject constructor(
@@ -18,9 +17,5 @@ class GetArticleUseCase @javax.inject.Inject constructor(
 
     fun getEverythingFromApi(): Flow<List<ArticleUI>> {
         return repository.getEverythingNews()
-
     }
-
-
-
 }

@@ -1,14 +1,12 @@
-package com.example.news_main.screen_contents
+package com.example.newsMain.screenContents
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -21,28 +19,17 @@ import com.example.common.models.ArticleUI
 
 @Composable
 fun FavoriteScreen(
-    paddingValues: PaddingValues,
     listFavorites: List<ArticleUI>,
     imageLoader: ImageLoader,
+    modifier: Modifier = Modifier,
     onClickNews: (ArticleUI) -> Unit,
-    onDeleteFavoriteNews: (ArticleUI) -> Unit,
 ) {
     val listState = rememberLazyListState()
     Log.d("Recomposition", "FavoriteScreen")
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
     ) {
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    start = 10.dp,
-                    end = 10.dp,
-                    top = paddingValues.calculateTopPadding(),
-                    bottom = paddingValues.calculateBottomPadding()
-                )
-        ) {
+        Column {
             com.example.uikit.Title(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -67,13 +54,12 @@ fun FavoriteScreen(
 
 @Composable
 fun ListContent(
-    modifier: Modifier,
     listFavorites: List<ArticleUI>,
     listState: LazyListState,
     imageLoader: ImageLoader,
+    modifier: Modifier = Modifier,
     onClickItem: (ArticleUI) -> Unit,
-    ) {
-
+) {
     LazyColumn(
         modifier = modifier,
         state = listState
@@ -87,6 +73,4 @@ fun ListContent(
             }
         }
     }
-
-
 }

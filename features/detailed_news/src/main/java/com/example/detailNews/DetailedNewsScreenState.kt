@@ -1,7 +1,6 @@
-package com.example.detail_news
+package com.example.detailNews
 
 import com.example.common.models.ArticleUI
-
 
 data class DetailedNewsScreenState(
     val article: ArticleUI,
@@ -15,5 +14,3 @@ data class DetailedNewsScreenState(
         data object Loading : StateHttpContent
     }
 }
-
-

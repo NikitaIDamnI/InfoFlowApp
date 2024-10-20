@@ -2,9 +2,6 @@ package com.example.common.models
 
 import android.net.Uri
 import com.example.common.models.CategoryNews.entries
-import com.google.gson.annotations.SerializedName
-import kotlinx.serialization.Serializer
-
 
 enum class CategoryNews(
     private val displayName: String,
@@ -25,7 +22,6 @@ enum class CategoryNews(
         return displayName
     }
 
-
     companion object {
         fun toListCategory(activeCategory: CategoryNews): List<CategoryNews> {
             val baseList = entries.toTypedArray().toList()
@@ -41,5 +37,3 @@ enum class CategoryNews(
 fun String.encode(): String {
     return Uri.encode(this)
 }
-
-

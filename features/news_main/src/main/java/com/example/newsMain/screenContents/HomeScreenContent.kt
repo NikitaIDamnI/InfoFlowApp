@@ -1,4 +1,4 @@
-package com.example.news_main.screen_contents
+package com.example.newsMain.screenContents
 
 import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
@@ -43,23 +43,25 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.ImageLoader
+import com.example.common.getTimeAgo
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
-import com.example.common.getTimeAgo
-import com.example.news_main.NewsMainScreenState
+import com.example.newsMain.NewsMainScreenState
+
+private const val SIZE_RECOMMENDATION = 3
 
 @Composable
- fun HomeScreen(
-    paddingValues: PaddingValues,
+fun HomeScreen(
     state: State<NewsMainScreenState>,
     imageLoader: ImageLoader,
     onClickNews: (ArticleUI) -> Unit,
+    modifier: Modifier = Modifier,
     onClickNextAllNews: (CategoryNews, List<ArticleUI>) -> Unit
 
 ) {
     Log.d("Recomposition", "HomeScreen")
 
-    Column(modifier = Modifier.padding(paddingValues)) {
+    Column(modifier = modifier) {
         TopHeadlines(
             modifier = Modifier
                 .fillMaxWidth()
@@ -83,19 +85,23 @@ import com.example.news_main.NewsMainScreenState
             state = state,
             imageLoader = imageLoader,
             onClickNews = { onClickNews(it) },
-            onClickNextAllNews = { onClickNextAllNews(
-                CategoryNews.RECOMMENDATION,
-                state.value.recommendations
-            ) }
+            onClickNextAllNews = {
+                onClickNextAllNews(
+                    CategoryNews.RECOMMENDATION,
+                    state.value.recommendations
+                )
+            }
         )
     }
 }
+
 @Composable
+@Suppress("LongMethod")
 private fun TopHeadlines(
-    modifier: Modifier = Modifier,
     state: State<NewsMainScreenState>,
     imageLoader: ImageLoader,
     onClickNews: (ArticleUI) -> Unit,
+    modifier: Modifier = Modifier,
     onClickNextAllNews: () -> Unit
 
 ) {
@@ -143,7 +149,8 @@ private fun TopHeadlines(
         ) { page ->
 
             val scale by animateFloatAsState(
-                targetValue = if (page == pagerState.currentPage) 1f else 0.9f, label = ""
+                targetValue = if (page == pagerState.currentPage) 1f else 0.9f,
+                label = ""
             )
             TopHeadlinesItem(
                 modifier = Modifier
@@ -153,7 +160,6 @@ private fun TopHeadlines(
                 imageLoader = imageLoader,
                 onClickNews = onClickNews
             )
-
         }
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -164,7 +170,8 @@ private fun TopHeadlines(
             horizontalArrangement = Arrangement.Center
         ) {
             repeat(pagerState.pageCount) { pageIndex ->
-                val color = if (pagerState.currentPage == pageIndex) com.example.uikit.MainBlueColor else Color.Gray
+                val color =
+                    if (pagerState.currentPage == pageIndex) com.example.uikit.MainBlueColor else Color.Gray
                 if (pagerState.currentPage == pageIndex) {
                     Box(
                         modifier = Modifier
@@ -183,22 +190,18 @@ private fun TopHeadlines(
                             .background(color)
                     )
                 }
-
             }
         }
     }
-
 }
-
 
 @Composable
 private fun TopHeadlinesItem(
-    modifier: Modifier = Modifier,
     article: ArticleUI,
     imageLoader: ImageLoader,
-    onClickNews: (ArticleUI) -> Unit,
-
-    ) {
+    modifier: Modifier = Modifier,
+    onClickNews: (ArticleUI) -> Unit
+) {
     Box(
         modifier = modifier
             .background(com.example.uikit.GradientCard)
@@ -223,10 +226,8 @@ private fun TopHeadlinesItem(
             )
             Spacer(modifier = Modifier.height(5.dp))
             AuthorAndDataPublication(article)
-
         }
     }
-
 }
 
 @Composable
@@ -237,16 +238,17 @@ private fun AuthorAndDataPublication(article: ArticleUI) {
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
 
-
     ) {
         Text(
             text = article.author,
             color = Color.White,
-            maxLines = 1,  // Ограничить текст одной строкой
-            overflow = TextOverflow.Ellipsis,  // Устанавливает многоточие в конце текста, если он не помещается
+            maxLines = 1, // Ограничить текст одной строкой
+            overflow = TextOverflow.Ellipsis, // Устанавливает многоточие в конце текста, если он не помещается
             modifier = Modifier
-                .widthIn(max = (LocalConfiguration.current.screenWidthDp.dp / 2)) // Ограничивает ширину автора до половины
-                .padding(end = 8.dp)  // Небольшой отступ для красоты
+                .widthIn(
+                    max = (LocalConfiguration.current.screenWidthDp.dp / 2)
+                ) // Ограничивает ширину автора до половины
+                .padding(end = 8.dp) // Небольшой отступ для красоты
         )
         Icon(
             modifier = Modifier
@@ -263,17 +265,16 @@ private fun AuthorAndDataPublication(article: ArticleUI) {
     }
 }
 
-
 @Composable
 private fun Recommendation(
-    modifier: Modifier = Modifier,
     state: State<NewsMainScreenState>,
     imageLoader: ImageLoader,
     onClickNews: (ArticleUI) -> Unit,
+    modifier: Modifier = Modifier,
     onClickNextAllNews: () -> Unit
 ) {
     val recommendation = remember {
-        state.value.recommendations.take(3)
+        state.value.recommendations.take(SIZE_RECOMMENDATION)
     }
     Column(
         modifier = modifier,
@@ -317,10 +318,7 @@ private fun Recommendation(
                         onClickNews(it)
                     }
                 )
-
             }
         }
-
-
     }
 }

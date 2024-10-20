@@ -39,10 +39,7 @@ fun AppNavGraph(
                 newsUI
             )
         }
-
-
     }
-
 }
 
 @Composable
@@ -61,5 +58,4 @@ fun MainScreenNavGraph(
         composable<Screen.Favorite> { favoriteScreenContent() }
         composable<Screen.World> { worldScreenContent() }
     }
-
 }
