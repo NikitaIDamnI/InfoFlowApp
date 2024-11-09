@@ -12,7 +12,7 @@ import com.example.detailNews.DetailedNewsScreen
 import com.example.navigation.AppNavGraph
 import com.example.navigation.rememberNavigationState
 import com.example.newsMain.screenContents.NewsMainScreen
-import com.example.search.searchContentFeature.TestSearchScreen
+import com.example.search.searchContentFeature.SearchScreen
 import com.example.uikit.InfoFlowTheme
 import com.example.uikit.rememberThemeState
 import com.example.uikit.saveThemeOnAppClose
@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     },
 
                     searchScreenContent = {
-                        TestSearchScreen(
+                        SearchScreen(
                             categoryNews = it,
                             onClickNews = { navigationState.navigationToDetailedNews(it) },
                             onBackPress = { navigationState.navHostController.popBackStack() }

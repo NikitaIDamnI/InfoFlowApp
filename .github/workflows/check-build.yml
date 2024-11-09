@@ -1,0 +1,8 @@
+name: GitHub Actions Demo
+run-name: Check code quality with linter
+on: [push]
+jobs:
+    Detekt:
+        runs-on: ubuntu-latest
+        steps:
+            - run: .gradlew detekt

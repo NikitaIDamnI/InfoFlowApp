@@ -61,21 +61,13 @@ class DetailedNewsScreenViewModel @Inject constructor(
             )
         )
 
-    init {
-        viewModelScope.launch {
-            state.collect {
-                Log.d("DetailedNewsScreenViewModel_Log", "state:$it ")
-            }
-        }
-    }
-
     fun addToFavorites() {
         viewModelScope.launch {
             favoritesEvent.emit(state.value.copy(isFavorite = !state.value.isFavorite))
         }
     }
 
-    fun updateFavoritesCache() {
+     fun updateFavoritesCache() {
         viewModelScope.launch {
             if (state.value.isFavorite) {
                 manageFavorites.addToFavorites(articleUI)
@@ -96,7 +88,8 @@ class DetailedNewsScreenViewModel @Inject constructor(
                         )
                     )
                 }
-            } catch (_: Exception) {
+            } catch (e: kotlin.Exception) {
+                Log.e("DetailedNewsScreenViewModel_Log", "Error loading content", e)
                 loadHtmlContentEvent.emit(
                     state.value.copy(
                         httpContent = StateHttpContent.Error("Error loading content")
@@ -105,4 +98,6 @@ class DetailedNewsScreenViewModel @Inject constructor(
             }
         }
     }
+
+
 }
