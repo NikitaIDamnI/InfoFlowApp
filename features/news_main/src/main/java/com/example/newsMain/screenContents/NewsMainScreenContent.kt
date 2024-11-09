@@ -38,6 +38,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.ImageLoader
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
@@ -115,7 +117,9 @@ private fun MainScreen(
 ) {
     val navigationState = rememberNavigationState()
     val stateNavScreen = remember { mutableStateOf<Screen>(Screen.Home) }
+    val currentDestination = navigationState.navHostController.currentBackStackEntryAsState().value?.destination
 
+    val date = Screen.World::class.qualifiedName
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
@@ -126,7 +130,7 @@ private fun MainScreen(
             )
         },
         bottomBar = {
-            BottomBar(stateNavScreen) {
+            BottomBar(currentDestination = currentDestination) {
                 navigationState.navigationTo(it)
             }
         },
@@ -165,6 +169,7 @@ private fun MainScreen(
                 )
             },
             worldScreenContent = {
+                Text(modifier = Modifier.padding(paddingValues), text = "$date")
                 stateNavScreen.value = Screen.World
             }
         )
@@ -173,7 +178,7 @@ private fun MainScreen(
 
 @Composable
 fun BottomBar(
-    stateNavigationBar: State<Screen>,
+    currentDestination: NavDestination?,
     modifier: Modifier = Modifier,
     onNavigateClick: (Screen) -> Unit
 ) {
@@ -184,14 +189,13 @@ fun BottomBar(
         containerColor = Color.Transparent,
     ) {
         NavigationItem.Companion.getAll().forEach { navItem ->
-
             NavigationBarItem(
-                selected = navItem.screen == stateNavigationBar.value,
+                selected = navItem.route == currentDestination?.route,
                 onClick = {
                     onNavigateClick(navItem.screen)
                 },
                 icon = {
-                    if (navItem.screen == stateNavigationBar.value) {
+                    if (navItem.route == currentDestination?.route) {
                         IconNavBottom(navigationItem = navItem)
                     } else {
                         Icon(
