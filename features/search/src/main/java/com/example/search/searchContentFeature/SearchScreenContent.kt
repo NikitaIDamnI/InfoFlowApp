@@ -51,13 +51,13 @@ import com.example.common.models.CategoryNews
 import com.example.search.R
 
 @Composable
-fun TestSearchScreen(
+fun SearchScreen(
     categoryNews: CategoryNews,
     onClickNews: (ArticleUI) -> Unit,
     modifier: Modifier = Modifier,
     onBackPress: () -> Unit
 ) {
-    TestSearchScreen(
+    SearchScreen(
         currentCategoryNews = categoryNews,
         modifier = modifier,
         onBackPress = onBackPress,
@@ -68,7 +68,7 @@ fun TestSearchScreen(
 
 @Composable
 @Suppress("LongMethod")
-internal fun TestSearchScreen(
+internal fun SearchScreen(
     currentCategoryNews: CategoryNews,
     viewModel: SearchScreenViewModel,
     onClickNews: (ArticleUI) -> Unit,
