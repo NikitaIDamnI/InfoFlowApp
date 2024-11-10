@@ -66,8 +66,7 @@ class DetailedNewsScreenViewModel @Inject constructor(
             favoritesEvent.emit(state.value.copy(isFavorite = !state.value.isFavorite))
         }
     }
-
-     fun updateFavoritesCache() {
+    fun updateFavoritesCache() {
         viewModelScope.launch {
             if (state.value.isFavorite) {
                 manageFavorites.addToFavorites(articleUI)
@@ -98,6 +97,4 @@ class DetailedNewsScreenViewModel @Inject constructor(
             }
         }
     }
-
-
 }

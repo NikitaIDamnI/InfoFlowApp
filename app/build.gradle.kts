@@ -39,60 +39,60 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
+            signingConfig = signingConfigs.getByName("debug")
 
 
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    buildFeatures {
-        buildConfig = true
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
+        }
+        kotlinOptions {
+            jvmTarget = "17"
+        }
+        buildFeatures {
+            buildConfig = true
+            compose = true
+        }
+        composeOptions {
+            kotlinCompilerExtensionVersion = "1.5.1"
+        }
+        packaging {
+            resources {
+                excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            }
+        }
+    }
+
+    dependencies {
+
+
+        implementation(libs.dagger.hilt.android)
+        implementation(libs.androidx.profileinstaller)
+        kapt(libs.dagger.hilt.compiler)
+
+
+        //Initial dependencies
+        implementation(libs.androidx.core.ktx)
+        implementation(libs.androidx.lifecycle.runtime.ktx)
+        implementation(libs.androidx.activity.compose)
+
+
+        debugImplementation(libs.okhttp.logging.interceptor)
+
+
+        implementation(project(":data"))
+        implementation(project(":opennews_api"))
+        implementation(project(":features:news_main"))
+        implementation(project(":features:search"))
+        implementation(project(":features:detailed_news"))
+        implementation(project(":navigation"))
+
+        implementation(project(":uikit"))
+
+
+        implementation(project(":database"))
+        implementation(project(":common"))
     }
 }
 
-dependencies {
-
-
-    implementation(libs.dagger.hilt.android)
-    implementation(libs.androidx.profileinstaller)
-    kapt(libs.dagger.hilt.compiler)
-
-
-    //Initial dependencies
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-
-
-    debugImplementation(libs.okhttp.logging.interceptor)
-
-
-    implementation(project(":data"))
-    implementation(project(":opennews_api"))
-    implementation(project(":features:news_main"))
-    implementation(project(":features:search"))
-    implementation(project(":features:detailed_news"))
-    implementation(project(":navigation"))
-
-    implementation(project(":uikit"))
-
-
-    implementation(project(":database"))
-    implementation(project(":common"))
-
-
-}
