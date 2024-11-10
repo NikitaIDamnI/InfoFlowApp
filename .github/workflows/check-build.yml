@@ -1,4 +1,3 @@
-
 name: Code quality check
 run-name: Check code quality with linter
 on: [push]
