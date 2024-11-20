@@ -11,7 +11,6 @@ import com.example.navigation.Screen
 import com.example.news_main.R
 import kotlinx.serialization.ExperimentalSerializationApi
 
-
 @Suppress("NO_REFLECTION_IN_CLASS_PATH")
 sealed class NavigationItem(
     val screen: Screen,
@@ -27,15 +26,12 @@ sealed class NavigationItem(
         route = Screen.Home.serializer().descriptor.serialName
     )
 
-
     data object Favorite : NavigationItem(
         screen = Screen.Favorite,
         titleResId = R.string.favorite,
         icon = Icons.Outlined.BookmarkBorder,
         route = Screen.Favorite.serializer().descriptor.serialName
-
     )
-
 
     data object World : NavigationItem(
         screen = Screen.World,
@@ -48,8 +44,5 @@ sealed class NavigationItem(
         fun getAll(): List<NavigationItem> {
             return listOf(Home, Favorite, World)
         }
-
     }
-
 }
-
