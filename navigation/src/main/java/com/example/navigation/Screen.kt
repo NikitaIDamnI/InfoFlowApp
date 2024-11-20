@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.reflect.typeOf
 
@@ -11,18 +12,23 @@ import kotlin.reflect.typeOf
 sealed class Screen {
 
     @Serializable
+    @SerialName("home")
     data object Home : Screen()
 
     @Serializable
+    @SerialName("favorite")
     data object Favorite : Screen()
 
     @Serializable
+    @SerialName("world")
     data object World : Screen()
 
     @Serializable
+    @SerialName("main")
     data object Main : Screen()
 
     @Serializable
+    @SerialName("search")
     data class Search(
         val category: CategoryNews,
         val content: List<ArticleUI>
@@ -39,6 +45,7 @@ sealed class Screen {
     }
 
     @Serializable
+    @SerialName("detailedNews")
     data class DetailedNews(
         val articleUI: ArticleUI
     ) : Screen() {
