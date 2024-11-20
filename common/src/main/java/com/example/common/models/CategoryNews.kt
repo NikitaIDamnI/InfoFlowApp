@@ -1,8 +1,9 @@
 package com.example.common.models
 
-import android.net.Uri
 import com.example.common.models.CategoryNews.entries
+import kotlinx.serialization.Serializable
 
+@Serializable
 enum class CategoryNews(
     private val displayName: String,
 ) {
@@ -34,6 +35,3 @@ enum class CategoryNews(
     }
 }
 
-fun String.encode(): String {
-    return Uri.encode(this)
-}

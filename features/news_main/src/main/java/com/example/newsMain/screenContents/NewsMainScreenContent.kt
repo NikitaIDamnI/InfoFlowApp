@@ -28,8 +28,6 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -116,10 +114,8 @@ private fun MainScreen(
     onClickNextAllNews: (CategoryNews, List<ArticleUI>) -> Unit
 ) {
     val navigationState = rememberNavigationState()
-    val stateNavScreen = remember { mutableStateOf<Screen>(Screen.Home) }
     val currentDestination = navigationState.navHostController.currentBackStackEntryAsState().value?.destination
 
-    val date = Screen.World::class.qualifiedName
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
@@ -150,10 +146,8 @@ private fun MainScreen(
                     }
 
                 )
-                stateNavScreen.value = Screen.Home
             },
             favoriteScreenContent = {
-                stateNavScreen.value = Screen.Favorite
                 FavoriteScreen(
                     modifier = Modifier
                         .fillMaxSize()
@@ -169,8 +163,7 @@ private fun MainScreen(
                 )
             },
             worldScreenContent = {
-                Text(modifier = Modifier.padding(paddingValues), text = "$date")
-                stateNavScreen.value = Screen.World
+                Text(modifier = Modifier.padding(paddingValues), text = "${currentDestination?.route}")
             }
         )
     }
