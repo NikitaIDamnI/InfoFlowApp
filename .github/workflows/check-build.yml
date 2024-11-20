@@ -1,44 +1,33 @@
+
 name: Code quality check
 run-name: Check code quality with linter
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+on: [push]
 jobs:
-  Linters:
-    runs-on: ubuntu-latest
+    Linters:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
-    steps:
-      # Шаг 1: Проверка кода
-      - name: Checkout
-        uses: actions/checkout@v4 # Указана актуальная версия
+            - name: set up JDK
+              uses: actions/setup-java@v4
+              with:
+                  distribution: 'temurin'
+                  java-version: 17
 
-      # Шаг 2: Установка JDK
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: 17
+            - uses: gradle/gradle-build-action@v3
+              with:
+                  cache-disabled: true
 
-      # Шаг 3: Настройка Gradle
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v2 # Актуальная версия Gradle Setup Action
-        with:
-          gradle-version: '8.9' # Укажите используемую версию Gradle
-          cache-disabled: true # Если кэширование не нужно, оставьте true
+            - name: Detekt
+              shell: bash
+              run: ./gradlew detekt
 
-      # Шаг 4: Запуск Detekt
-      - name: Detekt
-        shell: bash
-        run: ./gradlew detekt
-
-      # Шаг 5: Публикация отчета Detekt
-      - name: Publish Checkstyle Report
-        uses: Juuxel/publish-checkstyle-report@v1.0.0
-        with:
-          reports: '**/build/reports/detekt.xml'
+            - name: Publish Checkstyle Report
+                # You may pin to the exact commit or the version.
+                # uses: Juuxel/publish-checkstyle-report@eec483cc03443d79f49d62ccb30da6c210e322f0
+              uses: Juuxel/publish-checkstyle-report@v1.0.0
+              with:
+                  # The glob paths to all report XML files
+                  reports:
+                      '**/build/**/detekt.xml'
