@@ -1,7 +1,6 @@
 package com.example.data.repositories
 
 import android.app.Application
-import android.util.Log
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
 import com.example.data.R.string.non_existent_http
@@ -87,7 +86,6 @@ class NewsRepositoryImpl @Inject constructor(
         when {
             this.isSuccess -> {
                 val resultSuccess = this.getOrThrow().articles
-                Log.d("NewsRepositoryImpl_Log", "resultApi : $resultSuccess ")
                 return resultSuccess
                     .filter { filterContent(it) }
                     .map { it.toArticle() }

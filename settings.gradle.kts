@@ -1,4 +1,3 @@
-import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.include
 
 pluginManagement {
     repositories {
@@ -34,3 +33,5 @@ include(":navigation")
 include(":features:detailed_news")
 include(":domain")
 include(":uikit")
+include(":baselineprofile")
+

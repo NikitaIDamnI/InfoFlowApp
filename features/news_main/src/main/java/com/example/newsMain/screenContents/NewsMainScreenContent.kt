@@ -1,6 +1,5 @@
 package com.example.newsMain.screenContents
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -83,7 +82,7 @@ internal fun NewsMainScreen(
 ) {
     val state = viewModel.state.collectAsState()
 
-    if (state.value.stateLoaded !is NewsMainScreenState.TestStateLoaded.Initial &&
+    if (state.value.stateLoaded !is NewsMainScreenState.StateLoaded.Initial &&
         state.value.topHeadlines.isNotEmpty()
     ) {
         MainScreen(
@@ -175,8 +174,6 @@ fun BottomBar(
     modifier: Modifier = Modifier,
     onNavigateClick: (Screen) -> Unit
 ) {
-    Log.d("Recomposition", "BottomBar")
-
     NavigationBar(
         modifier = modifier,
         containerColor = Color.Transparent,
