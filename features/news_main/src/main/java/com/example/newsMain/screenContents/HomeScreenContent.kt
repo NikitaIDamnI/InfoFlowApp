@@ -1,6 +1,5 @@
 package com.example.newsMain.screenContents
 
-import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -59,8 +58,6 @@ fun HomeScreen(
     onClickNextAllNews: (CategoryNews, List<ArticleUI>) -> Unit
 
 ) {
-    Log.d("Recomposition", "HomeScreen")
-
     Column(modifier = modifier) {
         TopHeadlines(
             modifier = Modifier

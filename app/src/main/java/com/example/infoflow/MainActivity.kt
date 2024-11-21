@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
 
                     searchScreenContent = {
                         SearchScreen(
-                            categoryNews = it,
+                            startCategoryNews = it,
                             onClickNews = { navigationState.navigationToDetailedNews(it) },
                             onBackPress = { navigationState.navHostController.popBackStack() }
                         )

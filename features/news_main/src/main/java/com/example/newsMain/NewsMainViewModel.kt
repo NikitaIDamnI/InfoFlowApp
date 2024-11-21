@@ -1,6 +1,5 @@
 package com.example.newsMain
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +27,7 @@ class NewsMainViewModel @Inject constructor(
         NewsMainScreenState(
             topHeadlines = topHeadlines.map { it },
             recommendations = everything.map { it },
-            stateLoaded = NewsMainScreenState.TestStateLoaded.Success
+            stateLoaded = NewsMainScreenState.StateLoaded.Success
         )
     }
         .catch { e ->
@@ -37,7 +35,7 @@ class NewsMainViewModel @Inject constructor(
                 NewsMainScreenState(
                     topHeadlines = emptyList(),
                     recommendations = emptyList(),
-                    stateLoaded = NewsMainScreenState.TestStateLoaded.Error("Download error")
+                    stateLoaded = NewsMainScreenState.StateLoaded.Error("Download error")
                 )
             )
         }
@@ -48,17 +46,9 @@ class NewsMainViewModel @Inject constructor(
             initialValue = NewsMainScreenState(
                 topHeadlines = emptyList(),
                 recommendations = emptyList(),
-                stateLoaded = NewsMainScreenState.TestStateLoaded.Initial
+                stateLoaded = NewsMainScreenState.StateLoaded.Initial
             )
         )
-
-    init {
-        viewModelScope.launch {
-            state.collect {
-                Log.d("NewsMainViewModel_Log", "${it.topHeadlines} ")
-            }
-        }
-    }
 }
 
 fun Flow<NewsMainScreenState>.combineFavorites(favorites: Flow<List<ArticleUI>>): Flow<NewsMainScreenState> {

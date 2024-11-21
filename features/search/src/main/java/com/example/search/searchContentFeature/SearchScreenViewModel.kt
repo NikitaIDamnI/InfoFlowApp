@@ -24,7 +24,7 @@ class SearchScreenViewModel @Inject constructor(
     private val contentFromArg = Screen.Search.from(savedStateHandle).content
 
     private val _state = MutableStateFlow(
-        SearchScreenState(category = categoryFromArg, searchResult = contentFromArg)
+        SearchScreenState(currentCategory = categoryFromArg, searchResult = contentFromArg)
     )
     val state = _state.asStateFlow()
 
@@ -35,14 +35,14 @@ class SearchScreenViewModel @Inject constructor(
     }
 
     fun onCategoryChange(category: CategoryNews) {
-        _state.value = _state.value.copy(category = category)
+        _state.value = _state.value.copy(currentCategory = category)
     }
 
     fun onSearchNews(query: String?) {
         if (!query.isNullOrBlank()) {
             loadNews(
                 query = query,
-                category = _state.value.category
+                category = _state.value.currentCategory
             )
         }
     }

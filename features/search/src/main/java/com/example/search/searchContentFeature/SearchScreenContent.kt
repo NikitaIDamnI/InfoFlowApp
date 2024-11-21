@@ -31,7 +31,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -49,16 +48,17 @@ import coil.ImageLoader
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
 import com.example.search.R
+import com.example.search.searchContentFeature.SearchScreenState.StateLoaded
 
 @Composable
 fun SearchScreen(
-    categoryNews: CategoryNews,
+    startCategoryNews: CategoryNews,
     onClickNews: (ArticleUI) -> Unit,
     modifier: Modifier = Modifier,
     onBackPress: () -> Unit
 ) {
     SearchScreen(
-        currentCategoryNews = categoryNews,
+        currentCategoryNews = startCategoryNews,
         modifier = modifier,
         onBackPress = onBackPress,
         onClickNews = onClickNews,
@@ -81,7 +81,7 @@ internal fun SearchScreen(
     val listState = rememberLazyListState()
 
     LaunchedEffect(state.value.stateLoaded) {
-        if (state.value.stateLoaded == SearchScreenState.StateLoaded.Loading) {
+        if (state.value.stateLoaded == StateLoaded.Loading) {
             listState.scrollToItem(0)
         }
     }
@@ -113,21 +113,22 @@ internal fun SearchScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester),
-                state = state,
+                query = state.value.query,
+                stateLoaded = state.value.stateLoaded,
                 onQueryChange = viewModel::onQueryChange,
                 onSearch = viewModel::onSearchNews,
             )
             Spacer(modifier = Modifier.height(5.dp))
             ListCategories(
-                state = state,
-                currentCategoryNews = currentCategoryNews,
+                currentCategoryNews = state.value.currentCategory,
+                startCategoryNews = currentCategoryNews,
                 onClickCategory = { viewModel.onCategoryChange(it) }
             )
             Spacer(modifier = Modifier.height(15.dp))
             ListContent(
                 modifier = Modifier
                     .fillMaxSize(),
-                state = state,
+                searchResult = state.value.searchResult,
                 listState = listState,
                 imageLoader = viewModel.imageLoader,
                 onClickItem = {
@@ -140,9 +141,9 @@ internal fun SearchScreen(
 
 @Composable
 fun ListCategories(
-    state: State<SearchScreenState>,
-    onClickCategory: (CategoryNews) -> Unit,
     currentCategoryNews: CategoryNews,
+    onClickCategory: (CategoryNews) -> Unit,
+    startCategoryNews: CategoryNews,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -153,7 +154,7 @@ fun ListCategories(
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         items(
-            items = CategoryNews.toListCategory(currentCategoryNews),
+            items = CategoryNews.toListCategory(startCategoryNews),
             key = { it.name },
         ) { category ->
             com.example.uikit.CategoryCard(
@@ -161,7 +162,7 @@ fun ListCategories(
                     .clip(CircleShape)
                     .clickable { onClickCategory(category) },
                 categoryNews = category,
-                activeCategory = state.value.category
+                activeCategory = currentCategoryNews
             )
         }
     }
@@ -169,7 +170,7 @@ fun ListCategories(
 
 @Composable
 fun ListContent(
-    state: State<SearchScreenState>,
+    searchResult: List<ArticleUI>,
     listState: LazyListState,
     imageLoader: ImageLoader,
     modifier: Modifier = Modifier,
@@ -180,7 +181,7 @@ fun ListContent(
         state = listState
     ) {
         items(
-            items = state.value.searchResult,
+            items = searchResult,
             key = { it.url }
         ) {
             com.example.uikit.ContentListItem(it, imageLoader) { article ->
@@ -193,14 +194,15 @@ fun ListContent(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun SearchBarNews(
-    state: State<SearchScreenState>,
+    query: String?,
+    stateLoaded: StateLoaded,
     onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     onSearch: (String) -> Unit,
 ) {
     SearchBar(
         modifier = modifier,
-        query = state.value.query ?: "",
+        query = query ?: "",
         onQueryChange = {
             onQueryChange(it)
         },
@@ -211,7 +213,7 @@ private fun SearchBarNews(
         onActiveChange = {},
         trailingIcon = {
             Row {
-                if (state.value.stateLoaded == SearchScreenState.StateLoaded.Loading) {
+                if (stateLoaded == StateLoaded.Loading) {
                     CircularProgressIndicator(
                         modifier = Modifier
                             .size(30.dp)
@@ -245,7 +247,7 @@ private fun SearchBarNews(
         },
         leadingIcon = {
             IconButton(onClick = {
-                onSearch(state.value.query ?: "")
+                onSearch(query ?: "")
             }) {
                 Icon(
                     imageVector = Icons.Default.Search,
