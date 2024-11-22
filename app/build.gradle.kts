@@ -10,12 +10,12 @@ plugins {
 
 android {
     namespace = "com.example.infoflow"
-    compileSdk = 35
+    compileSdk = libs.versions.androidSdk.compile.get().toInt()
 
     defaultConfig {
         applicationId = "com.example.infoflow"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = libs.versions.androidSdk.min.get().toInt()
+        targetSdk = libs.versions.androidSdk.target.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -43,15 +43,17 @@ android {
     signingConfigs {
         create("release") {
             storeFile = File(rootDir, "newsapp.keystore")
-            keyPassword = "12345678"
-            keyAlias = "devnikb"
-            storePassword = "12345678"
+            keyPassword = project.findProperty("RELEASE_KEY_PASSWORD")?.toString() ?: throw IllegalArgumentException("RELEASE_KEY_PASSWORD is not set")
+            keyAlias = project.findProperty("RELEASE_KEY_ALIAS")?.toString() ?: throw IllegalArgumentException("RELEASE_KEY_ALIAS is not set")
+            storePassword = project.findProperty("RELEASE_STORE_PASSWORD")?.toString() ?: throw IllegalArgumentException("RELEASE_STORE_PASSWORD is not set")
         }
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs["release"]
+            getByName("release") {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -116,8 +118,3 @@ android {
         baselineProfile(project(":baselineprofile"))
     }
 }
-//dependencies {
-//
-//    "baselineProfile"(project(":baselineprofile"))
-//}
-
