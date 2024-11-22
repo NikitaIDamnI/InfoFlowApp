@@ -43,9 +43,12 @@ android {
     signingConfigs {
         create("release") {
             storeFile = File(rootDir, "newsapp.keystore")
-            keyPassword = project.findProperty("RELEASE_KEY_PASSWORD").toString()
-            keyAlias = project.findProperty("RELEASE_KEY_ALIAS").toString()
-            storePassword = project.findProperty("RELEASE_STORE_PASSWORD").toString()
+            keyPassword =
+                System.getenv("RELEASE_KEY_PASSWORD") ?: project.findProperty("RELEASE_KEY_PASSWORD").toString()
+            keyAlias = System.getenv("RELEASE_KEY_ALIAS") ?: project.findProperty("RELEASE_KEY_ALIAS").toString()
+            storePassword =
+                System.getenv("RELEASE_STORE_PASSWORD") ?: project.findProperty("RELEASE_STORE_PASSWORD").toString()
+
         }
     }
 
