@@ -43,9 +43,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = File(rootDir, "newsapp.keystore")
-            keyPassword = "12345678"
-            keyAlias = "devnikb"
-            storePassword = "12345678"
+            keyPassword = project.findProperty("RELEASE_KEY_PASSWORD").toString()
+            keyAlias = project.findProperty("RELEASE_KEY_ALIAS").toString()
+            storePassword = project.findProperty("RELEASE_STORE_PASSWORD").toString()
         }
     }
 
@@ -55,21 +55,9 @@ android {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
+                "reftofit2",
             )
-            packaging {
-                resources {
-                    excludes += "/META-INF/{AL2.0,LGPL2.1}"
-                    excludes += "/okhttp3/internal/publicsuffix/NOTICE"
-                    excludes += "/kotlin/**"
-                    //excludes += "META-INF/androidx.*.version"
-                    excludes += "META-INF/com.google.*.version"
-                    excludes += "META-INF/kotlinx_*.version"
-                    excludes += "kotlin-tooling-metadata.json"
-                    excludes += "DebugProbesKt.bin"
-                    excludes += "META-INF/com/android/build/gradle/*"
-                }
-            }
         }
 
 
@@ -91,6 +79,19 @@ android {
             kotlinCompilerExtensionVersion = "1.5.1"
         }
 
+        packaging {
+            resources {
+                excludes += "/META-INF/{AL2.0,LGPL2.1}"
+                excludes += "/okhttp3/internal/publicsuffix/NOTICE"
+                excludes += "/kotlin/**"
+                //excludes += "META-INF/androidx.*.version"
+                excludes += "META-INF/com.google.*.version"
+                excludes += "META-INF/kotlinx_*.version"
+                excludes += "kotlin-tooling-metadata.json"
+                excludes += "DebugProbesKt.bin"
+                excludes += "META-INF/com/android/build/gradle/*"
+            }
+        }
 
     }
 
@@ -116,8 +117,4 @@ android {
         baselineProfile(project(":baselineprofile"))
     }
 }
-//dependencies {
-//
-//    "baselineProfile"(project(":baselineprofile"))
-//}
 
