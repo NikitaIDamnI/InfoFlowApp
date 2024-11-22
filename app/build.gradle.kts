@@ -43,9 +43,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = File(rootDir, "newsapp.keystore")
-            keyPassword = project.findProperty("RELEASE_KEY_PASSWORD") as String
-            keyAlias = project.findProperty("RELEASE_KEY_ALIAS") as String
-            storePassword = project.findProperty("RELEASE_STORE_PASSWORD") as String
+            keyPassword = project.findProperty("RELEASE_KEY_PASSWORD")?.toString() ?: throw IllegalArgumentException("RELEASE_KEY_PASSWORD is not set")
+            keyAlias = project.findProperty("RELEASE_KEY_ALIAS")?.toString() ?: throw IllegalArgumentException("RELEASE_KEY_ALIAS is not set")
+            storePassword = project.findProperty("RELEASE_STORE_PASSWORD")?.toString() ?: throw IllegalArgumentException("RELEASE_STORE_PASSWORD is not set")
         }
     }
 
@@ -118,8 +118,3 @@ android {
         baselineProfile(project(":baselineprofile"))
     }
 }
-//dependencies {
-//
-//    "baselineProfile"(project(":baselineprofile"))
-//}
-
