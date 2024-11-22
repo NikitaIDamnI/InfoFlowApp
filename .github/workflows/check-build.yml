@@ -1,33 +1,74 @@
+name: Code Quality Check and Build Release
 
-name: Code quality check
-run-name: Check code quality with linter
-on: [push]
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-    Linters:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+  Linters:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
 
-            - name: set up JDK
-              uses: actions/setup-java@v4
-              with:
-                  distribution: 'temurin'
-                  java-version: 17
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v2
+        with:
+          cache-disabled: true
 
-            - uses: gradle/actions/setup-gradle@v4
-              with:
-                  cache-disabled: true
+      - name: Detekt
+        run: ./gradlew detekt
 
-            - name: Detekt
-              shell: bash
-              run: ./gradlew detekt
+      - name: Publish Checkstyle Report
+        uses: Juuxel/publish-checkstyle-report@v1.0.0
+        with:
+          reports: '**/build/**/detekt.xml'
 
-            - name: Publish Checkstyle Report
-                # You may pin to the exact commit or the version.
-                # uses: Juuxel/publish-checkstyle-report@eec483cc03443d79f49d62ccb30da6c210e322f0
-              uses: Juuxel/publish-checkstyle-report@v1.0.0
-              with:
-                  # The glob paths to all report XML files
-                  reports:
-                      '**/build/**/detekt.xml'
+  BuildRelease:
+    runs-on: ubuntu-latest
+    needs: Linters
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v2
+
+      # Шаг для расшифровки Keystore из base64
+      - name: Decrypt Keystore
+        env:
+          RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+        run: |
+          echo "Decrypting keystore file..."
+          mkdir -p ~/.android
+          echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 -d > ~/.android/release.keystore
+
+      # Шаг для сборки APK
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
+        env:
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+
+      # Шаг для загрузки APK в артефакты
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-apk
+          path: app/build/outputs/apk/release/*.apk
+
