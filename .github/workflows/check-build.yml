@@ -45,7 +45,6 @@ jobs:
                   RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
                   RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
                   RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
-                  RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
               run: |
                   echo "Decrypting keystore file..."
                   mkdir -p ~/.android
