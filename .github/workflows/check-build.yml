@@ -23,10 +23,6 @@ jobs:
             - name: Run Detekt Linter
               shell: bash
               run: ./gradlew detekt
-              env:
-                  RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
-                  RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
-                  RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
 
     BuildRelease:
         runs-on: ubuntu-latest
