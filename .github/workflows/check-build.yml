@@ -1,9 +1,7 @@
-name: Code Quality Check and Build Release
 
-on:
-    push:
-        branches:
-            - main
+name: Code quality check
+run-name: Check code quality with linter
+on: [push]
 jobs:
     Linters:
         runs-on: ubuntu-latest
@@ -68,3 +66,4 @@ jobs:
                 with:
                     name: release-apk
                     path: app/build/outputs/apk/release/*.apk
+
