@@ -6,13 +6,12 @@ plugins {
     alias(libs.plugins.detekt)
 }
 
-
 android {
     namespace = "com.example.common"
-    compileSdk = libs.versions.androidSdk.compile.get().toInt()
+    compileSdk = 34
 
     defaultConfig {
-        minSdk =libs.versions.androidSdk.min.get().toInt()
+        minSdk = 24
         consumerProguardFiles("consumer-rules.pro")
     }
 

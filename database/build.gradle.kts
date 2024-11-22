@@ -8,9 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.database"
-    compileSdk = libs.versions.androidSdk.compile.get().toInt()
-    libs.versions.androidSdk.min.get().toInt()
-    libs.versions.androidSdk.target.get().toInt()
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26
