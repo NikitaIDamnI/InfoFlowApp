@@ -24,15 +24,16 @@ android {
             useSupportLibrary = true
         }
 
-        val keyFromProperties = project.findProperty("NEWS_API_KEY")?.toString()
 
-        val apiKey = if (keyFromProperties == null || keyFromProperties == "null") {
-            System.getenv("NEWS_API_KEY") ?: error(
-                "NEWS_API_KEY not found in environment variables or gradle.properties!"
-            )
-        } else {
-            keyFromProperties
-        }
+            val keyFromProperties = project.findProperty("NEWS_API_KEY")?.toString()
+
+            val apiKey = if (keyFromProperties == null || keyFromProperties == "null") {
+                System.getenv("NEWS_API_KEY") ?: error(
+                    "NEWS_API_KEY not found in environment variables or gradle.properties!"
+                )
+            } else {
+                keyFromProperties
+            }
 
 
         buildConfigField("String", "NEWS_API_KEY", "\"$apiKey\"")

@@ -19,6 +19,8 @@ jobs:
                     cache-disabled: true
 
             -   name: Detekt
+                env:
+                    NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
                 shell: bash
                 run: ./gradlew detekt
 
