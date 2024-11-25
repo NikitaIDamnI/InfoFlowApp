@@ -1,3 +1,5 @@
+@file:Suppress("SpacingBetweenDeclarationsWithAnnotations")
+
 package com.example.uikit
 
 import androidx.compose.animation.core.Animatable
@@ -25,6 +27,9 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+
+private const val HALF_CIRCLE_ANGLE = 180f
+private const val FULL_CIRCLE_ANGLE = 360f
 
 @Suppress("LongParameterList")
 @Composable
@@ -73,10 +78,10 @@ fun CustomProgressBar(
             .aspectRatio(1f)
     ) {
         listOfNotNull(color, secondColor).forEachIndexed { index, color ->
-            rotate(if (index == 0) 0f else 180f) {
+            rotate(if (index == 0) 0f else HALF_CIRCLE_ANGLE) {
                 val brush = Brush.sweepGradient(
                     0f to Color.Transparent,
-                    tailToDisplay.value / 360f to color,
+                    tailToDisplay.value / FULL_CIRCLE_ANGLE to color,
                     1f to Color.Transparent
                 )
                 val paint = setupPaint(strokeStyle, brush)
@@ -96,13 +101,11 @@ fun CustomProgressBar(
 }
 
 private fun DrawScope.setupPaint(style: StrokeStyle, brush: Brush): Paint {
-
     val paint = Paint().apply paint@{
         this@paint.isAntiAlias = true
         this@paint.style = PaintingStyle.Stroke
         this@paint.strokeWidth = style.width.toPx()
         this@paint.strokeCap = style.strokeCap
-
         brush.applyTo(size, this@paint, 1f)
     }
 
@@ -114,7 +117,6 @@ private fun DrawScope.setupPaint(style: StrokeStyle, brush: Brush): Paint {
             android.graphics.Color.WHITE
         )
     }
-
     return paint
 }
 

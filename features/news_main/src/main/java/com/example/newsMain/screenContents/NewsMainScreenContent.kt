@@ -242,8 +242,11 @@ fun PreviewMainScreen(
     stateLoaded: NewsMainScreenState.StateLoaded,
 ) {
     val isDarkTheme = isSystemInDarkTheme()
-    val imageLogo = if (isDarkTheme) { R.drawable.full_logo_night } else { R.drawable.full_logo_day }
-
+    val imageLogo = if (isDarkTheme) {
+        R.drawable.full_logo_night
+    } else {
+        R.drawable.full_logo_day
+    }
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -256,7 +259,6 @@ fun PreviewMainScreen(
             painter = painterResource(id = imageLogo),
             contentDescription = null,
         )
-
         when (val state = stateLoaded) {
             is NewsMainScreenState.StateLoaded.Error -> {
                 ErrorMessage(
@@ -276,8 +278,9 @@ fun PreviewMainScreen(
                         .padding(bottom = 100.dp)
                         .size(50.dp),
                     color = MaterialTheme.colorScheme.onBackground,
-                    )
+                )
             }
+
             NewsMainScreenState.StateLoaded.Success -> {}
         }
     }
