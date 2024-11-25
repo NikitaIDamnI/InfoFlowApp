@@ -1,9 +1,7 @@
 package com.example.detailNews
 
-import com.example.common.models.ArticleUI
-
 data class DetailedNewsScreenState(
-    val article: ArticleUI,
+    val article: com.example.common.models.ArticleUI,
     val isFavorite: Boolean,
     val httpContent: StateHttpContent
 ) {

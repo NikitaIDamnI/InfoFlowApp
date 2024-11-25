@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,6 +48,7 @@ import com.example.newsMain.NavigationItem
 import com.example.newsMain.NewsMainScreenState
 import com.example.newsMain.NewsMainViewModel
 import com.example.news_main.R
+import com.example.uikit.CustomProgressBar
 import com.example.uikit.IconTopBar
 
 const val ALPHA_ON_BACKGROUND = 0.1f
@@ -82,7 +84,7 @@ internal fun NewsMainScreen(
 ) {
     val state = viewModel.state.collectAsState()
 
-    if (state.value.stateLoaded !is NewsMainScreenState.StateLoaded.Initial &&
+    if (state.value.stateLoaded !is NewsMainScreenState.StateLoaded.Loading &&
         state.value.topHeadlines.isNotEmpty()
     ) {
         MainScreen(
@@ -96,7 +98,9 @@ internal fun NewsMainScreen(
             onClickNextAllNews = onClickNextAllNews
         )
     } else {
-        PreviewMainScreen()
+        PreviewMainScreen(
+            stateLoaded = state.value.stateLoaded
+        )
     }
 }
 
@@ -233,23 +237,20 @@ fun IconNavBottom(
 }
 
 @Composable
-fun PreviewMainScreen(modifier: Modifier = Modifier) {
+fun PreviewMainScreen(
+    modifier: Modifier = Modifier,
+    stateLoaded: NewsMainScreenState.StateLoaded,
+) {
     val isDarkTheme = isSystemInDarkTheme()
-    val backColor = if (isDarkTheme) {
-        Color.Black
-    } else {
-        Color.White
-    }
     val imageLogo = if (isDarkTheme) {
         R.drawable.full_logo_night
     } else {
         R.drawable.full_logo_day
     }
-
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(backColor)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Image(
             modifier = Modifier
@@ -258,6 +259,30 @@ fun PreviewMainScreen(modifier: Modifier = Modifier) {
             painter = painterResource(id = imageLogo),
             contentDescription = null,
         )
+        when (val state = stateLoaded) {
+            is NewsMainScreenState.StateLoaded.Error -> {
+                ErrorMessage(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 100.dp),
+                    message = state.message,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    sizeText = 20.sp
+                )
+            }
+
+            NewsMainScreenState.StateLoaded.Loading -> {
+                LoadingProgressBar(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 100.dp)
+                        .size(50.dp),
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+            }
+
+            NewsMainScreenState.StateLoaded.Success -> {}
+        }
     }
 }
 
@@ -313,3 +338,21 @@ private fun TopBar(
         }
     )
 }
+
+@Composable
+fun ErrorMessage(
+    modifier: Modifier = Modifier,
+    message: String,
+    color: Color,
+    sizeText: TextUnit = 16.sp
+) = Text(modifier = modifier, text = message, fontSize = sizeText, color = color)
+
+@Composable
+fun LoadingProgressBar(
+    modifier: Modifier = Modifier,
+    color: Color,
+) = CustomProgressBar(
+    modifier = modifier,
+    isVisible = true,
+    color = color
+)

@@ -46,7 +46,7 @@ class NewsMainViewModel @Inject constructor(
             initialValue = NewsMainScreenState(
                 topHeadlines = emptyList(),
                 recommendations = emptyList(),
-                stateLoaded = NewsMainScreenState.StateLoaded.Initial
+                stateLoaded = NewsMainScreenState.StateLoaded.Loading
             )
         )
 }

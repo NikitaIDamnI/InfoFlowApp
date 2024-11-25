@@ -1,6 +1,5 @@
 package com.example.infoflow
 
-
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

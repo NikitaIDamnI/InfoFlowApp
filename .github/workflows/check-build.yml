@@ -19,6 +19,8 @@ jobs:
                     cache-disabled: true
 
             -   name: Detekt
+                env:
+                    NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
                 shell: bash
                 run: ./gradlew detekt
 
@@ -49,12 +51,14 @@ jobs:
 
             -   name: Print environment variables
                 run: |
+                    echo "NEWS_API_KEY: NEWS_API_KEY"
                     echo "RELEASE_KEY_PASSWORD: $RELEASE_KEY_PASSWORD"
                     echo "RELEASE_STORE_PASSWORD: $RELEASE_STORE_PASSWORD"
                     echo "RELEASE_KEY_ALIAS: $RELEASE_KEY_ALIAS"
 
             -   name: Decrypt Keystore
                 env:
+                    NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
                     RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
                     RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
                     RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
@@ -67,6 +71,7 @@ jobs:
             -   name: Build Release APK
                 run: ./gradlew assembleRelease
                 env:
+                    NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
                     RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
                     RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
                     RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}

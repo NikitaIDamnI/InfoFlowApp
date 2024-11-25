@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.example.detail_news"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -73,9 +73,9 @@ dependencies {
 
 
     implementation(project(":domain"))
-    implementation(project(":common"))
-    implementation(project(":navigation"))
-    implementation(project(":uikit"))
+    implementation(project(":core:common"))
+    implementation(project(":features:navigation"))
+    implementation(project(":features:uikit"))
 
 
 }

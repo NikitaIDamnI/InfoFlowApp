@@ -15,7 +15,7 @@ data class NewsMainScreenState(
 ) {
     sealed interface StateLoaded {
         @Immutable
-        data object Initial : StateLoaded
+        data object Loading : StateLoaded
         @Stable
         data object Success : StateLoaded
         @Stable

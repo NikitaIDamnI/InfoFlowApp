@@ -1,14 +1,11 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.dagger.hilt.android)
-    alias(libs.plugins.kapt)
-    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.detekt)
 }
 
 android {
-    namespace = "com.example.search"
+    namespace = "com.example.data"
     compileSdk = 35
 
     defaultConfig {
@@ -34,44 +31,20 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+
 }
 
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.coil.compose)
-
-    implementation(libs.dagger.hilt.android)
-    implementation(libs.androidx.foundation.android)
-    kapt(libs.dagger.hilt.compiler)
-
-    implementation(libs.material)
-    implementation(libs.material.icons)
-
-
-
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-
-
-    api(libs.kotlinx.immutable)
-
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.javax.inject)
+    implementation(libs.jsoup)
 
-    implementation(libs.dagger.hilt.navigation.compose)
-
-
-    //UI
-    compileOnly(libs.androidx.compose.runtime)
-
-
-
-    implementation(project(":domain"))
+    implementation(project(":core:opennews_api"))
+    implementation(project(":core:database"))
     implementation(project(":core:common"))
-    implementation(project(":features:uikit"))
-    implementation(project(":features:navigation"))
 
 
 }

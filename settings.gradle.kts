@@ -1,3 +1,4 @@
+include(":lib")
 
 pluginManagement {
     repositories {
@@ -23,15 +24,15 @@ dependencyResolutionManagement {
 
 rootProject.name = "InfoFlow"
 include(":app")
-include(":opennews_api")
-include(":database")
-include(":data")
+include(":core:opennews_api")
+include(":core:database")
+include(":core:data")
+include(":core:common")
 include(":features:news_main")
-include(":common")
 include(":features:search")
-include(":navigation")
+include(":features:navigation")
 include(":features:detailed_news")
+include(":features:uikit")
 include(":domain")
-include(":uikit")
 include(":baselineprofile")
 
