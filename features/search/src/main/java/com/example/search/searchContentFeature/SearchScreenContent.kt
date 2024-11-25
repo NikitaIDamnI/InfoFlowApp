@@ -29,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -265,6 +266,13 @@ private fun TopBar(
     onBackPress: () -> Unit
 ) {
     TopAppBar(
+        colors = TopAppBarColors(
+            containerColor = Color.Transparent,
+            scrolledContainerColor = Color.Transparent,
+            navigationIconContentColor = Color.Transparent,
+            titleContentColor = Color.Transparent,
+            actionIconContentColor = Color.Transparent
+        ),
         title = {},
         navigationIcon = {
             com.example.uikit.IconTopBar(
