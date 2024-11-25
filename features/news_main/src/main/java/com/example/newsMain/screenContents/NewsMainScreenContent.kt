@@ -242,10 +242,7 @@ fun PreviewMainScreen(
     stateLoaded: NewsMainScreenState.StateLoaded,
 ) {
     val isDarkTheme = isSystemInDarkTheme()
-
     val imageLogo = if (isDarkTheme) { R.drawable.full_logo_night } else { R.drawable.full_logo_day }
-
-
 
     Box(
         modifier = modifier
@@ -347,7 +344,6 @@ fun ErrorMessage(
     sizeText: TextUnit = 16.sp
 ) = Text(modifier = modifier, text = message, fontSize = sizeText, color = color)
 
-
 @Composable
 fun LoadingProgressBar(
     modifier: Modifier = Modifier,
@@ -357,5 +353,3 @@ fun LoadingProgressBar(
     isVisible = true,
     color = color
 )
-
-
