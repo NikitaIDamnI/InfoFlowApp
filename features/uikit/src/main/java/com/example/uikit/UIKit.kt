@@ -42,7 +42,6 @@ import coil.compose.AsyncImage
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
 
-
 private const val PREFS_NAME = "theme_prefs"
 private const val THEME_KEY = "is_dark_theme"
 

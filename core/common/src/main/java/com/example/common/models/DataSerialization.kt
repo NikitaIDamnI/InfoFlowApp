@@ -12,10 +12,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-
 private const val UTC_DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss"
 
-object DateTimeUTCSerializer : KSerializer<Date> {
+object DataSerialization : KSerializer<Date> {
     override val descriptor = PrimitiveSerialDescriptor("Date", PrimitiveKind.STRING)
 
     private val formatter: DateFormat = SimpleDateFormat(UTC_DATE_FORMAT_PATTERN, Locale.US)

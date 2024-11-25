@@ -243,7 +243,6 @@ fun PreviewMainScreen(
 ) {
     val isDarkTheme = isSystemInDarkTheme()
 
-
     val imageLogo = if (isDarkTheme) { R.drawable.full_logo_night } else { R.drawable.full_logo_day }
 
 
@@ -266,8 +265,7 @@ fun PreviewMainScreen(
                 ErrorMessage(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .padding(bottom = 100.dp)
-                    ,
+                        .padding(bottom = 100.dp),
                     message = state.message,
                     color = MaterialTheme.colorScheme.onBackground,
                     sizeText = 20.sp
@@ -281,10 +279,8 @@ fun PreviewMainScreen(
                         .padding(bottom = 100.dp)
                         .size(50.dp),
                     color = MaterialTheme.colorScheme.onBackground,
-
                     )
             }
-
             NewsMainScreenState.StateLoaded.Success -> {}
         }
     }

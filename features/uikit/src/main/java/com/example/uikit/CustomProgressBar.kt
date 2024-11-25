@@ -11,7 +11,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -27,13 +26,7 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-
-data class StrokeStyle(
-    val width: Dp = 4.dp,
-    val strokeCap: StrokeCap = StrokeCap.Round,
-    val glowRadius: Dp? = 4.dp
-)
-
+@Suppress("LongParameterList")
 @Composable
 fun CustomProgressBar(
     modifier: Modifier,
@@ -61,7 +54,6 @@ fun CustomProgressBar(
 
     val transition = rememberInfiniteTransition()
 
-
     val spinAngel = transition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
@@ -71,7 +63,8 @@ fun CustomProgressBar(
                 easing = LinearEasing
             ),
             repeatMode = RepeatMode.Restart
-        ), label = ""
+        ),
+        label = "",
     )
 
     Canvas(
@@ -100,11 +93,10 @@ fun CustomProgressBar(
             }
         }
     }
-
 }
 
-
 private fun DrawScope.setupPaint(style: StrokeStyle, brush: Brush): Paint {
+
     val paint = Paint().apply paint@{
         this@paint.isAntiAlias = true
         this@paint.style = PaintingStyle.Stroke
@@ -116,12 +108,18 @@ private fun DrawScope.setupPaint(style: StrokeStyle, brush: Brush): Paint {
 
     style.glowRadius?.let { radius ->
         paint.asFrameworkPaint().setShadowLayer(
-            /* radius = */ radius.toPx(),
-            /* dx = */ 0f,
-            /* dy = */ 0f,
-            /* shadowColor = */ android.graphics.Color.WHITE
+            radius.toPx(),
+            0f,
+            0f,
+            android.graphics.Color.WHITE
         )
     }
 
     return paint
 }
+
+data class StrokeStyle(
+    val width: Dp = 4.dp,
+    val strokeCap: StrokeCap = StrokeCap.Round,
+    val glowRadius: Dp? = 4.dp
+)

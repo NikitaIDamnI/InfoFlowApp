@@ -1,12 +1,10 @@
 package com.example.data.mappers
 
-
 import com.example.common.models.ArticleUI
 import com.example.common.models.CategoryNews
 import com.example.data.model.Article
 import com.example.data.model.SortBy
 import com.example.database.models.ArticleDBO
-
 import com.example.news.api.models.ArticleDTO
 import com.example.news.api.models.CategoryNewsDTO
 import com.example.news.api.models.SortByDto

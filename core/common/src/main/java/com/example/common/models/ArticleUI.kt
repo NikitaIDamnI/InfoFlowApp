@@ -12,6 +12,6 @@ data class ArticleUI(
     val url: String,
     val content: String,
     val author: String,
-    @Serializable(with = DateTimeUTCSerializer::class)
+    @Serializable(with = DataSerialization::class)
     val publishedAt: Date
 )
