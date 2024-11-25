@@ -50,10 +50,10 @@ class MainActivity : ComponentActivity() {
                         )
                     },
 
-                    searchScreenContent = {
+                    searchScreenContent = { startCategory ->
                         SearchScreen(
-                            startCategoryNews = it,
-                            onClickNews = { navigationState.navigationToDetailedNews(it) },
+                            startCategoryNews = startCategory,
+                            onClickNews = { article -> navigationState.navigationToDetailedNews(article) },
                             onBackPress = { navigationState.navHostController.popBackStack() }
                         )
                     },

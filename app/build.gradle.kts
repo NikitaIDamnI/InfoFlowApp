@@ -24,11 +24,18 @@ android {
             useSupportLibrary = true
         }
 
-        val key = property("apikey")?.toString() ?: error(
-            "You should add apikey " +
-                    "into gradle.properties file with name apikey! "
-        )
-        buildConfigField("String", "NEWS_API_KEY", "\"$key\"")
+        val keyFromProperties = project.findProperty("NEWS_API_KEY")?.toString()
+
+        val apiKey = if (keyFromProperties == null || keyFromProperties == "null") {
+            System.getenv("NEWS_API_KEY") ?: error(
+                "NEWS_API_KEY not found in environment variables or gradle.properties!"
+            )
+        } else {
+            keyFromProperties
+        }
+
+
+        buildConfigField("String", "NEWS_API_KEY", "\"$apiKey\"")
         buildConfigField("String", "NEWS_API_BASE_URL", "\"https://newsapi.org/v2/\"")
 
         resourceConfigurations += setOf("ru", "en")
@@ -36,7 +43,6 @@ android {
             //noinspection ChromeOsAbiSupport
             abiFilters += setOf("armeabi-v7a", "arm64-v8a")
         }
-
 
     }
 
@@ -58,9 +64,9 @@ android {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-                "reftofit2",
+                "proguard-rules.pro"
             )
+
         }
 
 
@@ -87,7 +93,7 @@ android {
                 excludes += "/META-INF/{AL2.0,LGPL2.1}"
                 excludes += "/okhttp3/internal/publicsuffix/NOTICE"
                 excludes += "/kotlin/**"
-                //excludes += "META-INF/androidx.*.version"
+                excludes += "META-INF/androidx.*.version"
                 excludes += "META-INF/com.google.*.version"
                 excludes += "META-INF/kotlinx_*.version"
                 excludes += "kotlin-tooling-metadata.json"
@@ -108,15 +114,15 @@ android {
         implementation(libs.androidx.activity.compose)
         debugImplementation(libs.okhttp.logging.interceptor)
 
-        implementation(project(":data"))
-        implementation(project(":opennews_api"))
+        implementation(project(":core:data"))
+        implementation(project(":core:opennews_api"))
+        implementation(project(":core:database"))
+        implementation(project(":core:common"))
         implementation(project(":features:news_main"))
         implementation(project(":features:search"))
         implementation(project(":features:detailed_news"))
-        implementation(project(":navigation"))
-        implementation(project(":uikit"))
-        implementation(project(":database"))
-        implementation(project(":common"))
+        implementation(project(":features:navigation"))
+        implementation(project(":features:uikit"))
         baselineProfile(project(":baselineprofile"))
     }
 }

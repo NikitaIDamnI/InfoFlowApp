@@ -1,16 +1,14 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.dagger.hilt.android)
-    alias(libs.plugins.kapt)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.detekt)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.detekt)
 
 }
 
 android {
-    namespace = "com.example.news_main"
+    namespace = "com.example.navigation"
     compileSdk = 35
 
     defaultConfig {
@@ -36,46 +34,39 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildFeatures {
-        compose = true
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
-
 }
 
 dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.coil.compose)
-
-    implementation(libs.dagger.hilt.android)
-    implementation(libs.androidx.foundation.android)
-    kapt(libs.dagger.hilt.compiler)
-
     implementation(libs.material)
-    implementation(libs.material.icons)
 
-    implementation(libs.dagger.hilt.navigation.compose)
+    api(libs.androidx.navigation.compose)
+    api(libs.dagger.hilt.navigation.compose)
 
 
+    //Initial dependencies
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
 
 
-    api(libs.kotlinx.immutable)
+    implementation(libs.gson)
 
-    implementation(libs.kotlinx.coroutines.android)
-
-    compileOnly(libs.androidx.compose.runtime)
 
 
 
 
     implementation(project(":core:common"))
-    implementation(project(":domain"))
-    implementation(project(":features:navigation"))
-    implementation(project(":features:uikit"))
 
 
 }

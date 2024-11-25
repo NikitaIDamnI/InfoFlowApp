@@ -1,3 +1,5 @@
+@file:Suppress("InvalidPackageDeclaration")
+
 package com.example.infoflow
 
 import dagger.Module
@@ -21,6 +23,5 @@ class BuildTypeModule {
         return OkHttpClient.Builder()
             .addInterceptor(logging)
             .build()
-
     }
 }

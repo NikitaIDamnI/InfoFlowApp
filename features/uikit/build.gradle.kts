@@ -1,20 +1,17 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.dagger.hilt.android)
-    alias(libs.plugins.kapt)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.detekt)
-    alias(libs.plugins.kotlinSerialization)
 
 }
 
 android {
-    namespace = "com.example.news_main"
+    namespace = "com.example.uikit"
     compileSdk = 35
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -36,46 +33,23 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildFeatures {
-        compose = true
-    }
-
 }
 
 dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.coil.compose)
-
-    implementation(libs.dagger.hilt.android)
-    implementation(libs.androidx.foundation.android)
-    kapt(libs.dagger.hilt.compiler)
-
     implementation(libs.material)
-    implementation(libs.material.icons)
 
-    implementation(libs.dagger.hilt.navigation.compose)
-
-
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-
-
-    api(libs.kotlinx.immutable)
-
-    implementation(libs.kotlinx.coroutines.android)
-
-    compileOnly(libs.androidx.compose.runtime)
-
+    api(platform(libs.androidx.compose.bom))
+    api(libs.androidx.ui)
+    api(libs.androidx.ui.graphics)
+    api(libs.androidx.ui.tooling.preview)
+    api(libs.androidx.material3)
+    api(libs.coil.compose)
 
 
 
     implementation(project(":core:common"))
-    implementation(project(":domain"))
-    implementation(project(":features:navigation"))
-    implementation(project(":features:uikit"))
-
-
 }
+

@@ -2,11 +2,13 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.kotlinSerialization)
+
 }
 
 android {
     namespace = "com.example.domain"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
@@ -41,7 +43,9 @@ dependencies {
 
 
 
-    implementation(project(":data"))
-    implementation(project(":common"))
+    implementation(project(":core:data"))
+    implementation(project(":core:opennews_api"))
+    implementation(project(":core:common"))
+
 
 }
